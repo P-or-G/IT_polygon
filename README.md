@@ -1,2 +1,0 @@
-# IT_polygon
-choch?
