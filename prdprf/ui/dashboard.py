@@ -7,7 +7,7 @@ def base_dashboard_page(child: rx.Component, *args, **kwargs) -> rx.Component:
     if not isinstance(child, rx. Component):
         child = rx.heading("Что-то пошло не так")
     return rx.fragment( 
-        rx.hstack(
+        rx.vstack(
             sidebar(),
             rx.box(
                 child,
