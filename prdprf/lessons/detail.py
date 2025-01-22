@@ -5,6 +5,24 @@ from prdprf.ui.base import base_page
 from prdprf.lessons import state
 from prdprf.lessons.notfound import blog_post_not_found
 
+html_style_base = '''<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #b9b9b9;
+}
+</style>'''
+
 
 def blog_post_detail_page() -> rx.Component:
     can_edit = True
@@ -14,24 +32,23 @@ def blog_post_detail_page() -> rx.Component:
         edit_link,
         rx.fragment("")
     )
-    my_child = rx.cond(state.BlogPostState.post, rx.vstack(
-            rx.hstack(
-                rx.heading(state.BlogPostState.post.title, size="9"),
-                edit_link_el,
-                align='end'
-            ),
-            rx.text("Id пользователя ", state.BlogPostState.post.userinfo_id),
-            rx.text("Информация о пользователе: ", state.BlogPostState.post.userinfo.to_string()),
-            rx.text("Пользователь: ", state.BlogPostState.post.userinfo.user.to_string()),
-            rx.text(state.BlogPostState.post.publish_date),
-            rx.text(
-                state.BlogPostState.post.content,
-                white_space='pre-wrap'
-            ),
-            spacing="5",
-            align="center",
-            min_height="85vh"
-        ), 
-        blog_post_not_found()
-        )
+    my_child = rx.cond(state.BlogPostState.post,
+                       rx.vstack(
+                           rx.hstack(
+                               rx.heading(state.BlogPostState.post.title, size="8"),
+                               edit_link_el,
+                               align='end'
+                           ),
+                           rx.box(
+                               rx.html(
+                                   html_style_base + state.BlogPostState.post.content,
+                               ),
+                               width="1000px",
+                           ),
+                           spacing="5",
+                           align="center",
+                           min_height="85vh",
+                       ),
+                       blog_post_not_found()
+                       )
     return base_page(my_child)

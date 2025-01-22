@@ -18,7 +18,7 @@ class ArticlePublicState(SessionState):
     posts: List['BlogPostModel'] = []
     post: Optional['BlogPostModel'] = None
     post_content: str = ""
-    post_publish_active: bool = False
+    post_publish_active: bool = True
     limit: int = 20
 
     @rx.var

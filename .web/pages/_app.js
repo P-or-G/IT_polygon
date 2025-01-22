@@ -10,10 +10,10 @@ import { Fragment } from "react"
 
 import { EventLoopProvider, StateProvider, defaultColorMode } from "$/utils/context.js";
 import { ThemeProvider } from 'next-themes'
-import * as React from "react";
 import * as radix_ui_themes from "@radix-ui/themes";
 import * as next_link from "next/link";
 import * as emotion_react from "@emotion/react";
+import * as React from "react";
 import * as utils_context from "$/utils/context";
 import * as utils_state from "$/utils/state";
 
@@ -42,10 +42,10 @@ export default function MyApp({ Component, pageProps }) {
   React.useEffect(() => {
     // Make contexts and state objects available globally for dynamic eval'd components
     let windowImports = {
-      "react": React,
       "@radix-ui/themes": radix_ui_themes,
       "next/link": next_link,
       "@emotion/react": emotion_react,
+      "react": React,
       "$/utils/context": utils_context,
       "$/utils/state": utils_state,
     };
