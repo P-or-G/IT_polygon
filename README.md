@@ -8,7 +8,8 @@
 ## В терминале/командной строке вводите
 - `reflex init`
 - `reflex db init`
-- `reflex db makemigrations`
+- `reflex db makemigrations` - можеть дать ошибку, це ок
+- `reflex db migrate`
 - `reflex run`
 - `Вы прекрасны (ссылку на сайт дадут)`
 
