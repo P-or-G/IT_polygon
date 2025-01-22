@@ -1,5 +1,10 @@
 # КАК ЗАПУСКАТЬ!!!
 
+## Библиотеки
+- `pip install reflex`
+- `pip install alembic`
+- `pip install reflex-local-auth`
+
 ## В терминале/командной строке вводите
 - `reflex init`
 - `reflex db init`
