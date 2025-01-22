@@ -20,6 +20,7 @@ from .articles.state import ArticlePublicState
 
 from . import lessons, contact, navigation, pages
 
+
 def index() -> rx.Component:
     return base_page(
         rx.cond(SessionState.is_authenticated,
@@ -27,7 +28,6 @@ def index() -> rx.Component:
             pages.landing_component(),
         )
     )
-
 
 
 app = rx.App(

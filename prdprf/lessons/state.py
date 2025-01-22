@@ -154,3 +154,12 @@ class BlogEditFormState(BlogPostState):
         updated_data = {**form_data, 'publish_active': publish_active, 'publish_date': final_publish_date}
         self.save_post_edits(post_id, updated_data)
         return self.to_blog_post()
+
+
+class EditorState(rx.State):
+    content: str = "<p>Editor content</p>"
+
+    @rx.event
+    def handle_change(self, content: str):
+        """Handle the editor value change."""
+        self.content = content
