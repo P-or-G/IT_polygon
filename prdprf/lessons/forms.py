@@ -17,8 +17,14 @@ def blog_post_add_form() -> rx.Component:
                 width='100%'
             ),
             rx.editor(
-                set_contents=EditorState.content,
+                width="1000px",
+                lang="ru",
+                set_contents=BlogAddPostFormState.content,
                 set_options=rx.EditorOptions(
+                    katex={
+                        "src": "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js",
+                        "css": "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"
+                    },
                     button_list=[
                         ["font", "fontSize", "formatBlock"],
                         ["fontColor", "hiliteColor"],
@@ -37,12 +43,12 @@ def blog_post_add_form() -> rx.Component:
                         ['table', 'link', 'image', 'video'],
                         ['fullScreen', 'showBlocks', 'codeView'],
                         ['preview', 'print'],
-                        ['save', 'template'],
+                        ["math"],
                     ]
                 ),
-                on_change=EditorState.handle_change,
+                on_change=BlogAddPostFormState.handle_change,
             ),
-            rx.button("Сохранить", type="submit"),
+            rx.button("Опубликовать", type="submit"),
         ),
         on_submit=BlogAddPostFormState.handle_submit,
         reset_on_submit=True,
@@ -52,6 +58,7 @@ def blog_post_add_form() -> rx.Component:
 def blog_post_edit_form() -> rx.Component:
     post = BlogEditFormState.post
     title = post.title
+    content = post.content
     publish_active = post.publish_active
     post_content = BlogEditFormState.post_content
     return rx.form(
@@ -76,28 +83,39 @@ def blog_post_edit_form() -> rx.Component:
                 width='100%'
             ),
             rx.editor(
-                set_contents=EditorState.content,
-                on_change=EditorState.handle_change,
-            ),
-            rx.box(
-                rx.hstack(
-                    rx.input(
-                        default_value=BlogEditFormState.publish_display_date,
-                        type='date',
-                        name='publish_date',
-                        width='100%'
-                    ),
-                    rx.input(
-                        default_value=BlogEditFormState.publish_display_time,
-                        type='time',
-                        name='publish_time',
-                        width='100%'
-                    ),
-                    width='100%'
+                width="1000px",
+                lang="ru",
+                set_contents=content,
+                set_options=rx.EditorOptions(
+                    katex={
+                        "src": "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js",
+                        "css": "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"
+                    },
+                    button_list=[
+                        ["font", "fontSize", "formatBlock"],
+                        ["fontColor", "hiliteColor"],
+                        [
+                            "bold",
+                            "underline",
+                            "italic",
+                            "strike",
+                            "subscript",
+                            "superscript",
+                        ],
+                        ["removeFormat"],
+                        "/",
+                        ["outdent", "indent"],
+                        ['align', 'horizontalRule', 'list', 'lineHeight'],
+                        ['table', 'link', 'image', 'video'],
+                        ['fullScreen', 'showBlocks', 'codeView'],
+                        ['preview', 'print'],
+                        ["math"],
+                    ]
                 ),
-                width='100%'
+                on_change=BlogEditFormState.handle_change,
             ),
             rx.button("Опубликовать", type="submit"),
+            align="center",
         ),
         on_submit=BlogEditFormState.handle_submit,
     )

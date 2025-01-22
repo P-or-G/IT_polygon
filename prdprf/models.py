@@ -54,7 +54,7 @@ class BlogPostModel(rx.Model, table=True):
         sa_column_kwargs={
             'server_default': sqlalchemy.func.now()
         },
-        nullable=False
+        nullable=True
     )
     updated_at: datetime = Field(
         default_factory=utils.timing.get_utc_now,
@@ -63,9 +63,9 @@ class BlogPostModel(rx.Model, table=True):
             'onupdate': sqlalchemy.func.now(),
             'server_default': sqlalchemy.func.now()
         },
-        nullable=False
+        nullable=True
     )
-    publish_active: bool = False
+    publish_active: bool = True
     publish_date: datetime = Field(
         default=None,
         sa_type=sqlalchemy.DateTime(timezone=True),

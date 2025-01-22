@@ -14,6 +14,20 @@ if BLOG_POSTS_ROUTE.endswith("/"):
     BLOG_POSTS_ROUTE = BLOG_POSTS_ROUTE[:-1]
 
 
+class EditorState(rx.State):
+    content: str = "<p>Editor content</p>"
+
+    @rx.event
+    def handle_change(self, content: str):
+        """Handle the editor value change."""
+        self.content = content
+
+    @rx.event
+    def get_content(self):
+        # You can process self.content here
+        return self.content
+
+
 class BlogPostState(SessionState):
     posts: List['BlogPostModel'] = []
     post: Optional['BlogPostModel'] = None
@@ -105,61 +119,39 @@ class BlogPostState(SessionState):
 
 class BlogAddPostFormState(BlogPostState):
     form_data: dict = {}
-
-    def handle_submit(self, form_data):
-        data = form_data.copy()
-        if self.my_userinfo_id is not None:
-            data['userinfo_id'] = self.my_userinfo_id
-        self.form_data = data
-        self.add_post(data)
-        return self.to_blog_post(edit_page=True)
-
-
-class BlogEditFormState(BlogPostState):
-    form_data: dict = {}
-
-    @rx.var
-    def publish_display_date(self) -> str:
-        if not self.post:
-            return datetime.now().strftime("%Y-%m-%d")
-        if not self.post.publish_date:
-            return datetime.now().strftime("%Y-%m-%d")
-        return self.post.publish_date.strftime("%Y-%m-%d")
-
-    @rx.var
-    def publish_display_time(self) -> str:
-        if not self.post:
-            return datetime.now().strftime("%H:%M:%S")
-        if not self.post.publish_date:
-            return datetime.now().strftime("%H:%M:%S")
-        return self.post.publish_date.strftime("%H:%M:%S")
-
-    def handle_submit(self, form_data):
-        self.form_data = form_data
-        post_id = form_data.pop('post_id')
-        publish_date = None
-        if 'publish_date' in form_data:
-            publish_date = form_data.pop('publish_date')
-        publish_time = None
-        if 'publish_time' in form_data:
-            publish_time = form_data.pop('publish_time')
-        publish_input_string = f"{publish_date} {publish_time}"
-        try:
-            final_publish_date = datetime.strptime(publish_input_string, '%Y-%m-%d %H:%M:%S')
-        except:
-            final_publish_date = None
-        publish_active = False
-        if 'publish_active' in form_data:
-            publish_active = form_data.pop('publish_active') == "on"
-        updated_data = {**form_data, 'publish_active': publish_active, 'publish_date': final_publish_date}
-        self.save_post_edits(post_id, updated_data)
-        return self.to_blog_post()
-
-
-class EditorState(rx.State):
-    content: str = "<p>Editor content</p>"
+    content: str = "<p>Содержание урока</p>"
 
     @rx.event
     def handle_change(self, content: str):
         """Handle the editor value change."""
         self.content = content
+
+    def handle_submit(self, form_data):
+        print(form_data)
+        data = form_data.copy()
+        data["content"] = self.content
+        if self.my_userinfo_id is not None:
+            data['userinfo_id'] = self.my_userinfo_id
+        self.form_data = {**data, 'publish_active': True, 'publish_date': None}
+        self.add_post(data)
+        return self.to_blog_post()
+
+
+class BlogEditFormState(BlogPostState):
+    form_data: dict = {}
+    content: str = "<p>Содержание урока</p>"
+
+    @rx.event
+    def handle_change(self, content: str):
+        """Обновляет отображение"""
+        self.content = content
+
+    def handle_submit(self, form_data):
+        self.form_data = form_data
+        self.form_data["content"] = self.content
+        post_id = form_data.pop('post_id')
+        updated_data = {**form_data, 'publish_active': True, 'publish_date': None}
+        self.save_post_edits(post_id, updated_data)
+        return self.to_blog_post()
+
+

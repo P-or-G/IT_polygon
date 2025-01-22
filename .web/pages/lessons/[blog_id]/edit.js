@@ -21,49 +21,6 @@ import NextHead from "next/head"
 const SunEditor = dynamic(() => import('suneditor-react'), { ssr: false });
 
 
-const pulse = keyframes`
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
-`
-
-
-export function Toaster_6e6ebf8d7ce589d59b7d382fb7576edf () {
-  
-  const { resolvedColorMode } = useContext(ColorModeContext)
-
-  refs['__toast'] = toast
-  const [addEvents, connectErrors] = useContext(EventLoopContext);
-  const toast_props = ({ ["description"] : ("Check if server is reachable at "+getBackendURL(env.EVENT).href), ["closeButton"] : true, ["duration"] : 120000, ["id"] : "websocket-error" });
-  const [userDismissed, setUserDismissed] = useState(false);
-  (useEffect(
-() => {
-    if ((connectErrors.length >= 2)) {
-        if (!userDismissed) {
-            toast.error(
-                `Cannot connect to server: ${((connectErrors.length > 0) ? connectErrors[connectErrors.length - 1].message : '')}.`,
-                {...toast_props, onDismiss: () => setUserDismissed(true)},
-            )
-        }
-    } else {
-        toast.dismiss("websocket-error");
-        setUserDismissed(false);  // after reconnection reset dismissed state
-    }
-}
-, [connectErrors]))
-
-
-
-
-  
-  return (
-    <Toaster closeButton={false} expand={true} position={"bottom-right"} richColors={true} theme={resolvedColorMode}/>
-  )
-}
-
 export function Div_602c14884fa2de27f522fe8f94374b02 () {
   
   const [addEvents, connectErrors] = useContext(EventLoopContext);
@@ -81,7 +38,65 @@ export function Div_602c14884fa2de27f522fe8f94374b02 () {
   )
 }
 
-export function Fragment_1cb587953bd09c1a85bfca8ca9c6e5ac () {
+export function Errorboundary_7391bbc274a5adf4a621c8dadee0a43e () {
+  
+  const [addEvents, connectErrors] = useContext(EventLoopContext);
+
+
+  const on_error_0f5dbf674521530422d73a7946faf6d4 = useCallback(((_error, _info) => (addEvents([(Event("reflex___state____state.reflex___state____frontend_event_exception_state.handle_frontend_exception", ({ ["stack"] : _error["stack"], ["component_stack"] : _info["componentStack"] }), ({  })))], [_error, _info], ({  })))), [addEvents, Event])
+
+
+
+  
+  return (
+    <ErrorBoundary fallbackRender={((event_args) => (jsx("div", ({ ["css"] : ({ ["height"] : "100%", ["width"] : "100%", ["position"] : "absolute", ["display"] : "flex", ["alignItems"] : "center", ["justifyContent"] : "center" }) }), (jsx("div", ({ ["css"] : ({ ["display"] : "flex", ["flexDirection"] : "column", ["gap"] : "1rem" }) }), (jsx("div", ({ ["css"] : ({ ["display"] : "flex", ["flexDirection"] : "column", ["gap"] : "1rem", ["maxWidth"] : "50ch", ["border"] : "1px solid #888888", ["borderRadius"] : "0.25rem", ["padding"] : "1rem" }) }), (jsx("h2", ({ ["css"] : ({ ["fontSize"] : "1.25rem", ["fontWeight"] : "bold" }) }), (jsx(Fragment, ({  }), "An error occurred while rendering this page.")))), (jsx("p", ({ ["css"] : ({ ["opacity"] : "0.75" }) }), (jsx(Fragment, ({  }), "This is an error with the application itself.")))), (jsx("details", ({  }), (jsx("summary", ({ ["css"] : ({ ["padding"] : "0.5rem" }) }), (jsx(Fragment, ({  }), "Error message")))), (jsx("div", ({ ["css"] : ({ ["width"] : "100%", ["maxHeight"] : "50vh", ["overflow"] : "auto", ["background"] : "#000", ["color"] : "#fff", ["borderRadius"] : "0.25rem" }) }), (jsx("div", ({ ["css"] : ({ ["padding"] : "0.5rem", ["width"] : "fit-content" }) }), (jsx("pre", ({  }), (jsx(Fragment, ({  }), event_args.error.stack)))))))), (jsx("button", ({ ["css"] : ({ ["padding"] : "0.35rem 0.75rem", ["margin"] : "0.5rem", ["background"] : "#fff", ["color"] : "#000", ["border"] : "1px solid #000", ["borderRadius"] : "0.25rem", ["fontWeight"] : "bold" }), ["onClick"] : ((...args) => (addEvents([(Event("_call_function", ({ ["function"] : (() => (navigator["clipboard"]["writeText"](event_args.error.stack))), ["callback"] : null }), ({  })))], args, ({  })))) }), (jsx(Fragment, ({  }), "Copy")))))))), (jsx("hr", ({ ["css"] : ({ ["borderColor"] : "currentColor", ["opacity"] : "0.25" }) }))), (jsx("a", ({ ["href"] : "https://reflex.dev" }), (jsx("div", ({ ["css"] : ({ ["display"] : "flex", ["alignItems"] : "baseline", ["justifyContent"] : "center", ["fontFamily"] : "monospace", ["--default-font-family"] : "monospace", ["gap"] : "0.5rem" }) }), (jsx(Fragment, ({  }), "Built with ")), (jsx("svg", ({ ["css"] : ({ ["viewBox"] : "0 0 56 12", ["fill"] : "currentColor" }), ["height"] : "12", ["width"] : "56", ["xmlns"] : "http://www.w3.org/2000/svg" }), (jsx("path", ({ ["d"] : "M0 11.5999V0.399902H8.96V4.8799H6.72V2.6399H2.24V4.8799H6.72V7.1199H2.24V11.5999H0ZM6.72 11.5999V7.1199H8.96V11.5999H6.72Z" }))), (jsx("path", ({ ["d"] : "M11.2 11.5999V0.399902H17.92V2.6399H13.44V4.8799H17.92V7.1199H13.44V9.3599H17.92V11.5999H11.2Z" }))), (jsx("path", ({ ["d"] : "M20.16 11.5999V0.399902H26.88V2.6399H22.4V4.8799H26.88V7.1199H22.4V11.5999H20.16Z" }))), (jsx("path", ({ ["d"] : "M29.12 11.5999V0.399902H31.36V9.3599H35.84V11.5999H29.12Z" }))), (jsx("path", ({ ["d"] : "M38.08 11.5999V0.399902H44.8V2.6399H40.32V4.8799H44.8V7.1199H40.32V9.3599H44.8V11.5999H38.08Z" }))), (jsx("path", ({ ["d"] : "M47.04 4.8799V0.399902H49.28V4.8799H47.04ZM53.76 4.8799V0.399902H56V4.8799H53.76ZM49.28 7.1199V4.8799H53.76V7.1199H49.28ZM47.04 11.5999V7.1199H49.28V11.5999H47.04ZM53.76 11.5999V7.1199H56V11.5999H53.76Z" }))))))))))))))} onError={on_error_0f5dbf674521530422d73a7946faf6d4}>
+
+<Fragment>
+
+<Div_602c14884fa2de27f522fe8f94374b02/>
+<Toaster_6e6ebf8d7ce589d59b7d382fb7576edf/>
+</Fragment>
+<Fragment>
+
+<Fragment_d6ba3165b19e21b16844e4f52e809d2b/>
+</Fragment>
+<NextHead>
+
+<title>
+
+{"Prdprf | Edit"}
+</title>
+<meta content={"favicon.ico"} property={"og:image"}/>
+</NextHead>
+</ErrorBoundary>
+  )
+}
+
+export function Fragment_f2f0916d2fcc08b7cdf76cec697f0750 () {
+  
+  const [addEvents, connectErrors] = useContext(EventLoopContext);
+
+
+
+
+
+  
+  return (
+    <Fragment>
+
+{isTrue((connectErrors.length > 0)) ? (
+  <Fragment>
+
+<LucideWifiOffIcon css={({ ["color"] : "crimson", ["zIndex"] : 9999, ["position"] : "fixed", ["bottom"] : "33px", ["right"] : "33px", ["animation"] : (pulse+" 1s infinite") })} size={32}/>
+</Fragment>
+) : (
+  <Fragment/>
+)}
+</Fragment>
+  )
+}
+
+export function Fragment_d6ba3165b19e21b16844e4f52e809d2b () {
   
   const reflex___state____state = useContext(StateContexts.reflex___state____state)
   const reflex___state____state__reflex_local_auth___local_auth____local_auth_state = useContext(StateContexts.reflex___state____state__reflex_local_auth___local_auth____local_auth_state)
@@ -91,8 +106,6 @@ export function Fragment_1cb587953bd09c1a85bfca8ca9c6e5ac () {
   const reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state = useContext(StateContexts.reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state)
   const ref_my_content_area_el = useRef(null); refs["ref_my_content_area_el"] = ref_my_content_area_el;
   const reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state = useContext(StateContexts.reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state)
-  const reflex___state____state__prdprf___lessons___state____editor_state = useContext(StateContexts.reflex___state____state__prdprf___lessons___state____editor_state)
-  const reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state__prdprf___lessons___state____blog_edit_form_state = useContext(StateContexts.reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state__prdprf___lessons___state____blog_edit_form_state)
   const ref_my_main_nav = useRef(null); refs["ref_my_main_nav"] = ref_my_main_nav;
   const ref_my_navbar_hstack_desktop = useRef(null); refs["ref_my_navbar_hstack_desktop"] = ref_my_navbar_hstack_desktop;
   
@@ -104,7 +117,7 @@ export function Fragment_1cb587953bd09c1a85bfca8ca9c6e5ac () {
                 }, []);
 
   
-    const handleSubmit_738fae17ab8813f5ab941d0c20cfd903 = useCallback((ev) => {
+    const handleSubmit_72addd038fd12ccf59f14ea1906d658a = useCallback((ev) => {
         const $form = ev.target
         ev.preventDefault()
         const form_data = {...Object.fromEntries(new FormData($form).entries()), ...({  })};
@@ -491,27 +504,19 @@ export function Fragment_1cb587953bd09c1a85bfca8ca9c6e5ac () {
 
 <RadixThemesBox css={({ ["width"] : "50vw" })}>
 
-<RadixFormRoot className={"Root "} css={({ ["width"] : "100%" })} onSubmit={handleSubmit_738fae17ab8813f5ab941d0c20cfd903}>
+<RadixFormRoot className={"Root "} css={({ ["width"] : "100%" })} onSubmit={handleSubmit_72addd038fd12ccf59f14ea1906d658a}>
 
 <RadixThemesBox css={({ ["display"] : "none" })}>
 
 <RadixThemesTextField.Root name={"post_id"} type={"hidden"} value={((((((reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] !== null) && (reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] !== undefined)) ? reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] : "") !== null) && ((((reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] !== null) && (reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] !== undefined)) ? reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] : "") !== undefined)) ? (((reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] !== null) && (reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] !== undefined)) ? reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] : "") : "")}/>
 </RadixThemesBox>
-<RadixThemesFlex align={"start"} className={"rx-Stack"} direction={"column"} gap={"3"}>
+<RadixThemesFlex align={"center"} className={"rx-Stack"} direction={"column"} gap={"3"}>
 
 <RadixThemesFlex align={"start"} className={"rx-Stack"} css={({ ["width"] : "100%" })} direction={"row"} gap={"3"}>
 
 <RadixThemesTextField.Root css={({ ["width"] : "100%" })} defaultValue={reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["title"]} name={"title"} placeholder={"\u041d\u0430\u0437\u0432\u0430\u043d\u0438\u0435 \u0443\u0440\u043e\u043a\u0430"} required={true} type={"text"}/>
 </RadixThemesFlex>
-<SunEditor onChange={((_ev_0) => (addEvents([(Event("reflex___state____state.prdprf___lessons___state____editor_state.handle_change", ({ ["content"] : _ev_0 }), ({  })))], [_ev_0], ({  }))))} setContents={reflex___state____state__prdprf___lessons___state____editor_state.content}/>
-<RadixThemesBox css={({ ["width"] : "100%" })}>
-
-<RadixThemesFlex align={"start"} className={"rx-Stack"} css={({ ["width"] : "100%" })} direction={"row"} gap={"3"}>
-
-<RadixThemesTextField.Root css={({ ["width"] : "100%" })} defaultValue={reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state__prdprf___lessons___state____blog_edit_form_state.publish_display_date} name={"publish_date"} type={"date"}/>
-<RadixThemesTextField.Root css={({ ["width"] : "100%" })} defaultValue={reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state__prdprf___lessons___state____blog_edit_form_state.publish_display_time} name={"publish_time"} type={"time"}/>
-</RadixThemesFlex>
-</RadixThemesBox>
+<SunEditor lang={"ru"} onChange={((_ev_0) => (addEvents([(Event("reflex___state____state.reflex_local_auth___local_auth____local_auth_state.prdprf___auth___state____session_state.prdprf___lessons___state____blog_post_state.prdprf___lessons___state____blog_edit_form_state.handle_change", ({ ["content"] : _ev_0 }), ({  })))], [_ev_0], ({  }))))} setContents={reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["content"]} setOptions={({ ["buttonList"] : [["font", "fontSize", "formatBlock"], ["fontColor", "hiliteColor"], ["bold", "underline", "italic", "strike", "subscript", "superscript"], ["removeFormat"], "/", ["outdent", "indent"], ["align", "horizontalRule", "list", "lineHeight"], ["table", "link", "image", "video"], ["fullScreen", "showBlocks", "codeView"], ["preview", "print"], ["math"]], ["katex"] : ({ ["src"] : "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js", ["css"] : "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" }) })} width={"1000px"}/>
 <RadixThemesButton type={"submit"}>
 
 {"\u041e\u043f\u0443\u0431\u043b\u0438\u043a\u043e\u0432\u0430\u0442\u044c"}
@@ -524,27 +529,19 @@ export function Fragment_1cb587953bd09c1a85bfca8ca9c6e5ac () {
 
 <RadixThemesBox css={({ ["width"] : "75vw" })}>
 
-<RadixFormRoot className={"Root "} css={({ ["width"] : "100%" })} onSubmit={handleSubmit_738fae17ab8813f5ab941d0c20cfd903}>
+<RadixFormRoot className={"Root "} css={({ ["width"] : "100%" })} onSubmit={handleSubmit_72addd038fd12ccf59f14ea1906d658a}>
 
 <RadixThemesBox css={({ ["display"] : "none" })}>
 
 <RadixThemesTextField.Root name={"post_id"} type={"hidden"} value={((((((reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] !== null) && (reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] !== undefined)) ? reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] : "") !== null) && ((((reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] !== null) && (reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] !== undefined)) ? reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] : "") !== undefined)) ? (((reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] !== null) && (reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] !== undefined)) ? reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] : "") : "")}/>
 </RadixThemesBox>
-<RadixThemesFlex align={"start"} className={"rx-Stack"} direction={"column"} gap={"3"}>
+<RadixThemesFlex align={"center"} className={"rx-Stack"} direction={"column"} gap={"3"}>
 
 <RadixThemesFlex align={"start"} className={"rx-Stack"} css={({ ["width"] : "100%" })} direction={"row"} gap={"3"}>
 
 <RadixThemesTextField.Root css={({ ["width"] : "100%" })} defaultValue={reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["title"]} name={"title"} placeholder={"\u041d\u0430\u0437\u0432\u0430\u043d\u0438\u0435 \u0443\u0440\u043e\u043a\u0430"} required={true} type={"text"}/>
 </RadixThemesFlex>
-<SunEditor onChange={((_ev_0) => (addEvents([(Event("reflex___state____state.prdprf___lessons___state____editor_state.handle_change", ({ ["content"] : _ev_0 }), ({  })))], [_ev_0], ({  }))))} setContents={reflex___state____state__prdprf___lessons___state____editor_state.content}/>
-<RadixThemesBox css={({ ["width"] : "100%" })}>
-
-<RadixThemesFlex align={"start"} className={"rx-Stack"} css={({ ["width"] : "100%" })} direction={"row"} gap={"3"}>
-
-<RadixThemesTextField.Root css={({ ["width"] : "100%" })} defaultValue={reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state__prdprf___lessons___state____blog_edit_form_state.publish_display_date} name={"publish_date"} type={"date"}/>
-<RadixThemesTextField.Root css={({ ["width"] : "100%" })} defaultValue={reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state__prdprf___lessons___state____blog_edit_form_state.publish_display_time} name={"publish_time"} type={"time"}/>
-</RadixThemesFlex>
-</RadixThemesBox>
+<SunEditor lang={"ru"} onChange={((_ev_0) => (addEvents([(Event("reflex___state____state.reflex_local_auth___local_auth____local_auth_state.prdprf___auth___state____session_state.prdprf___lessons___state____blog_post_state.prdprf___lessons___state____blog_edit_form_state.handle_change", ({ ["content"] : _ev_0 }), ({  })))], [_ev_0], ({  }))))} setContents={reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["content"]} setOptions={({ ["buttonList"] : [["font", "fontSize", "formatBlock"], ["fontColor", "hiliteColor"], ["bold", "underline", "italic", "strike", "subscript", "superscript"], ["removeFormat"], "/", ["outdent", "indent"], ["align", "horizontalRule", "list", "lineHeight"], ["table", "link", "image", "video"], ["fullScreen", "showBlocks", "codeView"], ["preview", "print"], ["math"]], ["katex"] : ({ ["src"] : "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js", ["css"] : "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" }) })} width={"1000px"}/>
 <RadixThemesButton type={"submit"}>
 
 {"\u041e\u043f\u0443\u0431\u043b\u0438\u043a\u043e\u0432\u0430\u0442\u044c"}
@@ -557,27 +554,19 @@ export function Fragment_1cb587953bd09c1a85bfca8ca9c6e5ac () {
 
 <RadixThemesBox css={({ ["width"] : "95vw" })}>
 
-<RadixFormRoot className={"Root "} css={({ ["width"] : "100%" })} onSubmit={handleSubmit_738fae17ab8813f5ab941d0c20cfd903}>
+<RadixFormRoot className={"Root "} css={({ ["width"] : "100%" })} onSubmit={handleSubmit_72addd038fd12ccf59f14ea1906d658a}>
 
 <RadixThemesBox css={({ ["display"] : "none" })}>
 
 <RadixThemesTextField.Root name={"post_id"} type={"hidden"} value={((((((reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] !== null) && (reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] !== undefined)) ? reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] : "") !== null) && ((((reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] !== null) && (reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] !== undefined)) ? reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] : "") !== undefined)) ? (((reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] !== null) && (reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] !== undefined)) ? reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] : "") : "")}/>
 </RadixThemesBox>
-<RadixThemesFlex align={"start"} className={"rx-Stack"} direction={"column"} gap={"3"}>
+<RadixThemesFlex align={"center"} className={"rx-Stack"} direction={"column"} gap={"3"}>
 
 <RadixThemesFlex align={"start"} className={"rx-Stack"} css={({ ["width"] : "100%" })} direction={"row"} gap={"3"}>
 
 <RadixThemesTextField.Root css={({ ["width"] : "100%" })} defaultValue={reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["title"]} name={"title"} placeholder={"\u041d\u0430\u0437\u0432\u0430\u043d\u0438\u0435 \u0443\u0440\u043e\u043a\u0430"} required={true} type={"text"}/>
 </RadixThemesFlex>
-<SunEditor onChange={((_ev_0) => (addEvents([(Event("reflex___state____state.prdprf___lessons___state____editor_state.handle_change", ({ ["content"] : _ev_0 }), ({  })))], [_ev_0], ({  }))))} setContents={reflex___state____state__prdprf___lessons___state____editor_state.content}/>
-<RadixThemesBox css={({ ["width"] : "100%" })}>
-
-<RadixThemesFlex align={"start"} className={"rx-Stack"} css={({ ["width"] : "100%" })} direction={"row"} gap={"3"}>
-
-<RadixThemesTextField.Root css={({ ["width"] : "100%" })} defaultValue={reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state__prdprf___lessons___state____blog_edit_form_state.publish_display_date} name={"publish_date"} type={"date"}/>
-<RadixThemesTextField.Root css={({ ["width"] : "100%" })} defaultValue={reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state__prdprf___lessons___state____blog_edit_form_state.publish_display_time} name={"publish_time"} type={"time"}/>
-</RadixThemesFlex>
-</RadixThemesBox>
+<SunEditor lang={"ru"} onChange={((_ev_0) => (addEvents([(Event("reflex___state____state.reflex_local_auth___local_auth____local_auth_state.prdprf___auth___state____session_state.prdprf___lessons___state____blog_post_state.prdprf___lessons___state____blog_edit_form_state.handle_change", ({ ["content"] : _ev_0 }), ({  })))], [_ev_0], ({  }))))} setContents={reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["content"]} setOptions={({ ["buttonList"] : [["font", "fontSize", "formatBlock"], ["fontColor", "hiliteColor"], ["bold", "underline", "italic", "strike", "subscript", "superscript"], ["removeFormat"], "/", ["outdent", "indent"], ["align", "horizontalRule", "list", "lineHeight"], ["table", "link", "image", "video"], ["fullScreen", "showBlocks", "codeView"], ["preview", "print"], ["math"]], ["katex"] : ({ ["src"] : "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js", ["css"] : "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" }) })} width={"1000px"}/>
 <RadixThemesButton type={"submit"}>
 
 {"\u041e\u043f\u0443\u0431\u043b\u0438\u043a\u043e\u0432\u0430\u0442\u044c"}
@@ -791,27 +780,19 @@ export function Fragment_1cb587953bd09c1a85bfca8ca9c6e5ac () {
 
 <RadixThemesBox css={({ ["width"] : "50vw" })}>
 
-<RadixFormRoot className={"Root "} css={({ ["width"] : "100%" })} onSubmit={handleSubmit_738fae17ab8813f5ab941d0c20cfd903}>
+<RadixFormRoot className={"Root "} css={({ ["width"] : "100%" })} onSubmit={handleSubmit_72addd038fd12ccf59f14ea1906d658a}>
 
 <RadixThemesBox css={({ ["display"] : "none" })}>
 
 <RadixThemesTextField.Root name={"post_id"} type={"hidden"} value={((((((reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] !== null) && (reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] !== undefined)) ? reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] : "") !== null) && ((((reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] !== null) && (reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] !== undefined)) ? reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] : "") !== undefined)) ? (((reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] !== null) && (reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] !== undefined)) ? reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] : "") : "")}/>
 </RadixThemesBox>
-<RadixThemesFlex align={"start"} className={"rx-Stack"} direction={"column"} gap={"3"}>
+<RadixThemesFlex align={"center"} className={"rx-Stack"} direction={"column"} gap={"3"}>
 
 <RadixThemesFlex align={"start"} className={"rx-Stack"} css={({ ["width"] : "100%" })} direction={"row"} gap={"3"}>
 
 <RadixThemesTextField.Root css={({ ["width"] : "100%" })} defaultValue={reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["title"]} name={"title"} placeholder={"\u041d\u0430\u0437\u0432\u0430\u043d\u0438\u0435 \u0443\u0440\u043e\u043a\u0430"} required={true} type={"text"}/>
 </RadixThemesFlex>
-<SunEditor onChange={((_ev_0) => (addEvents([(Event("reflex___state____state.prdprf___lessons___state____editor_state.handle_change", ({ ["content"] : _ev_0 }), ({  })))], [_ev_0], ({  }))))} setContents={reflex___state____state__prdprf___lessons___state____editor_state.content}/>
-<RadixThemesBox css={({ ["width"] : "100%" })}>
-
-<RadixThemesFlex align={"start"} className={"rx-Stack"} css={({ ["width"] : "100%" })} direction={"row"} gap={"3"}>
-
-<RadixThemesTextField.Root css={({ ["width"] : "100%" })} defaultValue={reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state__prdprf___lessons___state____blog_edit_form_state.publish_display_date} name={"publish_date"} type={"date"}/>
-<RadixThemesTextField.Root css={({ ["width"] : "100%" })} defaultValue={reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state__prdprf___lessons___state____blog_edit_form_state.publish_display_time} name={"publish_time"} type={"time"}/>
-</RadixThemesFlex>
-</RadixThemesBox>
+<SunEditor lang={"ru"} onChange={((_ev_0) => (addEvents([(Event("reflex___state____state.reflex_local_auth___local_auth____local_auth_state.prdprf___auth___state____session_state.prdprf___lessons___state____blog_post_state.prdprf___lessons___state____blog_edit_form_state.handle_change", ({ ["content"] : _ev_0 }), ({  })))], [_ev_0], ({  }))))} setContents={reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["content"]} setOptions={({ ["buttonList"] : [["font", "fontSize", "formatBlock"], ["fontColor", "hiliteColor"], ["bold", "underline", "italic", "strike", "subscript", "superscript"], ["removeFormat"], "/", ["outdent", "indent"], ["align", "horizontalRule", "list", "lineHeight"], ["table", "link", "image", "video"], ["fullScreen", "showBlocks", "codeView"], ["preview", "print"], ["math"]], ["katex"] : ({ ["src"] : "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js", ["css"] : "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" }) })} width={"1000px"}/>
 <RadixThemesButton type={"submit"}>
 
 {"\u041e\u043f\u0443\u0431\u043b\u0438\u043a\u043e\u0432\u0430\u0442\u044c"}
@@ -824,27 +805,19 @@ export function Fragment_1cb587953bd09c1a85bfca8ca9c6e5ac () {
 
 <RadixThemesBox css={({ ["width"] : "75vw" })}>
 
-<RadixFormRoot className={"Root "} css={({ ["width"] : "100%" })} onSubmit={handleSubmit_738fae17ab8813f5ab941d0c20cfd903}>
+<RadixFormRoot className={"Root "} css={({ ["width"] : "100%" })} onSubmit={handleSubmit_72addd038fd12ccf59f14ea1906d658a}>
 
 <RadixThemesBox css={({ ["display"] : "none" })}>
 
 <RadixThemesTextField.Root name={"post_id"} type={"hidden"} value={((((((reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] !== null) && (reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] !== undefined)) ? reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] : "") !== null) && ((((reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] !== null) && (reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] !== undefined)) ? reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] : "") !== undefined)) ? (((reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] !== null) && (reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] !== undefined)) ? reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] : "") : "")}/>
 </RadixThemesBox>
-<RadixThemesFlex align={"start"} className={"rx-Stack"} direction={"column"} gap={"3"}>
+<RadixThemesFlex align={"center"} className={"rx-Stack"} direction={"column"} gap={"3"}>
 
 <RadixThemesFlex align={"start"} className={"rx-Stack"} css={({ ["width"] : "100%" })} direction={"row"} gap={"3"}>
 
 <RadixThemesTextField.Root css={({ ["width"] : "100%" })} defaultValue={reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["title"]} name={"title"} placeholder={"\u041d\u0430\u0437\u0432\u0430\u043d\u0438\u0435 \u0443\u0440\u043e\u043a\u0430"} required={true} type={"text"}/>
 </RadixThemesFlex>
-<SunEditor onChange={((_ev_0) => (addEvents([(Event("reflex___state____state.prdprf___lessons___state____editor_state.handle_change", ({ ["content"] : _ev_0 }), ({  })))], [_ev_0], ({  }))))} setContents={reflex___state____state__prdprf___lessons___state____editor_state.content}/>
-<RadixThemesBox css={({ ["width"] : "100%" })}>
-
-<RadixThemesFlex align={"start"} className={"rx-Stack"} css={({ ["width"] : "100%" })} direction={"row"} gap={"3"}>
-
-<RadixThemesTextField.Root css={({ ["width"] : "100%" })} defaultValue={reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state__prdprf___lessons___state____blog_edit_form_state.publish_display_date} name={"publish_date"} type={"date"}/>
-<RadixThemesTextField.Root css={({ ["width"] : "100%" })} defaultValue={reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state__prdprf___lessons___state____blog_edit_form_state.publish_display_time} name={"publish_time"} type={"time"}/>
-</RadixThemesFlex>
-</RadixThemesBox>
+<SunEditor lang={"ru"} onChange={((_ev_0) => (addEvents([(Event("reflex___state____state.reflex_local_auth___local_auth____local_auth_state.prdprf___auth___state____session_state.prdprf___lessons___state____blog_post_state.prdprf___lessons___state____blog_edit_form_state.handle_change", ({ ["content"] : _ev_0 }), ({  })))], [_ev_0], ({  }))))} setContents={reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["content"]} setOptions={({ ["buttonList"] : [["font", "fontSize", "formatBlock"], ["fontColor", "hiliteColor"], ["bold", "underline", "italic", "strike", "subscript", "superscript"], ["removeFormat"], "/", ["outdent", "indent"], ["align", "horizontalRule", "list", "lineHeight"], ["table", "link", "image", "video"], ["fullScreen", "showBlocks", "codeView"], ["preview", "print"], ["math"]], ["katex"] : ({ ["src"] : "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js", ["css"] : "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" }) })} width={"1000px"}/>
 <RadixThemesButton type={"submit"}>
 
 {"\u041e\u043f\u0443\u0431\u043b\u0438\u043a\u043e\u0432\u0430\u0442\u044c"}
@@ -857,27 +830,19 @@ export function Fragment_1cb587953bd09c1a85bfca8ca9c6e5ac () {
 
 <RadixThemesBox css={({ ["width"] : "95vw" })}>
 
-<RadixFormRoot className={"Root "} css={({ ["width"] : "100%" })} onSubmit={handleSubmit_738fae17ab8813f5ab941d0c20cfd903}>
+<RadixFormRoot className={"Root "} css={({ ["width"] : "100%" })} onSubmit={handleSubmit_72addd038fd12ccf59f14ea1906d658a}>
 
 <RadixThemesBox css={({ ["display"] : "none" })}>
 
 <RadixThemesTextField.Root name={"post_id"} type={"hidden"} value={((((((reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] !== null) && (reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] !== undefined)) ? reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] : "") !== null) && ((((reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] !== null) && (reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] !== undefined)) ? reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] : "") !== undefined)) ? (((reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] !== null) && (reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] !== undefined)) ? reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] : "") : "")}/>
 </RadixThemesBox>
-<RadixThemesFlex align={"start"} className={"rx-Stack"} direction={"column"} gap={"3"}>
+<RadixThemesFlex align={"center"} className={"rx-Stack"} direction={"column"} gap={"3"}>
 
 <RadixThemesFlex align={"start"} className={"rx-Stack"} css={({ ["width"] : "100%" })} direction={"row"} gap={"3"}>
 
 <RadixThemesTextField.Root css={({ ["width"] : "100%" })} defaultValue={reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["title"]} name={"title"} placeholder={"\u041d\u0430\u0437\u0432\u0430\u043d\u0438\u0435 \u0443\u0440\u043e\u043a\u0430"} required={true} type={"text"}/>
 </RadixThemesFlex>
-<SunEditor onChange={((_ev_0) => (addEvents([(Event("reflex___state____state.prdprf___lessons___state____editor_state.handle_change", ({ ["content"] : _ev_0 }), ({  })))], [_ev_0], ({  }))))} setContents={reflex___state____state__prdprf___lessons___state____editor_state.content}/>
-<RadixThemesBox css={({ ["width"] : "100%" })}>
-
-<RadixThemesFlex align={"start"} className={"rx-Stack"} css={({ ["width"] : "100%" })} direction={"row"} gap={"3"}>
-
-<RadixThemesTextField.Root css={({ ["width"] : "100%" })} defaultValue={reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state__prdprf___lessons___state____blog_edit_form_state.publish_display_date} name={"publish_date"} type={"date"}/>
-<RadixThemesTextField.Root css={({ ["width"] : "100%" })} defaultValue={reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state__prdprf___lessons___state____blog_edit_form_state.publish_display_time} name={"publish_time"} type={"time"}/>
-</RadixThemesFlex>
-</RadixThemesBox>
+<SunEditor lang={"ru"} onChange={((_ev_0) => (addEvents([(Event("reflex___state____state.reflex_local_auth___local_auth____local_auth_state.prdprf___auth___state____session_state.prdprf___lessons___state____blog_post_state.prdprf___lessons___state____blog_edit_form_state.handle_change", ({ ["content"] : _ev_0 }), ({  })))], [_ev_0], ({  }))))} setContents={reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["content"]} setOptions={({ ["buttonList"] : [["font", "fontSize", "formatBlock"], ["fontColor", "hiliteColor"], ["bold", "underline", "italic", "strike", "subscript", "superscript"], ["removeFormat"], "/", ["outdent", "indent"], ["align", "horizontalRule", "list", "lineHeight"], ["table", "link", "image", "video"], ["fullScreen", "showBlocks", "codeView"], ["preview", "print"], ["math"]], ["katex"] : ({ ["src"] : "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js", ["css"] : "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" }) })} width={"1000px"}/>
 <RadixThemesButton type={"submit"}>
 
 {"\u041e\u043f\u0443\u0431\u043b\u0438\u043a\u043e\u0432\u0430\u0442\u044c"}
@@ -960,63 +925,48 @@ export function Fragment_1cb587953bd09c1a85bfca8ca9c6e5ac () {
   )
 }
 
-export function Fragment_f2f0916d2fcc08b7cdf76cec697f0750 () {
+export function Toaster_6e6ebf8d7ce589d59b7d382fb7576edf () {
   
-  const [addEvents, connectErrors] = useContext(EventLoopContext);
+  const { resolvedColorMode } = useContext(ColorModeContext)
 
+  refs['__toast'] = toast
+  const [addEvents, connectErrors] = useContext(EventLoopContext);
+  const toast_props = ({ ["description"] : ("Check if server is reachable at "+getBackendURL(env.EVENT).href), ["closeButton"] : true, ["duration"] : 120000, ["id"] : "websocket-error" });
+  const [userDismissed, setUserDismissed] = useState(false);
+  (useEffect(
+() => {
+    if ((connectErrors.length >= 2)) {
+        if (!userDismissed) {
+            toast.error(
+                `Cannot connect to server: ${((connectErrors.length > 0) ? connectErrors[connectErrors.length - 1].message : '')}.`,
+                {...toast_props, onDismiss: () => setUserDismissed(true)},
+            )
+        }
+    } else {
+        toast.dismiss("websocket-error");
+        setUserDismissed(false);  // after reconnection reset dismissed state
+    }
+}
+, [connectErrors]))
 
 
 
 
   
   return (
-    <Fragment>
-
-{isTrue((connectErrors.length > 0)) ? (
-  <Fragment>
-
-<LucideWifiOffIcon css={({ ["color"] : "crimson", ["zIndex"] : 9999, ["position"] : "fixed", ["bottom"] : "33px", ["right"] : "33px", ["animation"] : (pulse+" 1s infinite") })} size={32}/>
-</Fragment>
-) : (
-  <Fragment/>
-)}
-</Fragment>
+    <Toaster closeButton={false} expand={true} position={"bottom-right"} richColors={true} theme={resolvedColorMode}/>
   )
 }
 
-export function Errorboundary_fe5f952e59c657c15f555becf143a2e2 () {
-  
-  const [addEvents, connectErrors] = useContext(EventLoopContext);
+const pulse = keyframes`
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+`
 
-
-  const on_error_0f5dbf674521530422d73a7946faf6d4 = useCallback(((_error, _info) => (addEvents([(Event("reflex___state____state.reflex___state____frontend_event_exception_state.handle_frontend_exception", ({ ["stack"] : _error["stack"], ["component_stack"] : _info["componentStack"] }), ({  })))], [_error, _info], ({  })))), [addEvents, Event])
-
-
-
-  
-  return (
-    <ErrorBoundary fallbackRender={((event_args) => (jsx("div", ({ ["css"] : ({ ["height"] : "100%", ["width"] : "100%", ["position"] : "absolute", ["display"] : "flex", ["alignItems"] : "center", ["justifyContent"] : "center" }) }), (jsx("div", ({ ["css"] : ({ ["display"] : "flex", ["flexDirection"] : "column", ["gap"] : "1rem" }) }), (jsx("div", ({ ["css"] : ({ ["display"] : "flex", ["flexDirection"] : "column", ["gap"] : "1rem", ["maxWidth"] : "50ch", ["border"] : "1px solid #888888", ["borderRadius"] : "0.25rem", ["padding"] : "1rem" }) }), (jsx("h2", ({ ["css"] : ({ ["fontSize"] : "1.25rem", ["fontWeight"] : "bold" }) }), (jsx(Fragment, ({  }), "An error occurred while rendering this page.")))), (jsx("p", ({ ["css"] : ({ ["opacity"] : "0.75" }) }), (jsx(Fragment, ({  }), "This is an error with the application itself.")))), (jsx("details", ({  }), (jsx("summary", ({ ["css"] : ({ ["padding"] : "0.5rem" }) }), (jsx(Fragment, ({  }), "Error message")))), (jsx("div", ({ ["css"] : ({ ["width"] : "100%", ["maxHeight"] : "50vh", ["overflow"] : "auto", ["background"] : "#000", ["color"] : "#fff", ["borderRadius"] : "0.25rem" }) }), (jsx("div", ({ ["css"] : ({ ["padding"] : "0.5rem", ["width"] : "fit-content" }) }), (jsx("pre", ({  }), (jsx(Fragment, ({  }), event_args.error.stack)))))))), (jsx("button", ({ ["css"] : ({ ["padding"] : "0.35rem 0.75rem", ["margin"] : "0.5rem", ["background"] : "#fff", ["color"] : "#000", ["border"] : "1px solid #000", ["borderRadius"] : "0.25rem", ["fontWeight"] : "bold" }), ["onClick"] : ((...args) => (addEvents([(Event("_call_function", ({ ["function"] : (() => (navigator["clipboard"]["writeText"](event_args.error.stack))), ["callback"] : null }), ({  })))], args, ({  })))) }), (jsx(Fragment, ({  }), "Copy")))))))), (jsx("hr", ({ ["css"] : ({ ["borderColor"] : "currentColor", ["opacity"] : "0.25" }) }))), (jsx("a", ({ ["href"] : "https://reflex.dev" }), (jsx("div", ({ ["css"] : ({ ["display"] : "flex", ["alignItems"] : "baseline", ["justifyContent"] : "center", ["fontFamily"] : "monospace", ["--default-font-family"] : "monospace", ["gap"] : "0.5rem" }) }), (jsx(Fragment, ({  }), "Built with ")), (jsx("svg", ({ ["css"] : ({ ["viewBox"] : "0 0 56 12", ["fill"] : "currentColor" }), ["height"] : "12", ["width"] : "56", ["xmlns"] : "http://www.w3.org/2000/svg" }), (jsx("path", ({ ["d"] : "M0 11.5999V0.399902H8.96V4.8799H6.72V2.6399H2.24V4.8799H6.72V7.1199H2.24V11.5999H0ZM6.72 11.5999V7.1199H8.96V11.5999H6.72Z" }))), (jsx("path", ({ ["d"] : "M11.2 11.5999V0.399902H17.92V2.6399H13.44V4.8799H17.92V7.1199H13.44V9.3599H17.92V11.5999H11.2Z" }))), (jsx("path", ({ ["d"] : "M20.16 11.5999V0.399902H26.88V2.6399H22.4V4.8799H26.88V7.1199H22.4V11.5999H20.16Z" }))), (jsx("path", ({ ["d"] : "M29.12 11.5999V0.399902H31.36V9.3599H35.84V11.5999H29.12Z" }))), (jsx("path", ({ ["d"] : "M38.08 11.5999V0.399902H44.8V2.6399H40.32V4.8799H44.8V7.1199H40.32V9.3599H44.8V11.5999H38.08Z" }))), (jsx("path", ({ ["d"] : "M47.04 4.8799V0.399902H49.28V4.8799H47.04ZM53.76 4.8799V0.399902H56V4.8799H53.76ZM49.28 7.1199V4.8799H53.76V7.1199H49.28ZM47.04 11.5999V7.1199H49.28V11.5999H47.04ZM53.76 11.5999V7.1199H56V11.5999H53.76Z" }))))))))))))))} onError={on_error_0f5dbf674521530422d73a7946faf6d4}>
-
-<Fragment>
-
-<Div_602c14884fa2de27f522fe8f94374b02/>
-<Toaster_6e6ebf8d7ce589d59b7d382fb7576edf/>
-</Fragment>
-<Fragment>
-
-<Fragment_1cb587953bd09c1a85bfca8ca9c6e5ac/>
-</Fragment>
-<NextHead>
-
-<title>
-
-{"Prdprf | Edit"}
-</title>
-<meta content={"favicon.ico"} property={"og:image"}/>
-</NextHead>
-</ErrorBoundary>
-  )
-}
 
 export default function Component() {
     
@@ -1025,6 +975,6 @@ export default function Component() {
 
 
   return (
-    <Errorboundary_fe5f952e59c657c15f555becf143a2e2/>
+    <Errorboundary_7391bbc274a5adf4a621c8dadee0a43e/>
   )
 }
