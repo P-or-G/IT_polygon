@@ -9,13 +9,16 @@ import { jsx, keyframes } from "@emotion/react"
 import { AlignJustifyIcon as LucideAlignJustifyIcon, BookUserIcon as LucideBookUserIcon, LibraryIcon as LucideLibraryIcon, LogOutIcon as LucideLogOutIcon, MenuIcon as LucideMenuIcon, MoonIcon as LucideMoonIcon, NotebookPenIcon as LucideNotebookPenIcon, PhoneIcon as LucidePhoneIcon, ScrollTextIcon as LucideScrollTextIcon, SunIcon as LucideSunIcon, UserIcon as LucideUserIcon, WifiOffIcon as LucideWifiOffIcon, XIcon as LucideXIcon } from "lucide-react"
 import { toast, Toaster } from "sonner"
 import env from "$/env.json"
-import { Box as RadixThemesBox, Button as RadixThemesButton, DropdownMenu as RadixThemesDropdownMenu, Flex as RadixThemesFlex, Heading as RadixThemesHeading, IconButton as RadixThemesIconButton, Link as RadixThemesLink, Separator as RadixThemesSeparator, Text as RadixThemesText, TextArea as RadixThemesTextArea, TextField as RadixThemesTextField, Theme as RadixThemesTheme } from "@radix-ui/themes"
+import { Box as RadixThemesBox, Button as RadixThemesButton, DropdownMenu as RadixThemesDropdownMenu, Flex as RadixThemesFlex, Heading as RadixThemesHeading, IconButton as RadixThemesIconButton, Link as RadixThemesLink, Separator as RadixThemesSeparator, Text as RadixThemesText, TextField as RadixThemesTextField, Theme as RadixThemesTheme } from "@radix-ui/themes"
 import NextLink from "next/link"
 import { Drawer as VaulDrawer } from "vaul"
 import theme from "$/utils/theme.js"
 import { Root as RadixFormRoot } from "@radix-ui/react-form"
+import dynamic from "next/dynamic"
+import "suneditor/dist/css/suneditor.min.css"
 import NextHead from "next/head"
 
+const SunEditor = dynamic(() => import('suneditor-react'), { ssr: false });
 
 
 const pulse = keyframes`
@@ -28,7 +31,57 @@ const pulse = keyframes`
 `
 
 
-export function Errorboundary_e05765597b7cdcbe0240b7d38c35773e () {
+export function Toaster_6e6ebf8d7ce589d59b7d382fb7576edf () {
+  
+  const { resolvedColorMode } = useContext(ColorModeContext)
+
+  refs['__toast'] = toast
+  const [addEvents, connectErrors] = useContext(EventLoopContext);
+  const toast_props = ({ ["description"] : ("Check if server is reachable at "+getBackendURL(env.EVENT).href), ["closeButton"] : true, ["duration"] : 120000, ["id"] : "websocket-error" });
+  const [userDismissed, setUserDismissed] = useState(false);
+  (useEffect(
+() => {
+    if ((connectErrors.length >= 2)) {
+        if (!userDismissed) {
+            toast.error(
+                `Cannot connect to server: ${((connectErrors.length > 0) ? connectErrors[connectErrors.length - 1].message : '')}.`,
+                {...toast_props, onDismiss: () => setUserDismissed(true)},
+            )
+        }
+    } else {
+        toast.dismiss("websocket-error");
+        setUserDismissed(false);  // after reconnection reset dismissed state
+    }
+}
+, [connectErrors]))
+
+
+
+
+  
+  return (
+    <Toaster closeButton={false} expand={true} position={"bottom-right"} richColors={true} theme={resolvedColorMode}/>
+  )
+}
+
+export function Div_602c14884fa2de27f522fe8f94374b02 () {
+  
+  const [addEvents, connectErrors] = useContext(EventLoopContext);
+
+
+
+
+
+  
+  return (
+    <div css={({ ["position"] : "fixed", ["width"] : "100vw", ["height"] : "0" })} title={("Connection Error: "+((connectErrors.length > 0) ? connectErrors[connectErrors.length - 1].message : ''))}>
+
+<Fragment_f2f0916d2fcc08b7cdf76cec697f0750/>
+</div>
+  )
+}
+
+export function Errorboundary_4db59c680b9006be22a0ca5929aca444 () {
   
   const [addEvents, connectErrors] = useContext(EventLoopContext);
 
@@ -48,7 +101,7 @@ export function Errorboundary_e05765597b7cdcbe0240b7d38c35773e () {
 </Fragment>
 <Fragment>
 
-<Fragment_dbed1f2f4f916cc07b3b079a42919f09/>
+<Fragment_a9623dd5368864d50c7dd1c09ae59d02/>
 </Fragment>
 <NextHead>
 
@@ -86,24 +139,7 @@ export function Fragment_f2f0916d2fcc08b7cdf76cec697f0750 () {
   )
 }
 
-export function Div_602c14884fa2de27f522fe8f94374b02 () {
-  
-  const [addEvents, connectErrors] = useContext(EventLoopContext);
-
-
-
-
-
-  
-  return (
-    <div css={({ ["position"] : "fixed", ["width"] : "100vw", ["height"] : "0" })} title={("Connection Error: "+((connectErrors.length > 0) ? connectErrors[connectErrors.length - 1].message : ''))}>
-
-<Fragment_f2f0916d2fcc08b7cdf76cec697f0750/>
-</div>
-  )
-}
-
-export function Fragment_dbed1f2f4f916cc07b3b079a42919f09 () {
+export function Fragment_a9623dd5368864d50c7dd1c09ae59d02 () {
   
   const reflex___state____state = useContext(StateContexts.reflex___state____state)
   const reflex___state____state__reflex_local_auth___local_auth____local_auth_state = useContext(StateContexts.reflex___state____state__reflex_local_auth___local_auth____local_auth_state)
@@ -112,6 +148,7 @@ export function Fragment_dbed1f2f4f916cc07b3b079a42919f09 () {
   const { resolvedColorMode } = useContext(ColorModeContext)
   const reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state = useContext(StateContexts.reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state)
   const ref_my_content_area_el = useRef(null); refs["ref_my_content_area_el"] = ref_my_content_area_el;
+  const reflex___state____state__prdprf___lessons___state____editor_state = useContext(StateContexts.reflex___state____state__prdprf___lessons___state____editor_state)
   const ref_my_main_nav = useRef(null); refs["ref_my_main_nav"] = ref_my_main_nav;
   const ref_my_navbar_hstack_desktop = useRef(null); refs["ref_my_navbar_hstack_desktop"] = ref_my_navbar_hstack_desktop;
   
@@ -123,7 +160,7 @@ export function Fragment_dbed1f2f4f916cc07b3b079a42919f09 () {
                 }, []);
 
   
-    const handleSubmit_9a2c705e13b955efed21c41fe61e2381 = useCallback((ev) => {
+    const handleSubmit_2dcec97d6a9817c98e88752d6aeba7aa = useCallback((ev) => {
         const $form = ev.target
         ev.preventDefault()
         const form_data = {...Object.fromEntries(new FormData($form).entries()), ...({  })};
@@ -504,7 +541,7 @@ export function Fragment_dbed1f2f4f916cc07b3b079a42919f09 () {
 
 <RadixThemesBox css={({ ["width"] : "50vw" })}>
 
-<RadixFormRoot className={"Root "} css={({ ["width"] : "100%" })} onSubmit={handleSubmit_9a2c705e13b955efed21c41fe61e2381}>
+<RadixFormRoot className={"Root "} css={({ ["width"] : "100%" })} onSubmit={handleSubmit_2dcec97d6a9817c98e88752d6aeba7aa}>
 
 <RadixThemesFlex align={"start"} className={"rx-Stack"} direction={"column"} gap={"3"}>
 
@@ -512,7 +549,7 @@ export function Fragment_dbed1f2f4f916cc07b3b079a42919f09 () {
 
 <RadixThemesTextField.Root css={({ ["width"] : "100%" })} name={"title"} placeholder={"\u0417\u0430\u0433\u043e\u043b\u043e\u0432\u043e\u043a"} required={true} type={"text"}/>
 </RadixThemesFlex>
-<RadixThemesTextArea css={({ ["height"] : "50vh", ["width"] : "100%" })} name={"content"} placeholder={"\u0412\u0430\u0448\u0435 \u0441\u043e\u043e\u0431\u0449\u0435\u043d\u0438\u0435"} required={true}/>
+<SunEditor onChange={((_ev_0) => (addEvents([(Event("reflex___state____state.prdprf___lessons___state____editor_state.handle_change", ({ ["content"] : _ev_0 }), ({  })))], [_ev_0], ({  }))))} setContents={reflex___state____state__prdprf___lessons___state____editor_state.content} setOptions={({ ["buttonList"] : [["font", "fontSize", "formatBlock"], ["fontColor", "hiliteColor"], ["bold", "underline", "italic", "strike", "subscript", "superscript"], ["removeFormat"], "/", ["outdent", "indent"], ["align", "horizontalRule", "list", "lineHeight"], ["table", "link", "image", "video"], ["fullScreen", "showBlocks", "codeView"], ["preview", "print"], ["save", "template"]] })}/>
 <RadixThemesButton type={"submit"}>
 
 {"\u0421\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c"}
@@ -525,7 +562,7 @@ export function Fragment_dbed1f2f4f916cc07b3b079a42919f09 () {
 
 <RadixThemesBox css={({ ["width"] : "75vw" })}>
 
-<RadixFormRoot className={"Root "} css={({ ["width"] : "100%" })} onSubmit={handleSubmit_9a2c705e13b955efed21c41fe61e2381}>
+<RadixFormRoot className={"Root "} css={({ ["width"] : "100%" })} onSubmit={handleSubmit_2dcec97d6a9817c98e88752d6aeba7aa}>
 
 <RadixThemesFlex align={"start"} className={"rx-Stack"} direction={"column"} gap={"3"}>
 
@@ -533,7 +570,7 @@ export function Fragment_dbed1f2f4f916cc07b3b079a42919f09 () {
 
 <RadixThemesTextField.Root css={({ ["width"] : "100%" })} name={"title"} placeholder={"\u0417\u0430\u0433\u043e\u043b\u043e\u0432\u043e\u043a"} required={true} type={"text"}/>
 </RadixThemesFlex>
-<RadixThemesTextArea css={({ ["height"] : "50vh", ["width"] : "100%" })} name={"content"} placeholder={"\u0412\u0430\u0448\u0435 \u0441\u043e\u043e\u0431\u0449\u0435\u043d\u0438\u0435"} required={true}/>
+<SunEditor onChange={((_ev_0) => (addEvents([(Event("reflex___state____state.prdprf___lessons___state____editor_state.handle_change", ({ ["content"] : _ev_0 }), ({  })))], [_ev_0], ({  }))))} setContents={reflex___state____state__prdprf___lessons___state____editor_state.content} setOptions={({ ["buttonList"] : [["font", "fontSize", "formatBlock"], ["fontColor", "hiliteColor"], ["bold", "underline", "italic", "strike", "subscript", "superscript"], ["removeFormat"], "/", ["outdent", "indent"], ["align", "horizontalRule", "list", "lineHeight"], ["table", "link", "image", "video"], ["fullScreen", "showBlocks", "codeView"], ["preview", "print"], ["save", "template"]] })}/>
 <RadixThemesButton type={"submit"}>
 
 {"\u0421\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c"}
@@ -546,7 +583,7 @@ export function Fragment_dbed1f2f4f916cc07b3b079a42919f09 () {
 
 <RadixThemesBox css={({ ["width"] : "95vw" })}>
 
-<RadixFormRoot className={"Root "} css={({ ["width"] : "100%" })} onSubmit={handleSubmit_9a2c705e13b955efed21c41fe61e2381}>
+<RadixFormRoot className={"Root "} css={({ ["width"] : "100%" })} onSubmit={handleSubmit_2dcec97d6a9817c98e88752d6aeba7aa}>
 
 <RadixThemesFlex align={"start"} className={"rx-Stack"} direction={"column"} gap={"3"}>
 
@@ -554,7 +591,7 @@ export function Fragment_dbed1f2f4f916cc07b3b079a42919f09 () {
 
 <RadixThemesTextField.Root css={({ ["width"] : "100%" })} name={"title"} placeholder={"\u0417\u0430\u0433\u043e\u043b\u043e\u0432\u043e\u043a"} required={true} type={"text"}/>
 </RadixThemesFlex>
-<RadixThemesTextArea css={({ ["height"] : "50vh", ["width"] : "100%" })} name={"content"} placeholder={"\u0412\u0430\u0448\u0435 \u0441\u043e\u043e\u0431\u0449\u0435\u043d\u0438\u0435"} required={true}/>
+<SunEditor onChange={((_ev_0) => (addEvents([(Event("reflex___state____state.prdprf___lessons___state____editor_state.handle_change", ({ ["content"] : _ev_0 }), ({  })))], [_ev_0], ({  }))))} setContents={reflex___state____state__prdprf___lessons___state____editor_state.content} setOptions={({ ["buttonList"] : [["font", "fontSize", "formatBlock"], ["fontColor", "hiliteColor"], ["bold", "underline", "italic", "strike", "subscript", "superscript"], ["removeFormat"], "/", ["outdent", "indent"], ["align", "horizontalRule", "list", "lineHeight"], ["table", "link", "image", "video"], ["fullScreen", "showBlocks", "codeView"], ["preview", "print"], ["save", "template"]] })}/>
 <RadixThemesButton type={"submit"}>
 
 {"\u0421\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c"}
@@ -748,7 +785,7 @@ export function Fragment_dbed1f2f4f916cc07b3b079a42919f09 () {
 
 <RadixThemesBox css={({ ["width"] : "50vw" })}>
 
-<RadixFormRoot className={"Root "} css={({ ["width"] : "100%" })} onSubmit={handleSubmit_9a2c705e13b955efed21c41fe61e2381}>
+<RadixFormRoot className={"Root "} css={({ ["width"] : "100%" })} onSubmit={handleSubmit_2dcec97d6a9817c98e88752d6aeba7aa}>
 
 <RadixThemesFlex align={"start"} className={"rx-Stack"} direction={"column"} gap={"3"}>
 
@@ -756,7 +793,7 @@ export function Fragment_dbed1f2f4f916cc07b3b079a42919f09 () {
 
 <RadixThemesTextField.Root css={({ ["width"] : "100%" })} name={"title"} placeholder={"\u0417\u0430\u0433\u043e\u043b\u043e\u0432\u043e\u043a"} required={true} type={"text"}/>
 </RadixThemesFlex>
-<RadixThemesTextArea css={({ ["height"] : "50vh", ["width"] : "100%" })} name={"content"} placeholder={"\u0412\u0430\u0448\u0435 \u0441\u043e\u043e\u0431\u0449\u0435\u043d\u0438\u0435"} required={true}/>
+<SunEditor onChange={((_ev_0) => (addEvents([(Event("reflex___state____state.prdprf___lessons___state____editor_state.handle_change", ({ ["content"] : _ev_0 }), ({  })))], [_ev_0], ({  }))))} setContents={reflex___state____state__prdprf___lessons___state____editor_state.content} setOptions={({ ["buttonList"] : [["font", "fontSize", "formatBlock"], ["fontColor", "hiliteColor"], ["bold", "underline", "italic", "strike", "subscript", "superscript"], ["removeFormat"], "/", ["outdent", "indent"], ["align", "horizontalRule", "list", "lineHeight"], ["table", "link", "image", "video"], ["fullScreen", "showBlocks", "codeView"], ["preview", "print"], ["save", "template"]] })}/>
 <RadixThemesButton type={"submit"}>
 
 {"\u0421\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c"}
@@ -769,7 +806,7 @@ export function Fragment_dbed1f2f4f916cc07b3b079a42919f09 () {
 
 <RadixThemesBox css={({ ["width"] : "75vw" })}>
 
-<RadixFormRoot className={"Root "} css={({ ["width"] : "100%" })} onSubmit={handleSubmit_9a2c705e13b955efed21c41fe61e2381}>
+<RadixFormRoot className={"Root "} css={({ ["width"] : "100%" })} onSubmit={handleSubmit_2dcec97d6a9817c98e88752d6aeba7aa}>
 
 <RadixThemesFlex align={"start"} className={"rx-Stack"} direction={"column"} gap={"3"}>
 
@@ -777,7 +814,7 @@ export function Fragment_dbed1f2f4f916cc07b3b079a42919f09 () {
 
 <RadixThemesTextField.Root css={({ ["width"] : "100%" })} name={"title"} placeholder={"\u0417\u0430\u0433\u043e\u043b\u043e\u0432\u043e\u043a"} required={true} type={"text"}/>
 </RadixThemesFlex>
-<RadixThemesTextArea css={({ ["height"] : "50vh", ["width"] : "100%" })} name={"content"} placeholder={"\u0412\u0430\u0448\u0435 \u0441\u043e\u043e\u0431\u0449\u0435\u043d\u0438\u0435"} required={true}/>
+<SunEditor onChange={((_ev_0) => (addEvents([(Event("reflex___state____state.prdprf___lessons___state____editor_state.handle_change", ({ ["content"] : _ev_0 }), ({  })))], [_ev_0], ({  }))))} setContents={reflex___state____state__prdprf___lessons___state____editor_state.content} setOptions={({ ["buttonList"] : [["font", "fontSize", "formatBlock"], ["fontColor", "hiliteColor"], ["bold", "underline", "italic", "strike", "subscript", "superscript"], ["removeFormat"], "/", ["outdent", "indent"], ["align", "horizontalRule", "list", "lineHeight"], ["table", "link", "image", "video"], ["fullScreen", "showBlocks", "codeView"], ["preview", "print"], ["save", "template"]] })}/>
 <RadixThemesButton type={"submit"}>
 
 {"\u0421\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c"}
@@ -790,7 +827,7 @@ export function Fragment_dbed1f2f4f916cc07b3b079a42919f09 () {
 
 <RadixThemesBox css={({ ["width"] : "95vw" })}>
 
-<RadixFormRoot className={"Root "} css={({ ["width"] : "100%" })} onSubmit={handleSubmit_9a2c705e13b955efed21c41fe61e2381}>
+<RadixFormRoot className={"Root "} css={({ ["width"] : "100%" })} onSubmit={handleSubmit_2dcec97d6a9817c98e88752d6aeba7aa}>
 
 <RadixThemesFlex align={"start"} className={"rx-Stack"} direction={"column"} gap={"3"}>
 
@@ -798,7 +835,7 @@ export function Fragment_dbed1f2f4f916cc07b3b079a42919f09 () {
 
 <RadixThemesTextField.Root css={({ ["width"] : "100%" })} name={"title"} placeholder={"\u0417\u0430\u0433\u043e\u043b\u043e\u0432\u043e\u043a"} required={true} type={"text"}/>
 </RadixThemesFlex>
-<RadixThemesTextArea css={({ ["height"] : "50vh", ["width"] : "100%" })} name={"content"} placeholder={"\u0412\u0430\u0448\u0435 \u0441\u043e\u043e\u0431\u0449\u0435\u043d\u0438\u0435"} required={true}/>
+<SunEditor onChange={((_ev_0) => (addEvents([(Event("reflex___state____state.prdprf___lessons___state____editor_state.handle_change", ({ ["content"] : _ev_0 }), ({  })))], [_ev_0], ({  }))))} setContents={reflex___state____state__prdprf___lessons___state____editor_state.content} setOptions={({ ["buttonList"] : [["font", "fontSize", "formatBlock"], ["fontColor", "hiliteColor"], ["bold", "underline", "italic", "strike", "subscript", "superscript"], ["removeFormat"], "/", ["outdent", "indent"], ["align", "horizontalRule", "list", "lineHeight"], ["table", "link", "image", "video"], ["fullScreen", "showBlocks", "codeView"], ["preview", "print"], ["save", "template"]] })}/>
 <RadixThemesButton type={"submit"}>
 
 {"\u0421\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c"}
@@ -867,39 +904,6 @@ export function Fragment_dbed1f2f4f916cc07b3b079a42919f09 () {
   )
 }
 
-export function Toaster_6e6ebf8d7ce589d59b7d382fb7576edf () {
-  
-  const { resolvedColorMode } = useContext(ColorModeContext)
-
-  refs['__toast'] = toast
-  const [addEvents, connectErrors] = useContext(EventLoopContext);
-  const toast_props = ({ ["description"] : ("Check if server is reachable at "+getBackendURL(env.EVENT).href), ["closeButton"] : true, ["duration"] : 120000, ["id"] : "websocket-error" });
-  const [userDismissed, setUserDismissed] = useState(false);
-  (useEffect(
-() => {
-    if ((connectErrors.length >= 2)) {
-        if (!userDismissed) {
-            toast.error(
-                `Cannot connect to server: ${((connectErrors.length > 0) ? connectErrors[connectErrors.length - 1].message : '')}.`,
-                {...toast_props, onDismiss: () => setUserDismissed(true)},
-            )
-        }
-    } else {
-        toast.dismiss("websocket-error");
-        setUserDismissed(false);  // after reconnection reset dismissed state
-    }
-}
-, [connectErrors]))
-
-
-
-
-  
-  return (
-    <Toaster closeButton={false} expand={true} position={"bottom-right"} richColors={true} theme={resolvedColorMode}/>
-  )
-}
-
 export default function Component() {
     
 
@@ -907,6 +911,6 @@ export default function Component() {
 
 
   return (
-    <Errorboundary_e05765597b7cdcbe0240b7d38c35773e/>
+    <Errorboundary_4db59c680b9006be22a0ca5929aca444/>
   )
 }

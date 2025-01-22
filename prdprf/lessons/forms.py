@@ -1,6 +1,6 @@
 import reflex as rx
 
-from prdprf.lessons.state import BlogAddPostFormState, BlogEditFormState
+from prdprf.lessons.state import BlogAddPostFormState, BlogEditFormState, EditorState
 
 
 def blog_post_add_form() -> rx.Component:
@@ -16,12 +16,31 @@ def blog_post_add_form() -> rx.Component:
                 ),
                 width='100%'
             ),
-            rx.text_area(
-                name='content',
-                placeholder="Ваше сообщение",
-                required=True,
-                height='50vh',
-                width='100%',
+            rx.editor(
+                set_contents=EditorState.content,
+                set_options=rx.EditorOptions(
+                    button_list=[
+                        ["font", "fontSize", "formatBlock"],
+                        ["fontColor", "hiliteColor"],
+                        [
+                            "bold",
+                            "underline",
+                            "italic",
+                            "strike",
+                            "subscript",
+                            "superscript",
+                        ],
+                        ["removeFormat"],
+                        "/",
+                        ["outdent", "indent"],
+                        ['align', 'horizontalRule', 'list', 'lineHeight'],
+                        ['table', 'link', 'image', 'video'],
+                        ['fullScreen', 'showBlocks', 'codeView'],
+                        ['preview', 'print'],
+                        ['save', 'template'],
+                    ]
+                ),
+                on_change=EditorState.handle_change,
             ),
             rx.button("Сохранить", type="submit"),
         ),
@@ -49,53 +68,36 @@ def blog_post_edit_form() -> rx.Component:
                 rx.input(
                     default_value=title,
                     name="title",
-                    placeholder="Название",
+                    placeholder="Название урока",
                     required=True,
                     type='text',
                     width='100%',
                 ),
                 width='100%'
             ),
-            rx.text_area(
-                value=post_content,
-                on_change=BlogEditFormState.set_post_content,
-                name='content',
-                placeholder="Ваше сообщение",
-                required=True,
-                height='50vh',
-                width='100%',
+            rx.editor(
+                set_contents=EditorState.content,
+                on_change=EditorState.handle_change,
             ),
-            rx.flex(
-                rx.switch(
-                    default_checked=BlogEditFormState.post_publish_active,
-                    on_change=BlogEditFormState.set_post_publish_active,
-                    name='publish_active',
-                ),
-                rx.text("Режим публикации"),
-                spacing="2",
-            ),
-            rx.cond(
-                BlogEditFormState.post_publish_active,
-                rx.box(
-                    rx.hstack(
-                        rx.input(
-                            default_value=BlogEditFormState.publish_display_date,
-                            type='date',
-                            name='publish_date',
-                            width='100%'
-                        ),
-                        rx.input(
-                            default_value=BlogEditFormState.publish_display_time,
-                            type='time',
-                            name='publish_time',
-                            width='100%'
-                        ),
+            rx.box(
+                rx.hstack(
+                    rx.input(
+                        default_value=BlogEditFormState.publish_display_date,
+                        type='date',
+                        name='publish_date',
+                        width='100%'
+                    ),
+                    rx.input(
+                        default_value=BlogEditFormState.publish_display_time,
+                        type='time',
+                        name='publish_time',
                         width='100%'
                     ),
                     width='100%'
-                )
+                ),
+                width='100%'
             ),
-            rx.button("Сохранить", type="submit"),
+            rx.button("Опубликовать", type="submit"),
         ),
         on_submit=BlogEditFormState.handle_submit,
     )
