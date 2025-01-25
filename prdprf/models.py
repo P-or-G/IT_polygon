@@ -4,7 +4,7 @@ import reflex as rx
 from reflex_local_auth.user import LocalUser
 
 import sqlalchemy
-from sqlmodel import Field, Relationship
+from sqlmodel import Field, Relationship, ARRAY
 
 from prdprf import utils
 
@@ -12,10 +12,12 @@ from prdprf import utils
 class UserInfo(rx.Model, table=True):
     user_id: int = Field(foreign_key='localuser.id')
     email: str
-    user: LocalUser | None = Relationship() # LocalUser instance
+    user: LocalUser | None = Relationship()  # LocalUser instance
     surname: str
     grade: str
     litera: str
+    points: int = 0
+    com_lessons: str  #Пишем в строчку все id-шники разделяя пробелом
     posts: List['BlogPostModel'] = Relationship(
         back_populates='userinfo'
     )
@@ -42,12 +44,11 @@ class UserInfo(rx.Model, table=True):
 
 
 class BlogPostModel(rx.Model, table=True):
-    # user
-    # id: int -> primary key
     userinfo_id: int = Field(default=None, foreign_key="userinfo.id")
     userinfo: Optional['UserInfo'] = Relationship(back_populates="posts")
     title: str
     content: str
+    points: int = 1
     created_at: datetime = Field(
         default_factory=utils.timing.get_utc_now,
         sa_type=sqlalchemy.DateTime(timezone=True),
@@ -74,14 +75,13 @@ class BlogPostModel(rx.Model, table=True):
     )
 
 
-
 class ContactEntryModel(rx.Model, table=True):
     user_id: int | None = None
     userinfo_id: int = Field(default=None, foreign_key="userinfo.id")
     userinfo: Optional['UserInfo'] = Relationship(back_populates="contact_entries")
     first_name: str
     last_name: str | None = None
-    email: str | None = None # = Field(nullable=True)
+    email: str | None = None  # = Field(nullable=True)
     message: str
     created_at: datetime = Field(
         default_factory=utils.timing.get_utc_now,

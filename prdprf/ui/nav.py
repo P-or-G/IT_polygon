@@ -10,7 +10,6 @@ def navbar_link(text: str, url: str) -> rx.Component:
     )
 
 
-
 def navbar() -> rx.Component:
     return rx.box(
         rx.desktop_only(
@@ -66,7 +65,7 @@ def navbar() -> rx.Component:
             ),
         ),
         rx.mobile_and_tablet(
-            rx.hstack(
+            rx.vstack(
                 rx.hstack(
                     rx.image(
                         src="/logo.jpg",
