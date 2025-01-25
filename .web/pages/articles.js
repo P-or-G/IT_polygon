@@ -17,24 +17,40 @@ import NextHead from "next/head"
 
 
 
-export function Div_602c14884fa2de27f522fe8f94374b02 () {
+export function Toaster_6e6ebf8d7ce589d59b7d382fb7576edf () {
   
-  const [addEvents, connectErrors] = useContext(EventLoopContext);
+  const { resolvedColorMode } = useContext(ColorModeContext)
 
+  refs['__toast'] = toast
+  const [addEvents, connectErrors] = useContext(EventLoopContext);
+  const toast_props = ({ ["description"] : ("Check if server is reachable at "+getBackendURL(env.EVENT).href), ["closeButton"] : true, ["duration"] : 120000, ["id"] : "websocket-error" });
+  const [userDismissed, setUserDismissed] = useState(false);
+  (useEffect(
+() => {
+    if ((connectErrors.length >= 2)) {
+        if (!userDismissed) {
+            toast.error(
+                `Cannot connect to server: ${((connectErrors.length > 0) ? connectErrors[connectErrors.length - 1].message : '')}.`,
+                {...toast_props, onDismiss: () => setUserDismissed(true)},
+            )
+        }
+    } else {
+        toast.dismiss("websocket-error");
+        setUserDismissed(false);  // after reconnection reset dismissed state
+    }
+}
+, [connectErrors]))
 
 
 
 
   
   return (
-    <div css={({ ["position"] : "fixed", ["width"] : "100vw", ["height"] : "0" })} title={("Connection Error: "+((connectErrors.length > 0) ? connectErrors[connectErrors.length - 1].message : ''))}>
-
-<Fragment_f2f0916d2fcc08b7cdf76cec697f0750/>
-</div>
+    <Toaster closeButton={false} expand={true} position={"bottom-right"} richColors={true} theme={resolvedColorMode}/>
   )
 }
 
-export function Errorboundary_b2e73934429250ec06ecfbab0e2a1921 () {
+export function Errorboundary_b2709ba39426c4fea93747b9c8ddd1bd () {
   
   const [addEvents, connectErrors] = useContext(EventLoopContext);
 
@@ -52,7 +68,7 @@ export function Errorboundary_b2e73934429250ec06ecfbab0e2a1921 () {
 <Div_602c14884fa2de27f522fe8f94374b02/>
 <Toaster_6e6ebf8d7ce589d59b7d382fb7576edf/>
 </Fragment>
-<Fragment_45a448488a01b0c6bd817249056c3efb/>
+<Fragment_450dc45733d7f013b1fd90f673ae47a1/>
 <NextHead>
 
 <title>
@@ -89,7 +105,34 @@ export function Fragment_f2f0916d2fcc08b7cdf76cec697f0750 () {
   )
 }
 
-export function Fragment_45a448488a01b0c6bd817249056c3efb () {
+const pulse = keyframes`
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+`
+
+
+export function Div_602c14884fa2de27f522fe8f94374b02 () {
+  
+  const [addEvents, connectErrors] = useContext(EventLoopContext);
+
+
+
+
+
+  
+  return (
+    <div css={({ ["position"] : "fixed", ["width"] : "100vw", ["height"] : "0" })} title={("Connection Error: "+((connectErrors.length > 0) ? connectErrors[connectErrors.length - 1].message : ''))}>
+
+<Fragment_f2f0916d2fcc08b7cdf76cec697f0750/>
+</div>
+  )
+}
+
+export function Fragment_450dc45733d7f013b1fd90f673ae47a1 () {
   
   const reflex___state____state__reflex_local_auth___local_auth____local_auth_state = useContext(StateContexts.reflex___state____state__reflex_local_auth___local_auth____local_auth_state)
   const { toggleColorMode } = useContext(ColorModeContext)
@@ -306,13 +349,13 @@ export function Fragment_45a448488a01b0c6bd817249056c3efb () {
 <LucideXIcon css={({ ["color"] : "var(--current-color)" })} size={30}/>
 </VaulDrawer.Close>
 </RadixThemesBox>
-<RadixThemesFlex align={"start"} className={"rx-Stack"} direction={"row"} gap={"5"}>
+<RadixThemesFlex align={"start"} className={"rx-Stack"} direction={"column"} gap={"3"}>
 
 <RadixThemesLink asChild={true} css={({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) })} underline={"none"} weight={"medium"}>
 
 <NextLink href={"/articles"} passHref={true}>
 
-<RadixThemesFlex align={"center"} className={"rx-Stack"} css={({ ["&:hover"] : ({ ["background"] : "var(--accent-4)", ["color"] : "var(--accent-11)" }), ["border-radius"] : "0.5em", ["paddingInlineStart"] : "0.5rem", ["paddingInlineEnd"] : "0.5rem", ["paddingTop"] : "0.75rem", ["paddingBottom"] : "0.75rem", ["alignItems"] : "center" })} direction={"column"} gap={"3"}>
+<RadixThemesFlex align={"center"} className={"rx-Stack"} css={({ ["&:hover"] : ({ ["background"] : "var(--accent-4)", ["color"] : "var(--accent-11)" }), ["border-radius"] : "0.5em", ["paddingInlineStart"] : "0.5rem", ["paddingInlineEnd"] : "0.5rem", ["paddingTop"] : "0.75rem", ["paddingBottom"] : "0.75rem", ["alignItems"] : "center" })} direction={"row"} gap={"3"}>
 
 <LucideLibraryIcon css={({ ["color"] : "var(--current-color)" })}/>
 <RadixThemesText align={"center"} as={"p"} size={"4"} weight={"medium"}>
@@ -326,7 +369,7 @@ export function Fragment_45a448488a01b0c6bd817249056c3efb () {
 
 <NextLink href={"/lessons"} passHref={true}>
 
-<RadixThemesFlex align={"center"} className={"rx-Stack"} css={({ ["&:hover"] : ({ ["background"] : "var(--accent-4)", ["color"] : "var(--accent-11)" }), ["border-radius"] : "0.5em", ["paddingInlineStart"] : "0.5rem", ["paddingInlineEnd"] : "0.5rem", ["paddingTop"] : "0.75rem", ["paddingBottom"] : "0.75rem", ["alignItems"] : "center" })} direction={"column"} gap={"3"}>
+<RadixThemesFlex align={"center"} className={"rx-Stack"} css={({ ["&:hover"] : ({ ["background"] : "var(--accent-4)", ["color"] : "var(--accent-11)" }), ["border-radius"] : "0.5em", ["paddingInlineStart"] : "0.5rem", ["paddingInlineEnd"] : "0.5rem", ["paddingTop"] : "0.75rem", ["paddingBottom"] : "0.75rem", ["alignItems"] : "center" })} direction={"row"} gap={"3"}>
 
 <LucideBookUserIcon css={({ ["color"] : "var(--current-color)" })}/>
 <RadixThemesText align={"center"} as={"p"} size={"4"} weight={"medium"}>
@@ -340,7 +383,7 @@ export function Fragment_45a448488a01b0c6bd817249056c3efb () {
 
 <NextLink href={"/lessons/add"} passHref={true}>
 
-<RadixThemesFlex align={"center"} className={"rx-Stack"} css={({ ["&:hover"] : ({ ["background"] : "var(--accent-4)", ["color"] : "var(--accent-11)" }), ["border-radius"] : "0.5em", ["paddingInlineStart"] : "0.5rem", ["paddingInlineEnd"] : "0.5rem", ["paddingTop"] : "0.75rem", ["paddingBottom"] : "0.75rem", ["alignItems"] : "center" })} direction={"column"} gap={"3"}>
+<RadixThemesFlex align={"center"} className={"rx-Stack"} css={({ ["&:hover"] : ({ ["background"] : "var(--accent-4)", ["color"] : "var(--accent-11)" }), ["border-radius"] : "0.5em", ["paddingInlineStart"] : "0.5rem", ["paddingInlineEnd"] : "0.5rem", ["paddingTop"] : "0.75rem", ["paddingBottom"] : "0.75rem", ["alignItems"] : "center" })} direction={"row"} gap={"3"}>
 
 <LucideNotebookPenIcon css={({ ["color"] : "var(--current-color)" })}/>
 <RadixThemesText align={"center"} as={"p"} size={"4"} weight={"medium"}>
@@ -354,7 +397,7 @@ export function Fragment_45a448488a01b0c6bd817249056c3efb () {
 
 <NextLink href={"/contact"} passHref={true}>
 
-<RadixThemesFlex align={"center"} className={"rx-Stack"} css={({ ["&:hover"] : ({ ["background"] : "var(--accent-4)", ["color"] : "var(--accent-11)" }), ["border-radius"] : "0.5em", ["paddingInlineStart"] : "0.5rem", ["paddingInlineEnd"] : "0.5rem", ["paddingTop"] : "0.75rem", ["paddingBottom"] : "0.75rem", ["alignItems"] : "center" })} direction={"column"} gap={"3"}>
+<RadixThemesFlex align={"center"} className={"rx-Stack"} css={({ ["&:hover"] : ({ ["background"] : "var(--accent-4)", ["color"] : "var(--accent-11)" }), ["border-radius"] : "0.5em", ["paddingInlineStart"] : "0.5rem", ["paddingInlineEnd"] : "0.5rem", ["paddingTop"] : "0.75rem", ["paddingBottom"] : "0.75rem", ["alignItems"] : "center" })} direction={"row"} gap={"3"}>
 
 <LucidePhoneIcon css={({ ["color"] : "var(--current-color)" })}/>
 <RadixThemesText align={"center"} as={"p"} size={"4"} weight={"medium"}>
@@ -368,7 +411,7 @@ export function Fragment_45a448488a01b0c6bd817249056c3efb () {
 
 <NextLink href={"/contact/entries"} passHref={true}>
 
-<RadixThemesFlex align={"center"} className={"rx-Stack"} css={({ ["&:hover"] : ({ ["background"] : "var(--accent-4)", ["color"] : "var(--accent-11)" }), ["border-radius"] : "0.5em", ["paddingInlineStart"] : "0.5rem", ["paddingInlineEnd"] : "0.5rem", ["paddingTop"] : "0.75rem", ["paddingBottom"] : "0.75rem", ["alignItems"] : "center" })} direction={"column"} gap={"3"}>
+<RadixThemesFlex align={"center"} className={"rx-Stack"} css={({ ["&:hover"] : ({ ["background"] : "var(--accent-4)", ["color"] : "var(--accent-11)" }), ["border-radius"] : "0.5em", ["paddingInlineStart"] : "0.5rem", ["paddingInlineEnd"] : "0.5rem", ["paddingTop"] : "0.75rem", ["paddingBottom"] : "0.75rem", ["alignItems"] : "center" })} direction={"row"} gap={"3"}>
 
 <LucideScrollTextIcon css={({ ["color"] : "var(--current-color)" })}/>
 <RadixThemesText align={"center"} as={"p"} size={"4"} weight={"medium"}>
@@ -474,8 +517,8 @@ export function Fragment_45a448488a01b0c6bd817249056c3efb () {
 
 <RadixThemesFlex align={"center"} className={"rx-Stack"} css={({ ["columns"] : "3" })} direction={"column"} gap={"5"}>
 
-<>{reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___articles___state____article_public_state.posts.map((post, index_92856e575d9c66c3) => (
-  <RadixThemesCard asChild={true} key={index_92856e575d9c66c3}>
+<>{reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___articles___state____article_public_state.posts.map((post, index_11a03f8b35b6b99c) => (
+  <RadixThemesCard asChild={true} key={index_11a03f8b35b6b99c}>
 
 <RadixThemesLink asChild={true} css={({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) })}>
 
@@ -622,7 +665,7 @@ export function Fragment_45a448488a01b0c6bd817249056c3efb () {
 </RadixThemesBox>
 <RadixThemesBox css={({ ["@media screen and (min-width: 0)"] : ({ ["display"] : "block" }), ["@media screen and (min-width: 30em)"] : ({ ["display"] : "block" }), ["@media screen and (min-width: 48em)"] : ({ ["display"] : "block" }), ["@media screen and (min-width: 62em)"] : ({ ["display"] : "none" }) })}>
 
-<RadixThemesFlex align={"start"} className={"rx-Stack"} css={({ ["alignItems"] : "center" })} direction={"row"} justify={"between"} gap={"3"}>
+<RadixThemesFlex align={"start"} className={"rx-Stack"} css={({ ["alignItems"] : "center" })} direction={"column"} justify={"between"} gap={"3"}>
 
 <RadixThemesFlex align={"start"} className={"rx-Stack"} css={({ ["alignItems"] : "center" })} direction={"row"} gap={"3"}>
 
@@ -682,8 +725,8 @@ export function Fragment_45a448488a01b0c6bd817249056c3efb () {
 
 <RadixThemesFlex align={"center"} className={"rx-Stack"} css={({ ["columns"] : "3" })} direction={"column"} gap={"5"}>
 
-<>{reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___articles___state____article_public_state.posts.map((post, index_92856e575d9c66c3) => (
-  <RadixThemesCard asChild={true} key={index_92856e575d9c66c3}>
+<>{reflex___state____state__reflex_local_auth___local_auth____local_auth_state__prdprf___auth___state____session_state__prdprf___articles___state____article_public_state.posts.map((post, index_11a03f8b35b6b99c) => (
+  <RadixThemesCard asChild={true} key={index_11a03f8b35b6b99c}>
 
 <RadixThemesLink asChild={true} css={({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) })}>
 
@@ -752,49 +795,6 @@ export function Fragment_45a448488a01b0c6bd817249056c3efb () {
   )
 }
 
-export function Toaster_6e6ebf8d7ce589d59b7d382fb7576edf () {
-  
-  const { resolvedColorMode } = useContext(ColorModeContext)
-
-  refs['__toast'] = toast
-  const [addEvents, connectErrors] = useContext(EventLoopContext);
-  const toast_props = ({ ["description"] : ("Check if server is reachable at "+getBackendURL(env.EVENT).href), ["closeButton"] : true, ["duration"] : 120000, ["id"] : "websocket-error" });
-  const [userDismissed, setUserDismissed] = useState(false);
-  (useEffect(
-() => {
-    if ((connectErrors.length >= 2)) {
-        if (!userDismissed) {
-            toast.error(
-                `Cannot connect to server: ${((connectErrors.length > 0) ? connectErrors[connectErrors.length - 1].message : '')}.`,
-                {...toast_props, onDismiss: () => setUserDismissed(true)},
-            )
-        }
-    } else {
-        toast.dismiss("websocket-error");
-        setUserDismissed(false);  // after reconnection reset dismissed state
-    }
-}
-, [connectErrors]))
-
-
-
-
-  
-  return (
-    <Toaster closeButton={false} expand={true} position={"bottom-right"} richColors={true} theme={resolvedColorMode}/>
-  )
-}
-
-const pulse = keyframes`
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
-`
-
-
 export default function Component() {
     
 
@@ -802,6 +802,6 @@ export default function Component() {
 
 
   return (
-    <Errorboundary_b2e73934429250ec06ecfbab0e2a1921/>
+    <Errorboundary_b2709ba39426c4fea93747b9c8ddd1bd/>
   )
 }

@@ -109,12 +109,39 @@ def sidebar_dark_mode_toggle_item() -> rx.Component:
 
 
 def sidebar_item(
-        text: str, icon: str, href: str
+        text: str, icon: str, href: str,
 ) -> rx.Component:
     return rx.link(
         rx.vstack(
             rx.icon(icon),
-            rx.text(text, size="4", align='center', weight='medium'),
+            rx.text(text, size="4", align="center", weight='medium'),
+            padding_x="0.5rem",
+            padding_y="0.75rem",
+            align="center",
+            align_items="center",
+            style=rx.Style(
+                {
+                    "_hover": {
+                        "bg": rx.color("accent", 4),
+                        "color": rx.color("accent", 11),
+                    },
+                    "border-radius": "0.5em",
+                },
+            )
+        ),
+        href=href,
+        underline="none",
+        weight="medium",
+    )
+
+
+def mobile_sidebar_item(
+        text: str, icon: str, href: str,
+) -> rx.Component:
+    return rx.link(
+        rx.hstack(
+            rx.icon(icon),
+            rx.text(text, size="4", align="center", weight='medium'),
             padding_x="0.5rem",
             padding_y="0.75rem",
             align="center",
@@ -138,17 +165,6 @@ def sidebar_item(
 def navbar_link(text: str, url: str) -> rx.Component:
     return rx.link(
         rx.text(text, size="4", weight="medium"), href=url
-    )
-
-
-def sidebar_items() -> rx.Component:
-    return rx.hstack(
-        sidebar_item("Уроки", "library", navigation.routes.ARTICLE_LIST_ROUTE),
-        sidebar_item("Ваши уроки", "book-user", navigation.routes.BLOG_POSTS_ROUTE),
-        sidebar_item("Создать урок", "notebook-pen", navigation.routes.BLOG_POST_ADD_ROUTE),
-        sidebar_item("Обратная связь", "phone", navigation.routes.CONTACT_US_ROUTE),
-        sidebar_item("Обращения", "scroll-text", navigation.routes.CONTACT_ENTRIES_ROUTE),
-        spacing="5",
     )
 
 
@@ -207,7 +223,14 @@ def sidebar() -> rx.Component:
                                 ),
                                 width="100%",
                             ),
-                            sidebar_items(),
+                            rx.vstack(
+                                mobile_sidebar_item("Уроки", "library", navigation.routes.ARTICLE_LIST_ROUTE),
+                                mobile_sidebar_item("Ваши уроки", "book-user", navigation.routes.BLOG_POSTS_ROUTE),
+                                mobile_sidebar_item("Создать урок", "notebook-pen", navigation.routes.BLOG_POST_ADD_ROUTE),
+                                mobile_sidebar_item("Обратная связь", "phone", navigation.routes.CONTACT_US_ROUTE),
+                                mobile_sidebar_item("Обращения", "scroll-text", navigation.routes.CONTACT_ENTRIES_ROUTE),
+                                spacing="3",
+                            ),
                             rx.spacer(),
                             rx.vstack(
                                 rx.vstack(

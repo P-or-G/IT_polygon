@@ -2,6 +2,7 @@ import reflex as rx
 
 from prdprf.ui.base import base_page
 
+
 def feature_item(feature: str) -> rx.Component:
     return rx.hstack(
         rx.icon(
@@ -159,6 +160,7 @@ def pricing_cards() -> rx.Component:
         width="100%",
         align_items="center",
     )
+
 
 def pricing_page() -> rx.Component:
     my_child = rx.vstack(

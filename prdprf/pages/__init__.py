@@ -1,7 +1,7 @@
 from prdprf.pages.about import about_page
 from prdprf.pages.dashboard import dashboard_component
 from prdprf.pages.landing import landing_component
-from prdprf.pages.pricing import pricing_page
+from prdprf.pages.stats import pricing_page
 from prdprf.pages.protected import protected_page
 
 __all__ = [ 

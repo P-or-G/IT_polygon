@@ -118,4 +118,4 @@ app.add_page(
     on_load=contact.ContactState.list_entries
 )
 app.add_page(pages.pricing_page, 
-             route=navigation.routes.PRICING_ROUTE)
+             route=navigation.routes.STATS_ROUTE)
