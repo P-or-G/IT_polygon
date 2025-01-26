@@ -13,7 +13,7 @@ def article_detail_page() -> rx.Component:
                 rx.heading(state.ArticlePublicState.post.title, size="9"),
                 align='end'
             ),
-            rx.text("By ", state.ArticlePublicState.post.userinfo.user.username),
+            rx.text("By ", state.ArticlePublicState.post.userinfo.username),
             rx.text(state.ArticlePublicState.post.publish_date),
             rx.text(
                 state.ArticlePublicState.post.content,

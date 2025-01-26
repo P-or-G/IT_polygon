@@ -1,6 +1,9 @@
 from typing import Optional, List
 from datetime import datetime
+
+import bcrypt
 import reflex as rx
+import reflex_local_auth
 from reflex_local_auth.user import LocalUser
 
 import sqlalchemy
@@ -10,37 +13,43 @@ from prdprf import utils
 
 
 class UserInfo(rx.Model, table=True):
-    user_id: int = Field(foreign_key='localuser.id')
-    email: str
-    user: LocalUser | None = Relationship()  # LocalUser instance
+    user_id: int = Field(foreign_key='localuser.id', nullable=True)
+    email: str = Field(unique=True, nullable=False, index=True)
+    username: str
     surname: str
+
+    password_hash: bytes = Field(nullable=False)
+    enabled: bool = False
+
     grade: str
     litera: str
     points: int = 0
-    com_lessons: str  #Пишем в строчку все id-шники разделяя пробелом
+
+    com_lessons: str = '[]'  #Пишем в строчку все id-шники разделяя пробелом
     posts: List['BlogPostModel'] = Relationship(
         back_populates='userinfo'
     )
     contact_entries: List['ContactEntryModel'] = Relationship(
         back_populates='userinfo'
     )
-    created_at: datetime = Field(
-        default_factory=utils.timing.get_utc_now,
-        sa_type=sqlalchemy.DateTime(timezone=True),
-        sa_column_kwargs={
-            'server_default': sqlalchemy.func.now()
-        },
-        nullable=False
-    )
-    updated_at: datetime = Field(
-        default_factory=utils.timing.get_utc_now,
-        sa_type=sqlalchemy.DateTime(timezone=True),
-        sa_column_kwargs={
-            'onupdate': sqlalchemy.func.now(),
-            'server_default': sqlalchemy.func.now()
-        },
-        nullable=False
-    )
+
+    @staticmethod
+    def hash_password(secret: str) -> bytes:
+        return bcrypt.hashpw(
+            password=secret.encode("utf-8"),
+            salt=bcrypt.gensalt(),
+        )
+
+    def verify(self, secret: str) -> bool:
+        return bcrypt.checkpw(
+            password=secret.encode("utf-8"),
+            hashed_password=self.password_hash,
+        )
+
+    def dict(self, *args, **kwargs) -> dict:
+        d = super().dict(*args, **kwargs)
+        d.pop("password_hash", None)
+        return d
 
 
 class BlogPostModel(rx.Model, table=True):

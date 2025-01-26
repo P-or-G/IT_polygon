@@ -1,21 +1,20 @@
 import reflex as rx
 
-from reflex_local_auth.pages.login import LoginState, login_form
 from reflex_local_auth.pages.registration import RegistrationState, register_form
 
 from prdprf import navigation
 from prdprf.ui.base import base_page
 
-from prdprf.auth.forms import my_register_form
-from prdprf.auth.state import SessionState
+from prdprf.auth.forms import my_register_form, my_login_form
+from prdprf.auth.state import SessionState, MyLoginState
 
 
 def my_login_page() -> rx.Component:
     return base_page(
         rx.center(
             rx.cond(
-                LoginState.is_hydrated,  # type: ignore
-                rx.card(login_form()),
+                MyLoginState.is_hydrated,  # type: ignore
+                rx.card(my_login_form()),
             ),
             min_height="85vh",
         ),
