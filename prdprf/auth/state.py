@@ -1,10 +1,16 @@
+import asyncio
+import datetime
+
 import reflex as rx
 import reflex_local_auth
 
 import sqlmodel
 from reflex.event import EventSpec
+from reflex_local_auth import LocalUser
+from sqlmodel import select
 
 from prdprf.models import UserInfo
+from prdprf.navigation.routes import LOGIN_ROUTE, REGISTER_ROUTE
 
 
 class SessionState(reflex_local_auth.LocalAuthState):
@@ -75,41 +81,94 @@ class SessionState(reflex_local_auth.LocalAuthState):
         return rx.redirect("/")
 
 
-class MyRegisterState(reflex_local_auth.RegistrationState):
+def redir():
+    return rx.redirect(REGISTER_ROUTE)
+
+
+class MyRegisterState(reflex_local_auth.LocalAuthState):
+
+    success: bool = False
+    error_message: str = ""
+    new_user_id: int = -1
+
+    def _validate_fields(
+        self, username, password, confirm_password
+    ) -> rx.event.EventSpec | list[rx.event.EventSpec] | None:
+        if not username:
+            self.error_message = "Поле Адрес не может быть пустым"
+            return rx.set_focus("username")
+        with rx.session() as session:
+            existing_user = session.exec(
+                select(UserInfo).where(UserInfo.username == username)
+            ).one_or_none()
+        if existing_user is not None:
+            self.error_message = (
+                f"Почта {username} уже зарегистрирована, попробуйте войти"
+            )
+            return [rx.set_value("username", ""), rx.set_focus("username")]
+        if not password:
+            self.error_message = "Поле Пароль не может быть пустым"
+            return rx.set_focus("password")
+        if password != confirm_password:
+            self.error_message = "Пароли не совпадают"
+            return [
+                rx.set_value("confirm_password", ""),
+                rx.set_focus("confirm_password"),
+            ]
+
+    def _register_user(self, form_data) -> None:
+        with rx.session() as session:
+            new_user = UserInfo(
+                email=form_data["Адрес"],
+                password_hash=UserInfo.hash_password(form_data["Пароль"]),
+                enabled=True,
+                username=form_data["Имя"],
+                surname=form_data["Фамилия"],
+                grade=form_data["grade"],
+                litera=form_data["litera"],
+            )  # type: ignore
+
+            session.add(new_user)
+            session.commit()
+            session.refresh(new_user)
+
+            statement = select(UserInfo).where(UserInfo.id == new_user.id)
+            results = session.exec(statement)
+            us = results.one()
+            us.user_id = new_user.id
+
+            session.add(us)
+            session.commit()
+            session.refresh(us)
+
+            self.new_user_id = new_user.id
+
+    async def successful_registration(self):
+        # Set success and redirect to login page after a brief delay.
+        self.error_message = ""
+        self.new_user_id = -1
+        self.success = True
+        yield
+        await asyncio.sleep(0.5)
+        yield [rx.redirect(LOGIN_ROUTE), MyRegisterState.set_success(False)]
+
     def handle_registration(self, form_data) -> rx.event.EventSpec | list[rx.event.EventSpec]:
         """
         Тут проверяется регистрация, всё делается через reflex_local_auth модуль.
         Проверка идёт по паролю/подтверждению пароля и по уникальности юзернаме.
         Возвращает ID как будто Autoincrement в SQL (вообще, це единственное отличие от Родительского класса
         """
-        username = form_data["Имя"]
+
+        email = form_data["Адрес"]
         password = form_data["Пароль"]
         validation_errors = self._validate_fields(
-            username, password, form_data["Подтверждение пароля"]
+            email, password, form_data["Подтверждение пароля"]
         )
         if validation_errors:
             self.new_user_id = -1
             return validation_errors
-        self._register_user(username, password)
-        return self.new_user_id
-    
-    def handle_registration_email(self, form_data):
-        """
-        Тут "дозаполняевывается" модуль UserInfo базы данных фамилией, почтой, классом и литерой
-        """
-        new_user_id = self.handle_registration(form_data)
-        if new_user_id >= 0:
-            with rx.session() as session:
-                session.add(
-                    UserInfo(
-                        email=form_data["Адрес"],
-                        user_id=self.new_user_id,
-                        surname=form_data["Фамилия"],
-                        grade=form_data["grade"],
-                        litera=form_data["litera"],
-                    )
-                )
-                session.commit()
+        self._register_user(form_data)
+
         return type(self).successful_registration
 
 
@@ -141,3 +200,33 @@ class SelectLiteraState(rx.State):
         Заменяет значение по ивенту для rx.select структур
         """
         self.value = value
+
+
+class MyLoginState(reflex_local_auth.LoginState):
+    def on_submit(self, form_data) -> rx.event.EventSpec:
+        self.error_message = ""
+        email = form_data["Почта"]
+        password = form_data["Пароль"]
+        with rx.session() as session:
+            user = session.exec(
+                select(UserInfo).where(UserInfo.email == email)
+            ).one_or_none()
+        if user is not None and not user.enabled:
+            self.error_message = "Ваш аккаунт заблокирован"
+            return rx.set_value("Пароль", "")
+        if (
+            user is not None
+            and user.id is not None
+            and user.enabled
+            and password
+            and user.verify(password)
+        ):
+            # mark the user as logged in
+            self._login(user.id)
+        else:
+            self.error_message = "Что-то пошло не так"
+            return rx.set_value("Пароль", "")
+        self.error_message = ""
+        self.is_hydrated = True
+        self.is_authenticated = True
+        return self.redir()

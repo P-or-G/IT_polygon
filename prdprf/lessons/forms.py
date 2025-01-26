@@ -1,6 +1,6 @@
 import reflex as rx
 
-from prdprf.lessons.state import BlogAddPostFormState, BlogEditFormState, EditorState
+from prdprf.lessons.state import BlogAddPostFormState, BlogEditFormState
 
 
 def blog_post_add_form() -> rx.Component:
@@ -21,10 +21,7 @@ def blog_post_add_form() -> rx.Component:
                 lang="ru",
                 set_contents=BlogAddPostFormState.content,
                 set_options=rx.EditorOptions(
-                    katex={
-                        "src": "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js",
-                        "css": "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"
-                    },
+                    katex="katex",
                     button_list=[
                         ["font", "fontSize", "formatBlock"],
                         ["fontColor", "hiliteColor"],
