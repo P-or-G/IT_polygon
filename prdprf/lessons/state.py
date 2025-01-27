@@ -65,7 +65,7 @@ class BlogPostState(SessionState):
                 self.post = None
                 return
             sql_statement = select(BlogPostModel).options(
-                sqlalchemy.orm.joinedload(BlogPostModel.userinfo).joinedload(UserInfo.user)
+                sqlalchemy.orm.joinedload(BlogPostModel.userinfo)
             ).where(lookups)
             result = session.exec(sql_statement).one_or_none()
             self.post = result
