@@ -25,7 +25,7 @@ class UserInfo(rx.Model, table=True):
     litera: str
     points: int = 0
 
-    com_lessons: str = '[]'  #Пишем в строчку все id-шники разделяя пробелом
+    com_lessons: str = '[]'  # Пишем в строчку все id-шники разделяя пробелом
     posts: List['BlogPostModel'] = Relationship(
         back_populates='userinfo'
     )
