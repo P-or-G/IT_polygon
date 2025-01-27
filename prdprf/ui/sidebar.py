@@ -7,7 +7,8 @@ from prdprf import navigation
 
 def sidebar_user_item() -> rx.Component:
     user_info_obj = SessionState.authenticated_user_info
-    username_via_user_obj = rx.cond(SessionState.authenticated_username, SessionState.authenticated_username, "Аккаунт")
+    username_via_user_obj = rx.cond(SessionState.authenticated_username, SessionState.authenticated_username, "Имя")
+    surname_via_user_obj = rx.cond(SessionState.authenticated_surname, SessionState.authenticated_surname, "Фамилия")
     return rx.cond(
         user_info_obj,
         rx.hstack(
@@ -15,11 +16,12 @@ def sidebar_user_item() -> rx.Component:
                 rx.icon("user"),
                 size="4",
                 radius="full",
+                on_click=lambda: rx.redirect(navigation.routes.PROFILE_ROUTE),
             ),
             rx.vstack(
                 rx.box(
                     rx.text(
-                        username_via_user_obj,
+                        username_via_user_obj + " " + surname_via_user_obj,
                         size="3",
                         weight="bold",
                     ),
@@ -48,11 +50,11 @@ def sidebar_user_item() -> rx.Component:
     )
 
 
-def sidebar_logout_item() -> rx.Component:
+def sidebar_logout_item(text="Выйти") -> rx.Component:
     return rx.box(
         rx.hstack(
             rx.icon("log-out"),
-            rx.text("Выйти", size="4"),
+            rx.text(text, size="4"),
             width="100%",
             padding_x="0.5rem",
             padding_y="0.75rem",
@@ -199,6 +201,7 @@ def sidebar() -> rx.Component:
                     spacing="5",
                 ),
                 rx.hstack(
+                    sidebar_logout_item(text=""),
                     sidebar_dark_mode_toggle_item(),
                     sidebar_user_item(),
                     spacing="4",

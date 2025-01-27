@@ -258,6 +258,42 @@ class SessionState(MyLocalAuthState):
         return self.authenticated_user.username
 
     @rx.var(cache=True)
+    def authenticated_surname(self) -> str | None:
+        """
+        Мы возвращаем только имя, если не можем, то None
+        """
+        if self.authenticated_user.id < 0:
+            return None
+        return self.authenticated_user.surname
+
+    @rx.var(cache=True)
+    def authenticated_grade(self) -> str | None:
+        """
+        Мы возвращаем только имя, если не можем, то None
+        """
+        if self.authenticated_user.id < 0:
+            return None
+        return self.authenticated_user.grade
+
+    @rx.var(cache=True)
+    def authenticated_litera(self) -> str | None:
+        """
+        Мы возвращаем только имя, если не можем, то None
+        """
+        if self.authenticated_user.id < 0:
+            return None
+        return self.authenticated_user.litera
+
+    @rx.var(cache=True)
+    def authenticated_points(self) -> str | None:
+        """
+        Мы возвращаем только имя, если не можем, то None
+        """
+        if self.authenticated_user.id < 0:
+            return None
+        return self.authenticated_user.points
+
+    @rx.var(cache=True)
     def authenticated_user_info(self) -> UserInfo | None:
         """
         Мы возвращаем ВСЁ, что есть в UserInfo (дада, весь класс), если не можем, то None
