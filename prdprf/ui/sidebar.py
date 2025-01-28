@@ -170,6 +170,12 @@ def navbar_link(text: str, url: str) -> rx.Component:
     )
 
 
+def center_stack() -> rx.Component:
+    return rx.link(
+        rx.text(text, size="4", weight="medium"), href=url
+    )
+
+
 def sidebar() -> rx.Component:
     return rx.box(
         rx.desktop_only(
@@ -192,14 +198,17 @@ def sidebar() -> rx.Component:
                     ),
                     align_items="center",
                 ),
+                rx.spacer(),
                 rx.hstack(
-                    sidebar_item("Уроки", "library", navigation.routes.ARTICLE_LIST_ROUTE),
-                    sidebar_item("Ваши уроки", "book-user", navigation.routes.BLOG_POSTS_ROUTE),
-                    sidebar_item("Создать урок", "notebook-pen", navigation.routes.BLOG_POST_ADD_ROUTE),
+                    sidebar_item("Рекомендации", "library", navigation.routes.ARTICLE_LIST_ROUTE),
                     sidebar_item("Обратная связь", "phone", navigation.routes.CONTACT_US_ROUTE),
-                    sidebar_item("Обращения", "scroll-text", navigation.routes.CONTACT_ENTRIES_ROUTE),
+                    rx.cond(SessionState.authenticated_teacher,
+                            sidebar_item("Ваши уроки", "book-user", navigation.routes.BLOG_POSTS_ROUTE),),
+                    rx.cond(SessionState.authenticated_teacher,
+                            sidebar_item("Обращения", "scroll-text", navigation.routes.CONTACT_ENTRIES_ROUTE),),
                     spacing="5",
                 ),
+                rx.spacer(),
                 rx.hstack(
                     sidebar_logout_item(text=""),
                     sidebar_dark_mode_toggle_item(),

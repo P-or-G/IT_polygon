@@ -155,3 +155,16 @@ class BlogEditFormState(BlogPostState):
         return self.to_blog_post()
 
 
+class SelectTagState(rx.State):
+    """
+    Собственно, обработка состояний select окошка для номера класса
+    """
+    value: str = "Математика"
+
+    @rx.event
+    def change_value(self, value: str):
+        """
+        !!!Осторожно, слишком сложная структура!!!
+        Заменяет значение по ивенту для rx.select структур
+        """
+        self.value = value

@@ -1,6 +1,6 @@
 import reflex as rx
 
-from prdprf.lessons.state import BlogAddPostFormState, BlogEditFormState
+from prdprf.lessons.state import BlogAddPostFormState, BlogEditFormState, SelectTagState
 
 
 def blog_post_add_form() -> rx.Component:
@@ -14,14 +14,23 @@ def blog_post_add_form() -> rx.Component:
                     type='text',
                     width='100%',
                 ),
-                width='100%'
+                rx.spacer(),
+                rx.select(
+                    ["Математика", "Информатика", "Физика", "Робототехника", "Программирование"],
+                    value=SelectTagState.value,
+                    on_change=SelectTagState.change_value,
+                    name='tag',
+                ),
+                align="center",
+                width='100%',
+
             ),
             rx.editor(
                 width="1000px",
                 lang="ru",
                 set_contents=BlogAddPostFormState.content,
                 set_options=rx.EditorOptions(
-                    katex="katex",
+                    katex="katex", # Будет переделано Ваней
                     button_list=[
                         ["font", "fontSize", "formatBlock"],
                         ["fontColor", "hiliteColor"],
