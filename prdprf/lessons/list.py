@@ -4,6 +4,7 @@ from prdprf import navigation
 from prdprf.ui.base import base_page
 from prdprf.models import BlogPostModel
 from prdprf.lessons import state
+from prdprf.lessons.quill import QuillDeps
 
 
 def blog_post_detail_link(child: rx.Component, post: BlogPostModel):
@@ -36,6 +37,7 @@ def blog_post_list_item(post: BlogPostModel):
 def blog_post_list_page() -> rx.Component:
     return base_page(
         rx.vstack(
+            *QuillDeps,
             rx.heading("Уроки",  size="5"),
             rx.link(
                 rx.button("Создать урок"),
