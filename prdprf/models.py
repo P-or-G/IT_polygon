@@ -7,7 +7,8 @@ import reflex_local_auth
 from reflex_local_auth.user import LocalUser
 
 import sqlalchemy
-from sqlmodel import Field, Relationship, ARRAY
+from sqlalchemy import Column
+from sqlmodel import Field, Relationship
 
 from prdprf import utils
 
@@ -27,7 +28,7 @@ class UserInfo(rx.Model, table=True):
 
     teacher: bool = False
 
-    com_lessons: str = '[]'  # Пишем в строчку все id-шники разделяя пробелом
+    com_lessons: dict = Field(default={}, sa_column=sqlalchemy.Column("com_lessons", sqlalchemy.JSON))
     posts: List['BlogPostModel'] = Relationship(
         back_populates='userinfo'
     )
@@ -59,7 +60,7 @@ class BlogPostModel(rx.Model, table=True):
     userinfo: Optional['UserInfo'] = Relationship(back_populates="posts")
     title: str
     content: str
-    points: int = 1
+    tags: dict = Field(default={}, sa_column=sqlalchemy.Column("tags", sqlalchemy.JSON))
     created_at: datetime = Field(
         default_factory=utils.timing.get_utc_now,
         sa_type=sqlalchemy.DateTime(timezone=True),
