@@ -3,6 +3,7 @@ import reflex as rx
 from prdprf.ui.base import base_page
 
 from prdprf.lessons import state
+from prdprf.lessons.quill import QuillDeps
 from prdprf.lessons.notfound import blog_post_not_found
 
 html_style_base = '''<style>
@@ -34,6 +35,7 @@ def blog_post_detail_page() -> rx.Component:
     )
     my_child = rx.cond(state.BlogPostState.post,
                        rx.vstack(
+                           *QuillDeps,
                            rx.hstack(
                                rx.heading(state.BlogPostState.post.title, size="8"),
                                edit_link_el,
