@@ -222,6 +222,23 @@ class MyLocalAuthState(rx.State):
             )
             session.commit()
 
+    def status_change(self):
+        with rx.session() as session:
+            user = select(UserInfo, LocalAuthSession).where(
+                LocalAuthSession.session_id == self.auth_token,
+                LocalAuthSession.expiration
+                >= datetime.datetime.now(datetime.timezone.utc),
+                UserInfo.id == LocalAuthSession.user_id,
+            ),
+            session.delete(user)
+            if user.status:
+                user.status = False
+            else:
+                user.status = True
+            session.add(user)
+            session.commit()
+            session.refresh(user)
+
 
 class SessionState(MyLocalAuthState):
     """
@@ -292,6 +309,15 @@ class SessionState(MyLocalAuthState):
         if self.authenticated_user.id < 0:
             return None
         return self.authenticated_user.points
+
+    @rx.var(cache=True)
+    def authenticated_status(self) -> str | None:
+        """
+        Мы возвращаем только имя, если не можем, то None
+        """
+        if self.authenticated_user.id < 0:
+            return None
+        return self.authenticated_user.status
 
     @rx.var(cache=True)
     def authenticated_user_info(self) -> UserInfo | None:

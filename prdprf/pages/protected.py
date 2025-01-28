@@ -4,6 +4,7 @@ import reflex_local_auth
 from prdprf import navigation
 from prdprf.auth.state import SessionState
 from prdprf.ui.base import base_page
+from prdprf.utils.hotkeys import StatusButtonState
 
 
 def logout_item() -> rx.Component:
@@ -48,9 +49,12 @@ def profile_card() -> rx.Component:
                     rx.hstack(
                         rx.text(f"Ваш класс: {grade_via_user_obj} {litera_via_user_obj}", align="left", weight="medium"),
                         rx.text(f"Ваш счёт: {points_via_user_obj}", align="right", weight="medium")
-                    )
+                    ),
+                    rx.button(
+                        rx.text(f"Ваш статус: {rx.cond(StatusButtonState.value, 'Учитель', 'Ученик')}"),
+                        on_double_click=StatusButtonState.update_key()
+                    ),
                 ),
-
             ),
             logout_item(),
             spacing="6",
