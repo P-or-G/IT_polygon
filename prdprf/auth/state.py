@@ -311,13 +311,13 @@ class SessionState(MyLocalAuthState):
         return self.authenticated_user.points
 
     @rx.var(cache=True)
-    def authenticated_status(self) -> str | None:
+    def authenticated_teacher(self) -> bool | None:
         """
         Мы возвращаем только имя, если не можем, то None
         """
         if self.authenticated_user.id < 0:
             return None
-        return self.authenticated_user.status
+        return self.authenticated_user.teacher
 
     @rx.var(cache=True)
     def authenticated_user_info(self) -> UserInfo | None:

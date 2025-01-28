@@ -33,10 +33,7 @@ def navbar() -> rx.Component:
                     align_items="center",
                 ),
                 rx.hstack(
-                    navbar_link("Главная страница", navigation.routes.HOME_ROUTE),
-                    navbar_link("О нас", navigation.routes.ABOUT_US_ROUTE),
-                    navbar_link("Уроки", navigation.routes.ARTICLE_LIST_ROUTE),
-                    navbar_link("Контакты", navigation.routes.CONTACT_US_ROUTE),
+                    navbar_link("Документация", navigation.routes.ABOUT_US_ROUTE),
                     spacing="5",
                 ),
                 rx.hstack(

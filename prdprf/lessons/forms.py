@@ -1,7 +1,7 @@
 import reflex as rx
 from .quill import Quill, ReactQuill, QuillDeps
 
-from prdprf.lessons.state import BlogAddPostFormState, BlogEditFormState
+from prdprf.lessons.state import BlogAddPostFormState, BlogEditFormState, SelectTagState
 
 modules = {
         'toolbar': [
@@ -41,7 +41,16 @@ def blog_post_add_form() -> rx.Component:
                     type='text',
                     width='100%',
                 ),
-                width='100%'
+                rx.spacer(),
+                rx.select(
+                    ["Математика", "Информатика", "Физика", "Робототехника", "Программирование"],
+                    value=SelectTagState.value,
+                    on_change=SelectTagState.change_value,
+                    name='tag',
+                ),
+                align="center",
+                width='100%',
+
             ),
             *QuillDeps,
             ReactQuill.create(

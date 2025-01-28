@@ -8,6 +8,7 @@ from prdprf.utils.hotkeys import StatusButtonState
 
 
 def logout_item() -> rx.Component:
+
     return rx.box(
         rx.hstack(
             rx.icon("log-out"),

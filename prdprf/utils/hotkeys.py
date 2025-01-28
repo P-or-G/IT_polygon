@@ -10,7 +10,7 @@ from prdprf.models import UserInfo
 
 
 class StatusButtonState(rx.State):
-    value: bool = ""
+    value: bool = SessionState.authenticated_teacher
 
     @rx.event
     def update_key(self):
