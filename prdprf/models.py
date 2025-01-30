@@ -103,3 +103,10 @@ class ContactEntryModel(rx.Model, table=True):
         },
         nullable=False
     )
+
+
+class LessonsModel(rx.Model, table=True):
+    creator_id: int = Field(default=None, foreign_key="userinfo.id")
+    ...
+    questions: dict = Field(default={}, sa_column=sqlalchemy.Column("questions", sqlalchemy.JSON))
+    ...
