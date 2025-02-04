@@ -13,6 +13,7 @@ from sqlmodel import Field, Relationship
 from prdprf import utils
 
 
+
 class UserInfo(rx.Model, table=True):
     user_id: int = Field(foreign_key='localuser.id', nullable=True)
     email: str = Field(unique=True, nullable=False, index=True)
