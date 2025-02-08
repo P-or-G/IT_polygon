@@ -1,12 +1,20 @@
 import reflex as rx
 from sqlmodel import Field, SQLModel, create_engine, Session
 
+POST_ID = 1
 
 # --- Модель бд для комментариев ---
-class Comment(SQLModel, table=True):
+class Comment(rx.Model, table=True):
     id: int | None = Field(default=None, primary_key=True)
     username: str
     text: str
+    post_id: int  # Привязка к посту
+
+class Reply(rx.Model, table=True):
+    id: int | None = Field(default=None, primary_key=True)  # Уникальный ID
+    username: str  # Имя пользователя, оставившего ответ
+    text: str  # Текст ответа
+    comment_id: int  # ID комментария, на который отвечают
 
 
 # --- База данных ---
@@ -24,15 +32,21 @@ class CommentState(rx.State):
     dialog_name: str = ""
     comment_content: str = ""
 
+    # Для обновления глобальной переменной
+
     def load_comments(self):
-        """Загрузить комментарии из базы данных."""
+        """Загрузить комментарии из базы данных для определённого поста."""
         with Session(engine) as session:
-            self.comments = session.query(Comment).all()
+            self.comments = session.query(Comment).filter(Comment.post_id == POST_ID).all()
 
     def add_comment(self):
-        """Добавить новый комментарий из диалогового окна."""
+        """Добавить новый комментарий для определённого поста."""
         if self.dialog_name.strip() and self.comment_content.strip():
-            new_comment = Comment(username=self.dialog_name, text=self.comment_content)
+            new_comment = Comment(
+                username=self.dialog_name,
+                text=self.comment_content,
+                post_id=POST_ID,  # Используем глобальную переменную
+            )
             with Session(engine) as session:
                 session.add(new_comment)
                 session.commit()
@@ -48,6 +62,57 @@ class CommentState(rx.State):
                 session.delete(comment)
                 session.commit()
         self.load_comments()  # Обновить список комментариев
+
+
+class ReplyState(rx.State):
+    reply_username: str = ""  # Имя пользователя, оставляющего ответ
+    reply_text: str = ""  # Текст ответа
+    reply_comment_id: int | None = None  # ID комментария, на который отвечают
+    replies: list[Reply] = []
+
+    comment_replies: dict = {}
+
+    def set_reply_comment_id(self, comment_id: int):
+        self.reply_comment_id = comment_id
+
+    def add_reply(self, comment_id):
+        self.reply_comment_id = comment_id
+        """Добавить ответ на комментарий."""
+        if self.reply_username.strip() and self.reply_text.strip() and self.reply_comment_id is not None:
+            new_reply = Reply(
+                username=self.reply_username,
+                text=self.reply_text,
+                comment_id=self.reply_comment_id,
+            )
+            with Session(engine) as session:
+                session.add(new_reply)
+                session.commit()
+            self.reply_username = ""  # Очистить поля
+            self.reply_text = ""  # Очистить текст ответа
+            self.reply_comment_id = None  # Сбросить ID комментария
+            self.load_replies()
+            CommentState.load_comments()
+            # Обновить список комментариев
+
+    def load_replies(self):
+        result = {}
+        with Session(engine) as session:
+            self.replies = session.query(Reply).all()
+
+            for reply in self.replies:
+                comment_id = reply.comment_id
+                if comment_id not in result:
+                    result.update({comment_id: [reply]})
+                else:
+                    result[comment_id].append(reply)
+        self.comment_replies = result
+
+    def load_comment_replies(self, com_id):
+        self.comment_replies = []
+        for i in self.replies:
+            if i.comment_id == com_id:
+                self.comment_replies.append(i)
+
 
 
 # --- Диалоговое окно ---
@@ -72,7 +137,6 @@ def add_customer_dialog() -> rx.Component:
                             align="center",
                         ),
                     ),
-                    # Поле "Name"
                     rx.input(
                         placeholder="Введите ваше имя",
                         value=CommentState.dialog_name,
@@ -82,7 +146,6 @@ def add_customer_dialog() -> rx.Component:
                         width="100%",
                         border_radius="md",
                     ),
-
                     rx.text_area(
                         placeholder="Введите текст комментария",
                         value=CommentState.comment_content,
@@ -111,7 +174,7 @@ def add_customer_dialog() -> rx.Component:
                                     size="4",
                                     width="100%",
                                     border_radius="md",
-                                    on_click=CommentState.add_comment,
+                                    on_click=CommentState.add_comment,  # Используем глобальную переменную
                                 ),
                             ),
                             as_child=True,
@@ -136,32 +199,140 @@ def add_customer_dialog() -> rx.Component:
         ),
     )
 
+
+def reply_dialog(comment_id) -> rx.Component:
+    return rx.dialog.root(
+        rx.dialog.trigger(
+            rx.button(
+                "Добавить ответ",
+                size="1",
+                color_scheme="green",
+            ),
+        ),
+        rx.dialog.content(
+            rx.flex(
+                rx.vstack(
+                    rx.hstack(
+                        rx.icon(tag="text", size=24, margin_right="0.5rem"),
+                        rx.dialog.title(
+                            f"Ответить на комментарий",
+                            weight="bold",
+                            margin="0 0 1rem 0",
+                            align="center",
+                        ),
+                    ),
+                    rx.input(
+                        placeholder="Введите ваше имя",
+                        value=ReplyState.reply_username,
+                        on_change=ReplyState.set_reply_username,
+                        required=True,
+                        size="3",
+                        width="100%",
+                        border_radius="md",
+                    ),
+                    rx.text_area(
+                        placeholder="Введите текст ответа",
+                        value=ReplyState.reply_text,
+                        on_change=ReplyState.set_reply_text,
+                        required=True,
+                        size="3",
+                        width="100%",
+                        border_radius="md",
+                    ),
+                    rx.flex(
+                        rx.dialog.close(
+                            rx.button(
+                                "Отмена",
+                                variant="soft",
+                                color_scheme="gray",
+                                size="4",
+                                width="48%",
+                                border_radius="md",
+                            ),
+                        ),
+                        rx.form.submit(
+                            rx.dialog.close(
+                                rx.button(
+                                    "Опубликовать",
+                                    color_scheme="green",
+                                    size="4",
+                                    width="100%",
+                                    border_radius="md",
+                                    on_click=ReplyState.add_reply(comment_id),  # Используем глобальную переменную
+                                ),
+                            ),
+                            as_child=True,
+                        ),
+                        justify="between",
+                        width="100%",
+                        margin_top="2rem",
+                    ),
+                    spacing="2",
+                    width="100%",
+                ),
+                align="center",
+                justify="center",
+                width="100%",
+                padding="2rem",
+                direction="column",
+            ),
+            max_width="450px",
+            border=f"2px solid {rx.color('accent', 7)}",
+            border_radius="25px",
+            padding="1.5em",
+        ),
+    )
+
+CommentState.load_comments()
+ReplyState.load_replies()
+
 # --- Главная страница ---
 def index() -> rx.Component:
+    CommentState.load_comments()
+    ReplyState.load_replies()
+    # Загрузить комментарии для текущего поста
     return rx.box(
         rx.vstack(
-            add_customer_dialog(),  # Добавление диалогового окна
+            add_customer_dialog(),  # Диалоговое окно для добавления комментария
             rx.divider(),
             rx.foreach(
                 CommentState.comments,
                 lambda comment: rx.vstack(
                     rx.hstack(
-                        # Иконка перед именем
                         rx.icon(tag="user", size=20),
                         rx.text(f"{comment.username}", size="4", weight="bold"),
                         justify="start",
                         spacing="2",
                     ),
-                    # Текст комментария
                     rx.text(comment.text, size="3", margin_left="2rem"),
                     rx.hstack(
+                        reply_dialog(comment.id),
                         rx.button(
-                            "🗑️",
-                            color_scheme="red",
+                            "Удалить",
+                            color_scheme="gray",
                             size="1",
                             on_click=lambda c_id=comment.id: CommentState.delete_comment(c_id),
                         ),
                         justify="end",
+                    ),
+                    rx.foreach(
+                        ReplyState.replies,
+                        lambda reply: rx.cond(
+                            reply.comment_id == comment.id,
+                            rx.vstack(
+                                rx.hstack(
+                                    rx.icon(tag="user", size=16),
+                                    rx.text(f"{reply.username}", size="3", weight="bold"),
+                                    justify="start",
+                                    spacing="2",
+                                    margin_left="2rem",
+                                ),
+                                rx.text(reply.text, size="2", margin_left="4rem"),
+                                spacing="1",
+                                width="100%",
+                            ),
+                            rx.box()
+                        )
                     ),
                     padding="1rem",
                     spacing="1",
@@ -176,6 +347,8 @@ def index() -> rx.Component:
         padding="2rem",
     )
 
+
+
 # --- Приложение ---
 app = rx.App(
     theme=rx.theme(
@@ -185,9 +358,5 @@ app = rx.App(
 
 app.add_page(
     index,
-    title="Комментарии"
+    title="Комментарии",
 )
-#всё в 1 файле
-#чтобы удобно было интерпритировать сразу в проект
-#потестирую
-#то пойду делать ответы на комментарии оке оке понял #давай через
