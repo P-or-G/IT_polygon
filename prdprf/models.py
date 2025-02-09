@@ -116,28 +116,12 @@ class LessonsModel(rx.Model, table=True):
 class Test(rx.Model, table=True):
     title: str | None = None # Название теста
     subject: str | None = None # Предмет теста
-    json_data_as_string: str = ""  # JSON данные теста в виде строки
+    topic: str = ""  # Тема теста
+    test_text: str =  ""
 
-    @property  # Декоратор для создания свойства, позволяющего работать с JSON как со словарем
-    def json_data(self) -> Dict[str, Any]:
-        """Получить JSON данные в виде словаря."""
-        try:
-            return json.loads(self.json_data_as_string)  # Преобразование JSON строки в словарь Python
-        except (json.JSONDecodeError, TypeError):  # Обработка ошибок преобразования JSON
-            return {}  # Возврат пустого словаря, если произошла ошибка
 
-    @json_data.setter  # Декоратор для установки JSON данных из словаря
-    def json_data(self, value: Dict[str, Any]):
-        """Установить JSON данные из словаря, сохранив строку."""
-        try:
-            self.json_data_as_string = json.dumps(value)  # Преобразование словаря Python в JSON строку
-        except TypeError:
-            self.json_data_as_string = ""  # Установка пустой строки, если преобразование не удалось
 
-    def update_json_data(self, key: str, value: Any):
-        """Обновить или добавить поле в json"""
-        data = self.json_data  # Получение текущих JSON данных
-        data[key] = value  # Обновление или добавление значения по ключу
-        self.json_data = data  # Установка обновленных JSON данных
+
+
 
 
