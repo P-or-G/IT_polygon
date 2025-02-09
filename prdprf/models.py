@@ -124,4 +124,3 @@ class Test(rx.Model, table=True):
 
 
 
-

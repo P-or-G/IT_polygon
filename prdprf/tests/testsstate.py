@@ -52,7 +52,7 @@ class TestsState(rx.State):
 
     def handle_topic_change(self, topic):
         """Обработчик изменения предмета нового теста"""
-        self.new_topic_subject = topic  # Обновление предмета нового теста
+        self.new_test_topic = topic  # Обновление предмета нового теста
 
     def handle_text_change(self, text):
         """Обработчик изменения предмета нового теста"""
@@ -85,6 +85,10 @@ def subject_text():
     return rx.text(f"Предмет: {TestsState.selected_test.subject}")
 
 
+def topic_text():
+    """Возвращает текст с предметом текущего теста"""
+    return rx.text(f"Тема: {TestsState.selected_test.topic}")
+
 # Функция для создания компонента списка тестов
 def test_list():
     return rx.vstack(  # Вертикальное расположение компонентов
@@ -107,8 +111,12 @@ def test_details():
         rx.vstack(  # Вертикальное расположение компонентов
             rx.heading(f"Детали теста: {TestsState.selected_test.title}"),  # Заголовок деталей теста
             subject_text(),  # Предмет теста
+            topic_text(),
             rx.button("Сбросить выбор", on_click=TestsState.clear_selected_test),  # Кнопка для сброса выбора теста
             test_text_all(),  # Вызов функции для генерации представления теста
+            # rx.button("Проверить ответы", on_click=TestsState.),
+              # Кнопка для обновления списка тестов
+
         ),
         rx.text("Выберите тест из списка"),  # Текст, если тест не выбран
     )
@@ -148,6 +156,6 @@ def add_test_form():
 def index():
     return rx.hstack(  # Горизонтальное расположение компонентов
         rx.vstack(test_list(), add_test_form()),  # Вертикальное расположение списка тестов и формы добавления
-        rx.vstack(test_details()),  # Компонент деталей теста
+        test_details(),  # Компонент деталей теста
         spacing="2",  # Расстояние между компонентами
     )
