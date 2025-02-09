@@ -19,7 +19,7 @@ class ContactState(SessionState):
         data = {}
         for k,v in form_data.items():
             if v == "" or v is None:
-                continu
+                continue
             data[k] = v
         if self.my_user_id is not None:
             data['user_id'] = self.my_user_id

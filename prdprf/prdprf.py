@@ -17,13 +17,14 @@ from .articles.list import article_public_list_page
 from .articles.state import ArticlePublicState
 
 from . import lessons, contact, navigation, pages
+from .tests.subj_page import question_post_list_page, question_add_page
+from .tests.subj_state import question_list_item, SubjectListState
 
 
 def index() -> rx.Component:
     return base_page(
         rx.cond(SessionState.is_authenticated,
                 pages.dashboard_component(),
-                pages.landing_component(),
                 )
     )
 
@@ -108,8 +109,21 @@ app.add_page(
 
 app.add_page(contact.contact_page,
              route=navigation.routes.CONTACT_US_ROUTE)
+
 app.add_page(
     contact.contact_entries_list_page,
     route=navigation.routes.CONTACT_ENTRIES_ROUTE,
     on_load=contact.ContactState.list_entries
+)
+
+app.add_page(
+    question_post_list_page,
+    route='/testr1',
+    on_load=SubjectListState.load_quests
+)
+
+
+app.add_page(
+    question_add_page,
+    route='/testr2'
 )

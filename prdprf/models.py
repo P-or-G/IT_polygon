@@ -117,10 +117,13 @@ class Test(rx.Model, table=True):
     title: str | None = None # Название теста
     subject: str | None = None # Предмет теста
     topic: str = ""  # Тема теста
-    test_text: str =  ""
+    test_text: str = ""
 
 
-
-
+class Question(rx.Model, table=True):
+    subject: str
+    question: str
+    answer: str
+    score: int
 
 

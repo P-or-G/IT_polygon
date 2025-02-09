@@ -22,8 +22,4 @@ def base_layout_component(child, *args, **kwargs) -> rx.Component:
 def base_page(child: rx.Component, *args, **kwargs) -> rx.Component:
     if not isinstance(child, rx. Component):
         child = rx.heading("Что-то пошло не так")
-    return rx.cond(
-        SessionState.is_authenticated,
-        base_dashboard_page(child, *args, **kwargs),
-        base_layout_component(child, *args, **kwargs ),
-    )
+    return base_dashboard_page(child, *args, **kwargs)
