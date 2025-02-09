@@ -112,6 +112,7 @@ class LessonsModel(rx.Model, table=True):
     questions: dict = Field(default={}, sa_column=sqlalchemy.Column("questions", sqlalchemy.JSON))
     ...
 
+
 class Test(rx.Model, table=True):
     title: str | None = None # Название теста
     subject: str | None = None # Предмет теста

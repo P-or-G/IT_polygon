@@ -205,7 +205,8 @@ def sidebar() -> rx.Component:
                     rx.cond(SessionState.authenticated_teacher,
                             sidebar_item("Ваши уроки", "book-user", navigation.routes.BLOG_POSTS_ROUTE),),
                     rx.cond(SessionState.authenticated_teacher,
-                            sidebar_item("Обращения", "scroll-text", navigation.routes.CONTACT_ENTRIES_ROUTE),),
+                            sidebar_item("Обращения", "scroll-text", navigation.routes.CONTACT_ENTRIES_ROUTE),), \
+                    sidebar_item("Тесты", "phone", navigation.routes.ABOUT_US_ROUTE),
                     spacing="5",
                 ),
                 rx.spacer(),
