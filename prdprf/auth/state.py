@@ -23,12 +23,13 @@ def redir():
 
 
 class MyRegisterState(reflex_local_auth.LocalAuthState):
+
     success: bool = False
     error_message: str = ""
     new_user_id: int = -1
 
     def _validate_fields(
-        self, email, password, confirm_password, token=None
+        self, email, password, confirm_password
     ) -> rx.event.EventSpec | list[rx.event.EventSpec] | None:
         if not email:
             self.error_message = "Поле Адрес не может быть пустым"
@@ -42,10 +43,10 @@ class MyRegisterState(reflex_local_auth.LocalAuthState):
                 f"Почта {email} уже зарегистрирована, попробуйте войти"
             )
             return [rx.set_value("username", ""), rx.set_focus("username")]
-        if not password and not token:
+        if not password:
             self.error_message = "Поле Пароль не может быть пустым"
             return rx.set_focus("password")
-        if password and password != confirm_password:
+        if password != confirm_password:
             self.error_message = "Пароли не совпадают"
             return [
                 rx.set_value("confirm_password", ""),
@@ -55,14 +56,13 @@ class MyRegisterState(reflex_local_auth.LocalAuthState):
     def _register_user(self, form_data) -> None:
         with rx.session() as session:
             new_user = UserInfo(
-                password_hash=(None if (form_data["token"]) else UserInfo.hash_password(form_data["Пароль"])),
                 email=form_data["Почта"],
+                password_hash=UserInfo.hash_password(form_data["Пароль"]),
                 enabled=True,
                 username=form_data["Имя"],
                 surname=form_data["Фамилия"],
                 grade=form_data["grade"],
                 litera=form_data["litera"],
-                token=form_data["token"],
             )  # type: ignore
 
             session.add(new_user)
@@ -98,23 +98,9 @@ class MyRegisterState(reflex_local_auth.LocalAuthState):
         """
 
         email = form_data["Почта"]
-
-        try:
-            password = form_data["Пароль"]
-        except Exception:
-            password = None
-
-        try:
-            token = form_data["token"]
-        except Exception:
-            token = None
-
-        try:
-            pc = form_data["Подтверждение пароля"]
-        except Exception:
-            pc = None
+        password = form_data["Пароль"]
         validation_errors = self._validate_fields(
-            email, password, pc, token
+            email, password, form_data["Подтверждение пароля"]
         )
         if validation_errors:
             self.new_user_id = -1
@@ -137,12 +123,16 @@ class MyRegisterState(reflex_local_auth.LocalAuthState):
             "Имя": token_info["name"],
             "Фамилия": "", # у гугла можно поменять scopes и просить фамилию в принципе
             "Почта": token_info["email"],
-            "token": token_info,
+
+            "Пароль": json.dumps(token_id),
+            "Подтверждение пароля": json.dumps(token_id),
+
             "grade": 7,
             "litera": "А",
         })
 
         if self.new_user_id != -1:
+            # return rx.redirect(LOGIN_ROUTE)
             return type(self).successful_registration
 
 
@@ -182,34 +172,25 @@ class MyLoginState(reflex_local_auth.LoginState):
         self.error_message = ""
         email = form_data["Почта"]
         password = form_data["Пароль"]
-
-        try:
-            token = form_data["token"]
-        except Exception:
-            token = None
-
         with rx.session() as session:
             user = session.exec(
                 select(UserInfo).where(UserInfo.email == email)
             ).one_or_none()
-
         if user is not None and not user.enabled:
             self.error_message = "Ваш аккаунт заблокирован"
             return rx.set_value("Пароль", "")
-
         if (
             user is not None
             and user.id is not None
             and user.enabled
-            # and password
-            # and user.verify(password)
+            and password
+            and user.verify(password)
         ):
             # mark the user as logged in
             self._login(user.id)
         else:
             self.error_message = "Что-то пошло не так"
             return rx.set_value("Пароль", "")
-
         self.error_message = ""
         self.is_hydrated = True
         self.is_authenticated = True
@@ -259,19 +240,7 @@ class MyLocalAuthState(rx.State):
             if result:
                 user, session = result
                 return user
-        return UserInfo(id=-1)
-
-    def get_user(self):
-        with rx.session() as session:
-            result = session.exec(
-                select(UserInfo).where(
-                    LocalAuthSession.session_id == self.auth_token,
-                    LocalAuthSession.expiration
-                    >= datetime.datetime.now(datetime.timezone.utc),
-                    UserInfo.id == LocalAuthSession.user_id,
-                ),
-            ).first()
-        return result
+        return UserInfo(id=-1)  # type: ignore
 
     @rx.var(cache=True, interval=DEFAULT_AUTH_REFRESH_DELTA)
     def is_authenticated(self) -> bool:
@@ -330,6 +299,7 @@ class MyLocalAuthState(rx.State):
             session.commit()
             session.refresh(new_user)
 
+
     @rx.event
     def update_value(self):
         with rx.session() as session:
@@ -346,6 +316,7 @@ class SessionState(MyLocalAuthState):
     Тут обрабатывается состояние сессии, а ещё отсюда получаем все данные по пользователю из UserInfo
     А ещё обрабатываем состояние пользователя (вошёл или нет), здесь же делаем некоторый logout
     Вся реальная муть с обработкой состояний сессии в reflex_local_auth.LocalAuthState
+    !!!МОЖЕТ БЫТЬ НУЖНО БУДЕТ ДОБАВИТЬ ВОЗВРАЩЕНИЕ ДРУГИХ СТОЛБИКОВ!!!
     """
 
     @rx.var(cache=True)
@@ -418,7 +389,7 @@ class SessionState(MyLocalAuthState):
     @rx.var(cache=True)
     def authenticated_user_info(self) -> UserInfo | None:
         """
-        Мы возвращаем ВСЁ, что есть в UserInfo (весь класс), если не можем, то None
+        Мы возвращаем ВСЁ, что есть в UserInfo (дада, весь класс), если не можем, то None
         """
         if self.authenticated_user.id < 0:
             return None

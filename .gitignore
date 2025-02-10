@@ -1,3 +1,5 @@
+.web
+__pycache__/
 
 .web/
 *.db
