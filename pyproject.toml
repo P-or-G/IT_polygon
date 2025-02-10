@@ -1,0 +1,20 @@
+[project]
+name = "prdprf"
+version = "0.0.1"
+description = ""
+authors = []
+readme = "README.md"
+requires-python = "<4.0,>=3.10"
+dependencies = [
+        "reflex~=0.6.8",
+        "reflex-local-auth",
+        "sqlmodel~=0.0.22",
+        "sqlalchemy~=2.0.37",
+        "alembic~=1.14.1",
+        "reflex-global-hotkey>=1.1.1",
+]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+

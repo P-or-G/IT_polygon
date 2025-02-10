@@ -1,0 +1,99 @@
+{
+  "nodes": {
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1738410390,
+        "narHash": "sha256-xvTo0Aw0+veek7hvEVLzErmJyQkEcRk6PSR4zsRQFEc=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "3a228057f5b619feb3186e986dbe76278d707b6e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "pyproject-build-systems": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "pyproject-nix": [
+          "pyproject-nix"
+        ],
+        "uv2nix": [
+          "uv2nix"
+        ]
+      },
+      "locked": {
+        "lastModified": 1737338290,
+        "narHash": "sha256-gnXlfFEHA+/jMH7R+7y3JxrI3WfOjgBhzzJNuFW70UU=",
+        "owner": "pyproject-nix",
+        "repo": "build-system-pkgs",
+        "rev": "e1487e5cefda0c7990bdd2e660bee20971680e45",
+        "type": "github"
+      },
+      "original": {
+        "owner": "pyproject-nix",
+        "repo": "build-system-pkgs",
+        "type": "github"
+      }
+    },
+    "pyproject-nix": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1738204167,
+        "narHash": "sha256-J5M2sj3x4ocM93shScT/3Z4XWHZhwwW1NyQK+C+8Mys=",
+        "owner": "pyproject-nix",
+        "repo": "pyproject.nix",
+        "rev": "0d9f4b90cee1b5c5d6c142ef22de1e246e003ccc",
+        "type": "github"
+      },
+      "original": {
+        "owner": "pyproject-nix",
+        "repo": "pyproject.nix",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "nixpkgs": "nixpkgs",
+        "pyproject-build-systems": "pyproject-build-systems",
+        "pyproject-nix": "pyproject-nix",
+        "uv2nix": "uv2nix"
+      }
+    },
+    "uv2nix": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "pyproject-nix": [
+          "pyproject-nix"
+        ]
+      },
+      "locked": {
+        "lastModified": 1738200085,
+        "narHash": "sha256-Lwb86tkHoeJdjYaAHYZPkUZJoWXNHb5IQjzDyd4Vxno=",
+        "owner": "pyproject-nix",
+        "repo": "uv2nix",
+        "rev": "fd41fdec2fed599ba884bc2706c2263f01e2183c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "pyproject-nix",
+        "repo": "uv2nix",
+        "type": "github"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}
