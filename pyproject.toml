@@ -12,6 +12,8 @@ dependencies = [
         "sqlalchemy~=2.0.37",
         "alembic~=1.14.1",
         "reflex-global-hotkey>=1.1.1",
+        "google>=3.0.0,<4.0.0",
+        "google-api-core",
 ]
 
 [build-system]

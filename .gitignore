@@ -1,0 +1,7 @@
+**/__pycache__/
+*.py[cod]
+.web/
+*.db
+assets/external/
+uv.lock
+poetry.lock

@@ -6,36 +6,118 @@ import { Fragment, useCallback, useContext, useEffect, useRef, useState } from "
 import { ColorModeContext, EventLoopContext, StateContexts } from "$/utils/context"
 import { Event, getBackendURL, getRefValue, getRefValues, isTrue, refs } from "$/utils/state"
 import { jsx, keyframes } from "@emotion/react"
-import { AlignJustifyIcon as LucideAlignJustifyIcon, BookUserIcon as LucideBookUserIcon, LibraryIcon as LucideLibraryIcon, LogOutIcon as LucideLogOutIcon, MenuIcon as LucideMenuIcon, MoonIcon as LucideMoonIcon, NotebookPenIcon as LucideNotebookPenIcon, PhoneIcon as LucidePhoneIcon, ScrollTextIcon as LucideScrollTextIcon, SunIcon as LucideSunIcon, UserIcon as LucideUserIcon, WifiOffIcon as LucideWifiOffIcon, XIcon as LucideXIcon } from "lucide-react"
+import { AlignJustifyIcon as LucideAlignJustifyIcon, BookOpenCheckIcon as LucideBookOpenCheckIcon, BookUserIcon as LucideBookUserIcon, LibraryIcon as LucideLibraryIcon, LogOutIcon as LucideLogOutIcon, MoonIcon as LucideMoonIcon, SquarePlusIcon as LucideSquarePlusIcon, SunIcon as LucideSunIcon, UserIcon as LucideUserIcon, WifiOffIcon as LucideWifiOffIcon, XIcon as LucideXIcon } from "lucide-react"
 import { toast, Toaster } from "sonner"
 import env from "$/env.json"
-import { Box as RadixThemesBox, Button as RadixThemesButton, DropdownMenu as RadixThemesDropdownMenu, Flex as RadixThemesFlex, Heading as RadixThemesHeading, IconButton as RadixThemesIconButton, Link as RadixThemesLink, Separator as RadixThemesSeparator, Text as RadixThemesText, TextField as RadixThemesTextField, Theme as RadixThemesTheme } from "@radix-ui/themes"
+import { Box as RadixThemesBox, Button as RadixThemesButton, Flex as RadixThemesFlex, Heading as RadixThemesHeading, IconButton as RadixThemesIconButton, Link as RadixThemesLink, Separator as RadixThemesSeparator, Text as RadixThemesText, TextField as RadixThemesTextField, Theme as RadixThemesTheme } from "@radix-ui/themes"
 import NextLink from "next/link"
 import { Drawer as VaulDrawer } from "vaul"
 import theme from "$/utils/theme.js"
 import { Root as RadixFormRoot } from "@radix-ui/react-form"
 import Script from "next/script"
-import "react-quill-new/dist/quill.snow.css"
-import ResizeModule from "@botom/quill-resize-module"
 import dynamic from "next/dynamic"
+import "react-quill-new/dist/quill.snow.css"
 import NextHead from "next/head"
 
 const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
 
 
-export function Fragment_e15a81a3299adcd120d44d7ba1f56c7e () {
+const pulse = keyframes`
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+`
+
+
+export function Fragment_f2f0916d2fcc08b7cdf76cec697f0750 () {
+  
+  const [addEvents, connectErrors] = useContext(EventLoopContext);
+
+
+
+
+
+  
+  return (
+    <Fragment>
+
+{isTrue((connectErrors.length > 0)) ? (
+  <Fragment>
+
+<LucideWifiOffIcon css={({ ["color"] : "crimson", ["zIndex"] : 9999, ["position"] : "fixed", ["bottom"] : "33px", ["right"] : "33px", ["animation"] : (pulse+" 1s infinite") })} size={32}/>
+</Fragment>
+) : (
+  <Fragment/>
+)}
+</Fragment>
+  )
+}
+ 
+
+export function Errorboundary_f94d228c704611d16aa90fe8c26b779c () {
+  
+  const [addEvents, connectErrors] = useContext(EventLoopContext);
+
+
+  const on_error_0f5dbf674521530422d73a7946faf6d4 = useCallback(((_error, _info) => (addEvents([(Event("reflex___state____state.reflex___state____frontend_event_exception_state.handle_frontend_exception", ({ ["stack"] : _error["stack"], ["component_stack"] : _info["componentStack"] }), ({  })))], [_error, _info], ({  })))), [addEvents, Event])
+
+
+
+  
+  return (
+    <ErrorBoundary fallbackRender={((event_args) => (jsx("div", ({ ["css"] : ({ ["height"] : "100%", ["width"] : "100%", ["position"] : "absolute", ["display"] : "flex", ["alignItems"] : "center", ["justifyContent"] : "center" }) }), (jsx("div", ({ ["css"] : ({ ["display"] : "flex", ["flexDirection"] : "column", ["gap"] : "1rem" }) }), (jsx("div", ({ ["css"] : ({ ["display"] : "flex", ["flexDirection"] : "column", ["gap"] : "1rem", ["maxWidth"] : "50ch", ["border"] : "1px solid #888888", ["borderRadius"] : "0.25rem", ["padding"] : "1rem" }) }), (jsx("h2", ({ ["css"] : ({ ["fontSize"] : "1.25rem", ["fontWeight"] : "bold" }) }), (jsx(Fragment, ({  }), "An error occurred while rendering this page.")))), (jsx("p", ({ ["css"] : ({ ["opacity"] : "0.75" }) }), (jsx(Fragment, ({  }), "This is an error with the application itself.")))), (jsx("details", ({  }), (jsx("summary", ({ ["css"] : ({ ["padding"] : "0.5rem" }) }), (jsx(Fragment, ({  }), "Error message")))), (jsx("div", ({ ["css"] : ({ ["width"] : "100%", ["maxHeight"] : "50vh", ["overflow"] : "auto", ["background"] : "#000", ["color"] : "#fff", ["borderRadius"] : "0.25rem" }) }), (jsx("div", ({ ["css"] : ({ ["padding"] : "0.5rem", ["width"] : "fit-content" }) }), (jsx("pre", ({  }), (jsx(Fragment, ({  }), event_args.error.stack)))))))), (jsx("button", ({ ["css"] : ({ ["padding"] : "0.35rem 0.75rem", ["margin"] : "0.5rem", ["background"] : "#fff", ["color"] : "#000", ["border"] : "1px solid #000", ["borderRadius"] : "0.25rem", ["fontWeight"] : "bold" }), ["onClick"] : ((...args) => (addEvents([(Event("_call_function", ({ ["function"] : (() => (navigator["clipboard"]["writeText"](event_args.error.stack))), ["callback"] : null }), ({  })))], args, ({  })))) }), (jsx(Fragment, ({  }), "Copy")))))))), (jsx("hr", ({ ["css"] : ({ ["borderColor"] : "currentColor", ["opacity"] : "0.25" }) }))), (jsx("a", ({ ["href"] : "https://reflex.dev" }), (jsx("div", ({ ["css"] : ({ ["display"] : "flex", ["alignItems"] : "baseline", ["justifyContent"] : "center", ["fontFamily"] : "monospace", ["--default-font-family"] : "monospace", ["gap"] : "0.5rem" }) }), (jsx(Fragment, ({  }), "Built with ")), (jsx("svg", ({ ["css"] : ({ ["viewBox"] : "0 0 56 12", ["fill"] : "currentColor" }), ["height"] : "12", ["width"] : "56", ["xmlns"] : "http://www.w3.org/2000/svg" }), (jsx("path", ({ ["d"] : "M0 11.5999V0.399902H8.96V4.8799H6.72V2.6399H2.24V4.8799H6.72V7.1199H2.24V11.5999H0ZM6.72 11.5999V7.1199H8.96V11.5999H6.72Z" }))), (jsx("path", ({ ["d"] : "M11.2 11.5999V0.399902H17.92V2.6399H13.44V4.8799H17.92V7.1199H13.44V9.3599H17.92V11.5999H11.2Z" }))), (jsx("path", ({ ["d"] : "M20.16 11.5999V0.399902H26.88V2.6399H22.4V4.8799H26.88V7.1199H22.4V11.5999H20.16Z" }))), (jsx("path", ({ ["d"] : "M29.12 11.5999V0.399902H31.36V9.3599H35.84V11.5999H29.12Z" }))), (jsx("path", ({ ["d"] : "M38.08 11.5999V0.399902H44.8V2.6399H40.32V4.8799H44.8V7.1199H40.32V9.3599H44.8V11.5999H38.08Z" }))), (jsx("path", ({ ["d"] : "M47.04 4.8799V0.399902H49.28V4.8799H47.04ZM53.76 4.8799V0.399902H56V4.8799H53.76ZM49.28 7.1199V4.8799H53.76V7.1199H49.28ZM47.04 11.5999V7.1199H49.28V11.5999H47.04ZM53.76 11.5999V7.1199H56V11.5999H53.76Z" }))))))))))))))} onError={on_error_0f5dbf674521530422d73a7946faf6d4}>
+
+<Fragment>
+
+<Div_602c14884fa2de27f522fe8f94374b02/>
+<Toaster_6e6ebf8d7ce589d59b7d382fb7576edf/>
+</Fragment>
+<Fragment>
+
+<Fragment_31a27c61c7defb57fb00b29e213d2f5c/>
+</Fragment>
+<NextHead>
+
+<title>
+
+{"Prdprf | Edit"}
+</title>
+<meta content={"favicon.ico"} property={"og:image"}/>
+</NextHead>
+</ErrorBoundary>
+  )
+}
+
+export function Div_602c14884fa2de27f522fe8f94374b02 () {
+  
+  const [addEvents, connectErrors] = useContext(EventLoopContext);
+
+
+
+
+
+  
+  return (
+    <div css={({ ["position"] : "fixed", ["width"] : "100vw", ["height"] : "0" })} title={("Connection Error: "+((connectErrors.length > 0) ? connectErrors[connectErrors.length - 1].message : ''))}>
+
+<Fragment_f2f0916d2fcc08b7cdf76cec697f0750/>
+</div>
+  )
+}
+
+export function Fragment_31a27c61c7defb57fb00b29e213d2f5c () {
   
   const reflex___state____state = useContext(StateContexts.reflex___state____state)
   const reflex___state____state__reflex_local_auth___local_auth____local_auth_state = useContext(StateContexts.reflex___state____state__reflex_local_auth___local_auth____local_auth_state)
-  const reflex___state____state__prdprf___auth___state____my_local_auth_state = useContext(StateContexts.reflex___state____state__prdprf___auth___state____my_local_auth_state)
+  const reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state = useContext(StateContexts.reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state)
   const [addEvents, connectErrors] = useContext(EventLoopContext);
   const { toggleColorMode } = useContext(ColorModeContext)
   const { resolvedColorMode } = useContext(ColorModeContext)
-  const reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state = useContext(StateContexts.reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state)
   const ref_my_content_area_el = useRef(null); refs["ref_my_content_area_el"] = ref_my_content_area_el;
   const reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state = useContext(StateContexts.reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state)
-  const ref_my_main_nav = useRef(null); refs["ref_my_main_nav"] = ref_my_main_nav;
-  const ref_my_navbar_hstack_desktop = useRef(null); refs["ref_my_navbar_hstack_desktop"] = ref_my_navbar_hstack_desktop;
   
                 useEffect(() => {
                     ((...args) => (addEvents([(Event("reflex___state____state.reflex_local_auth___local_auth____local_auth_state.reflex_local_auth___login____login_state.redir", ({  }), ({  })))], args, ({  }))))()
@@ -66,9 +148,6 @@ export function Fragment_e15a81a3299adcd120d44d7ba1f56c7e () {
     <Fragment>
 
 {isTrue((reflex___state____state.is_hydrated && reflex___state____state__reflex_local_auth___local_auth____local_auth_state.is_authenticated)) ? (
-  <Fragment>
-
-{isTrue(reflex___state____state__prdprf___auth___state____my_local_auth_state.is_authenticated) ? (
   <Fragment>
 
 <RadixThemesFlex align={"start"} className={"rx-Stack"} direction={"column"} gap={"3"}>
@@ -110,11 +189,16 @@ export function Fragment_e15a81a3299adcd120d44d7ba1f56c7e () {
 <LucideLibraryIcon css={({ ["color"] : "var(--current-color)" })}/>
 <RadixThemesText align={"center"} as={"p"} size={"4"} weight={"medium"}>
 
-{"\u0423\u0440\u043e\u043a\u0438"}
+{"\u0420\u0435\u043a\u043e\u043c\u0435\u043d\u0434\u0430\u0446\u0438\u0438"}
 </RadixThemesText>
 </RadixThemesFlex>
 </NextLink>
 </RadixThemesLink>
+<Fragment>
+
+{isTrue(reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state.authenticated_teacher) ? (
+  <Fragment>
+
 <RadixThemesLink asChild={true} css={({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) })} underline={"none"} weight={"medium"}>
 
 <NextLink href={"/lessons"} passHref={true}>
@@ -129,44 +213,45 @@ export function Fragment_e15a81a3299adcd120d44d7ba1f56c7e () {
 </RadixThemesFlex>
 </NextLink>
 </RadixThemesLink>
+</Fragment>
+) : (
+  <Fragment/>
+)}
+</Fragment>
+<Fragment>
+
+{isTrue(reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state.authenticated_teacher) ? (
+  <Fragment>
+
 <RadixThemesLink asChild={true} css={({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) })} underline={"none"} weight={"medium"}>
 
-<NextLink href={"/lessons/add"} passHref={true}>
+<NextLink href={"/all_tests/add"} passHref={true}>
 
 <RadixThemesFlex align={"center"} className={"rx-Stack"} css={({ ["&:hover"] : ({ ["background"] : "var(--accent-4)", ["color"] : "var(--accent-11)" }), ["border-radius"] : "0.5em", ["paddingInlineStart"] : "0.5rem", ["paddingInlineEnd"] : "0.5rem", ["paddingTop"] : "0.75rem", ["paddingBottom"] : "0.75rem", ["alignItems"] : "center" })} direction={"column"} gap={"3"}>
 
-<LucideNotebookPenIcon css={({ ["color"] : "var(--current-color)" })}/>
+<LucideSquarePlusIcon css={({ ["color"] : "var(--current-color)" })}/>
 <RadixThemesText align={"center"} as={"p"} size={"4"} weight={"medium"}>
 
-{"\u0421\u043e\u0437\u0434\u0430\u0442\u044c \u0443\u0440\u043e\u043a"}
+{"\u0421\u043e\u0437\u0434\u0430\u0442\u044c \u0437\u0430\u0434\u0430\u043d\u0438\u0435"}
 </RadixThemesText>
 </RadixThemesFlex>
 </NextLink>
 </RadixThemesLink>
+</Fragment>
+) : (
+  <Fragment/>
+)}
+</Fragment>
 <RadixThemesLink asChild={true} css={({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) })} underline={"none"} weight={"medium"}>
 
-<NextLink href={"/contact"} passHref={true}>
+<NextLink href={"/all_tests"} passHref={true}>
 
 <RadixThemesFlex align={"center"} className={"rx-Stack"} css={({ ["&:hover"] : ({ ["background"] : "var(--accent-4)", ["color"] : "var(--accent-11)" }), ["border-radius"] : "0.5em", ["paddingInlineStart"] : "0.5rem", ["paddingInlineEnd"] : "0.5rem", ["paddingTop"] : "0.75rem", ["paddingBottom"] : "0.75rem", ["alignItems"] : "center" })} direction={"column"} gap={"3"}>
 
-<LucidePhoneIcon css={({ ["color"] : "var(--current-color)" })}/>
+<LucideBookOpenCheckIcon css={({ ["color"] : "var(--current-color)" })}/>
 <RadixThemesText align={"center"} as={"p"} size={"4"} weight={"medium"}>
 
-{"\u041e\u0431\u0440\u0430\u0442\u043d\u0430\u044f \u0441\u0432\u044f\u0437\u044c"}
-</RadixThemesText>
-</RadixThemesFlex>
-</NextLink>
-</RadixThemesLink>
-<RadixThemesLink asChild={true} css={({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) })} underline={"none"} weight={"medium"}>
-
-<NextLink href={"/contact/entries"} passHref={true}>
-
-<RadixThemesFlex align={"center"} className={"rx-Stack"} css={({ ["&:hover"] : ({ ["background"] : "var(--accent-4)", ["color"] : "var(--accent-11)" }), ["border-radius"] : "0.5em", ["paddingInlineStart"] : "0.5rem", ["paddingInlineEnd"] : "0.5rem", ["paddingTop"] : "0.75rem", ["paddingBottom"] : "0.75rem", ["alignItems"] : "center" })} direction={"column"} gap={"3"}>
-
-<LucideScrollTextIcon css={({ ["color"] : "var(--current-color)" })}/>
-<RadixThemesText align={"center"} as={"p"} size={"4"} weight={"medium"}>
-
-{"\u041e\u0431\u0440\u0430\u0449\u0435\u043d\u0438\u044f"}
+{"\u0417\u0430\u0434\u0430\u043d\u0438\u044f"}
 </RadixThemesText>
 </RadixThemesFlex>
 </NextLink>
@@ -280,11 +365,30 @@ export function Fragment_e15a81a3299adcd120d44d7ba1f56c7e () {
 <LucideLibraryIcon css={({ ["color"] : "var(--current-color)" })}/>
 <RadixThemesText align={"center"} as={"p"} size={"4"} weight={"medium"}>
 
-{"\u0423\u0440\u043e\u043a\u0438"}
+{"\u0420\u0435\u043a\u043e\u043c\u0435\u043d\u0434\u0430\u0446\u0438\u0438"}
 </RadixThemesText>
 </RadixThemesFlex>
 </NextLink>
 </RadixThemesLink>
+<RadixThemesLink asChild={true} css={({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) })} underline={"none"} weight={"medium"}>
+
+<NextLink href={"/all_tests"} passHref={true}>
+
+<RadixThemesFlex align={"center"} className={"rx-Stack"} css={({ ["&:hover"] : ({ ["background"] : "var(--accent-4)", ["color"] : "var(--accent-11)" }), ["border-radius"] : "0.5em", ["paddingInlineStart"] : "0.5rem", ["paddingInlineEnd"] : "0.5rem", ["paddingTop"] : "0.75rem", ["paddingBottom"] : "0.75rem", ["alignItems"] : "center" })} direction={"row"} gap={"3"}>
+
+<LucideBookOpenCheckIcon css={({ ["color"] : "var(--current-color)" })}/>
+<RadixThemesText align={"center"} as={"p"} size={"4"} weight={"medium"}>
+
+{"\u0422\u0435\u0441\u0442\u044b"}
+</RadixThemesText>
+</RadixThemesFlex>
+</NextLink>
+</RadixThemesLink>
+<Fragment>
+
+{isTrue(reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state.authenticated_teacher) ? (
+  <Fragment>
+
 <RadixThemesLink asChild={true} css={({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) })} underline={"none"} weight={"medium"}>
 
 <NextLink href={"/lessons"} passHref={true}>
@@ -299,44 +403,45 @@ export function Fragment_e15a81a3299adcd120d44d7ba1f56c7e () {
 </RadixThemesFlex>
 </NextLink>
 </RadixThemesLink>
+</Fragment>
+) : (
+  <Fragment/>
+)}
+</Fragment>
+<Fragment>
+
+{isTrue(reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state.authenticated_teacher) ? (
+  <Fragment>
+
 <RadixThemesLink asChild={true} css={({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) })} underline={"none"} weight={"medium"}>
 
-<NextLink href={"/lessons/add"} passHref={true}>
+<NextLink href={"/all_tests/add"} passHref={true}>
 
 <RadixThemesFlex align={"center"} className={"rx-Stack"} css={({ ["&:hover"] : ({ ["background"] : "var(--accent-4)", ["color"] : "var(--accent-11)" }), ["border-radius"] : "0.5em", ["paddingInlineStart"] : "0.5rem", ["paddingInlineEnd"] : "0.5rem", ["paddingTop"] : "0.75rem", ["paddingBottom"] : "0.75rem", ["alignItems"] : "center" })} direction={"row"} gap={"3"}>
 
-<LucideNotebookPenIcon css={({ ["color"] : "var(--current-color)" })}/>
+<LucideSquarePlusIcon css={({ ["color"] : "var(--current-color)" })}/>
 <RadixThemesText align={"center"} as={"p"} size={"4"} weight={"medium"}>
 
-{"\u0421\u043e\u0437\u0434\u0430\u0442\u044c \u0443\u0440\u043e\u043a"}
+{"\u0421\u043e\u0437\u0434\u0430\u0442\u044c \u0437\u0430\u0434\u0430\u043d\u0438\u0435"}
 </RadixThemesText>
 </RadixThemesFlex>
 </NextLink>
 </RadixThemesLink>
+</Fragment>
+) : (
+  <Fragment/>
+)}
+</Fragment>
 <RadixThemesLink asChild={true} css={({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) })} underline={"none"} weight={"medium"}>
 
-<NextLink href={"/contact"} passHref={true}>
+<NextLink href={"/all_tests"} passHref={true}>
 
 <RadixThemesFlex align={"center"} className={"rx-Stack"} css={({ ["&:hover"] : ({ ["background"] : "var(--accent-4)", ["color"] : "var(--accent-11)" }), ["border-radius"] : "0.5em", ["paddingInlineStart"] : "0.5rem", ["paddingInlineEnd"] : "0.5rem", ["paddingTop"] : "0.75rem", ["paddingBottom"] : "0.75rem", ["alignItems"] : "center" })} direction={"row"} gap={"3"}>
 
-<LucidePhoneIcon css={({ ["color"] : "var(--current-color)" })}/>
+<LucideBookOpenCheckIcon css={({ ["color"] : "var(--current-color)" })}/>
 <RadixThemesText align={"center"} as={"p"} size={"4"} weight={"medium"}>
 
-{"\u041e\u0431\u0440\u0430\u0442\u043d\u0430\u044f \u0441\u0432\u044f\u0437\u044c"}
-</RadixThemesText>
-</RadixThemesFlex>
-</NextLink>
-</RadixThemesLink>
-<RadixThemesLink asChild={true} css={({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) })} underline={"none"} weight={"medium"}>
-
-<NextLink href={"/contact/entries"} passHref={true}>
-
-<RadixThemesFlex align={"center"} className={"rx-Stack"} css={({ ["&:hover"] : ({ ["background"] : "var(--accent-4)", ["color"] : "var(--accent-11)" }), ["border-radius"] : "0.5em", ["paddingInlineStart"] : "0.5rem", ["paddingInlineEnd"] : "0.5rem", ["paddingTop"] : "0.75rem", ["paddingBottom"] : "0.75rem", ["alignItems"] : "center" })} direction={"row"} gap={"3"}>
-
-<LucideScrollTextIcon css={({ ["color"] : "var(--current-color)" })}/>
-<RadixThemesText align={"center"} as={"p"} size={"4"} weight={"medium"}>
-
-{"\u041e\u0431\u0440\u0430\u0449\u0435\u043d\u0438\u044f"}
+{"\u0417\u0430\u0434\u0430\u043d\u0438\u044f"}
 </RadixThemesText>
 </RadixThemesFlex>
 </NextLink>
@@ -460,7 +565,7 @@ export function Fragment_e15a81a3299adcd120d44d7ba1f56c7e () {
 
 <RadixThemesTextField.Root css={({ ["width"] : "100%" })} defaultValue={reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["title"]} name={"title"} placeholder={"\u041d\u0430\u0437\u0432\u0430\u043d\u0438\u0435 \u0443\u0440\u043e\u043a\u0430"} required={true} type={"text"}/>
 </RadixThemesFlex>
-<ReactQuill defaultValue={reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["content"]} modules={({ ["toolbar"] : [[({ ["header"] : [1, 2, false] })], ["bold", "italic", "underline", "strike", "blockquote"], [({ ["list"] : "ordered" }), ({ ["list"] : "bullet" }), ({ ["indent"] : "-1" }), ({ ["indent"] : "+1" })], ["link", "image"], ["clean"], ["formula"], ["video"]], ["history"] : ({ ["delay"] : 2000, ["maxStack"] : 500, ["userOnly"] : true }), ["syntax"] : true })} onChange={((_val) => (addEvents([(Event("reflex___state____state.prdprf___auth___state____my_local_auth_state.prdprf___auth___state____session_state.prdprf___lessons___state____blog_post_state.prdprf___lessons___state____blog_edit_form_state.handle_change", ({ ["content"] : _val }), ({  })))], [_val], ({  }))))} theme={"snow"}/>
+<ReactQuill defaultValue={reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["content"]} modules={({ ["toolbar"] : [[({ ["header"] : [1, 2, false] })], ["bold", "italic", "underline", "strike", "blockquote"], [({ ["list"] : "ordered" }), ({ ["list"] : "bullet" }), ({ ["indent"] : "-1" }), ({ ["indent"] : "+1" })], ["link", "image"], ["formula"], ["clean"], ["video"], ["code-block"]], ["history"] : ({ ["delay"] : 2000, ["maxStack"] : 500, ["userOnly"] : true }), ["syntax"] : true })} onChange={((_val) => (addEvents([(Event("reflex___state____state.prdprf___auth___state____my_local_auth_state.prdprf___auth___state____session_state.prdprf___lessons___state____blog_post_state.prdprf___lessons___state____blog_edit_form_state.handle_change", ({ ["content"] : _val }), ({  })))], [_val], ({  }))))} theme={"snow"}/>
 <RadixThemesButton type={"submit"}>
 
 {"\u041e\u043f\u0443\u0431\u043b\u0438\u043a\u043e\u0432\u0430\u0442\u044c"}
@@ -490,7 +595,7 @@ export function Fragment_e15a81a3299adcd120d44d7ba1f56c7e () {
 
 <RadixThemesTextField.Root css={({ ["width"] : "100%" })} defaultValue={reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["title"]} name={"title"} placeholder={"\u041d\u0430\u0437\u0432\u0430\u043d\u0438\u0435 \u0443\u0440\u043e\u043a\u0430"} required={true} type={"text"}/>
 </RadixThemesFlex>
-<ReactQuill defaultValue={reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["content"]} modules={({ ["toolbar"] : [[({ ["header"] : [1, 2, false] })], ["bold", "italic", "underline", "strike", "blockquote"], [({ ["list"] : "ordered" }), ({ ["list"] : "bullet" }), ({ ["indent"] : "-1" }), ({ ["indent"] : "+1" })], ["link", "image"], ["clean"], ["formula"], ["video"]], ["history"] : ({ ["delay"] : 2000, ["maxStack"] : 500, ["userOnly"] : true }), ["syntax"] : true })} onChange={((_val) => (addEvents([(Event("reflex___state____state.prdprf___auth___state____my_local_auth_state.prdprf___auth___state____session_state.prdprf___lessons___state____blog_post_state.prdprf___lessons___state____blog_edit_form_state.handle_change", ({ ["content"] : _val }), ({  })))], [_val], ({  }))))} theme={"snow"}/>
+<ReactQuill defaultValue={reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["content"]} modules={({ ["toolbar"] : [[({ ["header"] : [1, 2, false] })], ["bold", "italic", "underline", "strike", "blockquote"], [({ ["list"] : "ordered" }), ({ ["list"] : "bullet" }), ({ ["indent"] : "-1" }), ({ ["indent"] : "+1" })], ["link", "image"], ["formula"], ["clean"], ["video"], ["code-block"]], ["history"] : ({ ["delay"] : 2000, ["maxStack"] : 500, ["userOnly"] : true }), ["syntax"] : true })} onChange={((_val) => (addEvents([(Event("reflex___state____state.prdprf___auth___state____my_local_auth_state.prdprf___auth___state____session_state.prdprf___lessons___state____blog_post_state.prdprf___lessons___state____blog_edit_form_state.handle_change", ({ ["content"] : _val }), ({  })))], [_val], ({  }))))} theme={"snow"}/>
 <RadixThemesButton type={"submit"}>
 
 {"\u041e\u043f\u0443\u0431\u043b\u0438\u043a\u043e\u0432\u0430\u0442\u044c"}
@@ -520,7 +625,7 @@ export function Fragment_e15a81a3299adcd120d44d7ba1f56c7e () {
 
 <RadixThemesTextField.Root css={({ ["width"] : "100%" })} defaultValue={reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["title"]} name={"title"} placeholder={"\u041d\u0430\u0437\u0432\u0430\u043d\u0438\u0435 \u0443\u0440\u043e\u043a\u0430"} required={true} type={"text"}/>
 </RadixThemesFlex>
-<ReactQuill defaultValue={reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["content"]} modules={({ ["toolbar"] : [[({ ["header"] : [1, 2, false] })], ["bold", "italic", "underline", "strike", "blockquote"], [({ ["list"] : "ordered" }), ({ ["list"] : "bullet" }), ({ ["indent"] : "-1" }), ({ ["indent"] : "+1" })], ["link", "image"], ["clean"], ["formula"], ["video"]], ["history"] : ({ ["delay"] : 2000, ["maxStack"] : 500, ["userOnly"] : true }), ["syntax"] : true })} onChange={((_val) => (addEvents([(Event("reflex___state____state.prdprf___auth___state____my_local_auth_state.prdprf___auth___state____session_state.prdprf___lessons___state____blog_post_state.prdprf___lessons___state____blog_edit_form_state.handle_change", ({ ["content"] : _val }), ({  })))], [_val], ({  }))))} theme={"snow"}/>
+<ReactQuill defaultValue={reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["content"]} modules={({ ["toolbar"] : [[({ ["header"] : [1, 2, false] })], ["bold", "italic", "underline", "strike", "blockquote"], [({ ["list"] : "ordered" }), ({ ["list"] : "bullet" }), ({ ["indent"] : "-1" }), ({ ["indent"] : "+1" })], ["link", "image"], ["formula"], ["clean"], ["video"], ["code-block"]], ["history"] : ({ ["delay"] : 2000, ["maxStack"] : 500, ["userOnly"] : true }), ["syntax"] : true })} onChange={((_val) => (addEvents([(Event("reflex___state____state.prdprf___auth___state____my_local_auth_state.prdprf___auth___state____session_state.prdprf___lessons___state____blog_post_state.prdprf___lessons___state____blog_edit_form_state.handle_change", ({ ["content"] : _val }), ({  })))], [_val], ({  }))))} theme={"snow"}/>
 <RadixThemesButton type={"submit"}>
 
 {"\u041e\u043f\u0443\u0431\u043b\u0438\u043a\u043e\u0432\u0430\u0442\u044c"}
@@ -568,315 +673,6 @@ export function Fragment_e15a81a3299adcd120d44d7ba1f56c7e () {
 </RadixThemesFlex>
 </RadixThemesBox>
 </RadixThemesFlex>
-</Fragment>
-) : (
-  <Fragment>
-
-<RadixThemesBox css={({ ["background"] : "var(--accent-3)", ["padding"] : "1em", ["width"] : "100%" })} id={"my-main-nav"} ref={ref_my_main_nav}>
-
-<RadixThemesBox css={({ ["@media screen and (min-width: 0)"] : ({ ["display"] : "none" }), ["@media screen and (min-width: 30em)"] : ({ ["display"] : "none" }), ["@media screen and (min-width: 48em)"] : ({ ["display"] : "none" }), ["@media screen and (min-width: 62em)"] : ({ ["display"] : "block" }) })}>
-
-<RadixThemesFlex align={"start"} className={"rx-Stack"} css={({ ["alignItems"] : "center" })} direction={"row"} id={"my-navbar-hstack-desktop"} justify={"between"} ref={ref_my_navbar_hstack_desktop} gap={"3"}>
-
-<RadixThemesFlex align={"start"} className={"rx-Stack"} css={({ ["alignItems"] : "center" })} direction={"row"} gap={"3"}>
-
-<RadixThemesLink asChild={true} css={({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) })}>
-
-<NextLink href={"/"} passHref={true}>
-
-<img css={({ ["width"] : "2.25em", ["height"] : "auto", ["borderRadius"] : "25%" })} src={"/logo.jpg"}/>
-</NextLink>
-</RadixThemesLink>
-<RadixThemesLink asChild={true} css={({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) })}>
-
-<NextLink href={"/"} passHref={true}>
-
-<RadixThemesHeading size={"7"} weight={"bold"}>
-
-{"It-\u043f\u043e\u043b\u0438\u0433\u043e\u043d"}
-</RadixThemesHeading>
-</NextLink>
-</RadixThemesLink>
-</RadixThemesFlex>
-<RadixThemesFlex align={"start"} className={"rx-Stack"} direction={"row"} gap={"5"}>
-
-<RadixThemesLink asChild={true} css={({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) })}>
-
-<NextLink href={"/"} passHref={true}>
-
-<RadixThemesText as={"p"} size={"4"} weight={"medium"}>
-
-{"\u0413\u043b\u0430\u0432\u043d\u0430\u044f \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0430"}
-</RadixThemesText>
-</NextLink>
-</RadixThemesLink>
-<RadixThemesLink asChild={true} css={({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) })}>
-
-<NextLink href={"/about"} passHref={true}>
-
-<RadixThemesText as={"p"} size={"4"} weight={"medium"}>
-
-{"\u041e \u043d\u0430\u0441"}
-</RadixThemesText>
-</NextLink>
-</RadixThemesLink>
-<RadixThemesLink asChild={true} css={({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) })}>
-
-<NextLink href={"/articles"} passHref={true}>
-
-<RadixThemesText as={"p"} size={"4"} weight={"medium"}>
-
-{"\u0423\u0440\u043e\u043a\u0438"}
-</RadixThemesText>
-</NextLink>
-</RadixThemesLink>
-<RadixThemesLink asChild={true} css={({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) })}>
-
-<NextLink href={"/contact"} passHref={true}>
-
-<RadixThemesText as={"p"} size={"4"} weight={"medium"}>
-
-{"\u041a\u043e\u043d\u0442\u0430\u043a\u0442\u044b"}
-</RadixThemesText>
-</NextLink>
-</RadixThemesLink>
-</RadixThemesFlex>
-<RadixThemesFlex align={"start"} className={"rx-Stack"} direction={"row"} justify={"end"} gap={"4"}>
-
-<RadixThemesLink asChild={true} css={({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) })}>
-
-<NextLink href={"/register"} passHref={true}>
-
-<RadixThemesButton size={"3"} variant={"outline"}>
-
-{"\u0420\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u044f"}
-</RadixThemesButton>
-</NextLink>
-</RadixThemesLink>
-<RadixThemesLink asChild={true} css={({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) })}>
-
-<NextLink href={"/login"} passHref={true}>
-
-<RadixThemesButton size={"3"} variant={"outline"}>
-
-{"\u0412\u0445\u043e\u0434"}
-</RadixThemesButton>
-</NextLink>
-</RadixThemesLink>
-</RadixThemesFlex>
-</RadixThemesFlex>
-</RadixThemesBox>
-<RadixThemesBox css={({ ["@media screen and (min-width: 0)"] : ({ ["display"] : "block" }), ["@media screen and (min-width: 30em)"] : ({ ["display"] : "block" }), ["@media screen and (min-width: 48em)"] : ({ ["display"] : "block" }), ["@media screen and (min-width: 62em)"] : ({ ["display"] : "none" }) })}>
-
-<RadixThemesFlex align={"start"} className={"rx-Stack"} css={({ ["alignItems"] : "center" })} direction={"column"} justify={"between"} gap={"3"}>
-
-<RadixThemesFlex align={"start"} className={"rx-Stack"} css={({ ["alignItems"] : "center" })} direction={"row"} gap={"3"}>
-
-<img css={({ ["width"] : "2em", ["height"] : "auto", ["borderRadius"] : "25%" })} src={"/logo.jpg"}/>
-<RadixThemesHeading size={"6"} weight={"bold"}>
-
-{"It-\u043f\u043e\u043b\u0438\u0433\u043e\u043d"}
-</RadixThemesHeading>
-</RadixThemesFlex>
-<RadixThemesDropdownMenu.Root css={({ ["justify"] : "end" })}>
-
-<RadixThemesDropdownMenu.Trigger>
-
-<LucideMenuIcon css={({ ["color"] : "var(--current-color)" })} size={30}/>
-</RadixThemesDropdownMenu.Trigger>
-<RadixThemesDropdownMenu.Content>
-
-<RadixThemesDropdownMenu.Item onClick={((...args) => (addEvents([(Event("reflex___state____state.prdprf___navigation___state____nav_state.to_home", ({  }), ({  })))], args, ({  }))))}>
-
-{"\u0413\u043b\u0430\u0432\u043d\u0430\u044f \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0430"}
-</RadixThemesDropdownMenu.Item>
-<RadixThemesDropdownMenu.Item onClick={((...args) => (addEvents([(Event("reflex___state____state.prdprf___navigation___state____nav_state.to_about_us", ({  }), ({  })))], args, ({  }))))}>
-
-{"\u041e \u043d\u0430\u0441"}
-</RadixThemesDropdownMenu.Item>
-<RadixThemesDropdownMenu.Item onClick={((...args) => (addEvents([(Event("reflex___state____state.prdprf___navigation___state____nav_state.to_articles", ({  }), ({  })))], args, ({  }))))}>
-
-{"\u0423\u0440\u043e\u043a\u0438"}
-</RadixThemesDropdownMenu.Item>
-<RadixThemesDropdownMenu.Item onClick={((...args) => (addEvents([(Event("reflex___state____state.prdprf___navigation___state____nav_state.to_contact", ({  }), ({  })))], args, ({  }))))}>
-
-{"Contact"}
-</RadixThemesDropdownMenu.Item>
-<RadixThemesDropdownMenu.Separator/>
-<RadixThemesDropdownMenu.Item onClick={((...args) => (addEvents([(Event("reflex___state____state.prdprf___navigation___state____nav_state.to_login", ({  }), ({  })))], args, ({  }))))}>
-
-{"\u0412\u0445\u043e\u0434"}
-</RadixThemesDropdownMenu.Item>
-<RadixThemesDropdownMenu.Item onClick={((...args) => (addEvents([(Event("reflex___state____state.prdprf___navigation___state____nav_state.to_register", ({  }), ({  })))], args, ({  }))))}>
-
-{"\u0420\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u044f"}
-</RadixThemesDropdownMenu.Item>
-</RadixThemesDropdownMenu.Content>
-</RadixThemesDropdownMenu.Root>
-</RadixThemesFlex>
-</RadixThemesBox>
-</RadixThemesBox>
-<RadixThemesBox css={({ ["padding"] : "1em", ["width"] : "100%" })} id={"my-content-area-el"} ref={ref_my_content_area_el}>
-
-<Fragment>
-
-{isTrue(reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post) ? (
-  <Fragment>
-
-<RadixThemesFlex align={"center"} className={"rx-Stack"} css={({ ["minHeight"] : "95vh" })} direction={"column"} gap={"5"}>
-
-<RadixThemesHeading size={"9"}>
-
-{"\u0420\u0435\u0434\u0430\u043a\u0442\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u0435 "}
-{reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["title"]}
-</RadixThemesHeading>
-<RadixThemesBox css={({ ["@media screen and (min-width: 0)"] : ({ ["display"] : "none" }), ["@media screen and (min-width: 30em)"] : ({ ["display"] : "none" }), ["@media screen and (min-width: 48em)"] : ({ ["display"] : "none" }), ["@media screen and (min-width: 62em)"] : ({ ["display"] : "block" }) })}>
-
-<RadixThemesBox css={({ ["width"] : "50vw" })}>
-
-<RadixFormRoot className={"Root "} css={({ ["width"] : "100%" })} onSubmit={handleSubmit_a5178c4afb4ea7f61bf364fb2f23dade}>
-
-<Script src={"https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.js"} strategy={"afterInteractive"}/>
-<link css={({ ["crossorigin"] : "anonymous" })} href={"https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.css"} rel={"stylesheet"}/>
-<Script src={"https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/contrib/auto-render.js"} strategy={"afterInteractive"}/>
-<link href={"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css"} rel={"stylesheet"}/>
-<Script src={"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"} strategy={"afterInteractive"}/>
-<RadixThemesBox css={({ ["display"] : "none" })}>
-
-<RadixThemesTextField.Root name={"post_id"} type={"hidden"} value={((((((reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] !== null) && (reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] !== undefined)) ? reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] : "") !== null) && ((((reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] !== null) && (reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] !== undefined)) ? reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] : "") !== undefined)) ? (((reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] !== null) && (reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] !== undefined)) ? reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] : "") : "")}/>
-</RadixThemesBox>
-<RadixThemesFlex align={"center"} className={"rx-Stack"} direction={"column"} gap={"3"}>
-
-<RadixThemesFlex align={"start"} className={"rx-Stack"} css={({ ["width"] : "100%" })} direction={"row"} gap={"3"}>
-
-<RadixThemesTextField.Root css={({ ["width"] : "100%" })} defaultValue={reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["title"]} name={"title"} placeholder={"\u041d\u0430\u0437\u0432\u0430\u043d\u0438\u0435 \u0443\u0440\u043e\u043a\u0430"} required={true} type={"text"}/>
-</RadixThemesFlex>
-<ReactQuill defaultValue={reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["content"]} modules={({ ["toolbar"] : [[({ ["header"] : [1, 2, false] })], ["bold", "italic", "underline", "strike", "blockquote"], [({ ["list"] : "ordered" }), ({ ["list"] : "bullet" }), ({ ["indent"] : "-1" }), ({ ["indent"] : "+1" })], ["link", "image"], ["clean"], ["formula"], ["video"]], ["history"] : ({ ["delay"] : 2000, ["maxStack"] : 500, ["userOnly"] : true }), ["syntax"] : true })} onChange={((_val) => (addEvents([(Event("reflex___state____state.prdprf___auth___state____my_local_auth_state.prdprf___auth___state____session_state.prdprf___lessons___state____blog_post_state.prdprf___lessons___state____blog_edit_form_state.handle_change", ({ ["content"] : _val }), ({  })))], [_val], ({  }))))} theme={"snow"}/>
-<RadixThemesButton type={"submit"}>
-
-{"\u041e\u043f\u0443\u0431\u043b\u0438\u043a\u043e\u0432\u0430\u0442\u044c"}
-</RadixThemesButton>
-</RadixThemesFlex>
-</RadixFormRoot>
-</RadixThemesBox>
-</RadixThemesBox>
-<RadixThemesBox css={({ ["@media screen and (min-width: 0)"] : ({ ["display"] : "none" }), ["@media screen and (min-width: 30em)"] : ({ ["display"] : "block" }), ["@media screen and (min-width: 48em)"] : ({ ["display"] : "block" }), ["@media screen and (min-width: 62em)"] : ({ ["display"] : "none" }) })}>
-
-<RadixThemesBox css={({ ["width"] : "75vw" })}>
-
-<RadixFormRoot className={"Root "} css={({ ["width"] : "100%" })} onSubmit={handleSubmit_a5178c4afb4ea7f61bf364fb2f23dade}>
-
-<Script src={"https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.js"} strategy={"afterInteractive"}/>
-<link css={({ ["crossorigin"] : "anonymous" })} href={"https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.css"} rel={"stylesheet"}/>
-<Script src={"https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/contrib/auto-render.js"} strategy={"afterInteractive"}/>
-<link href={"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css"} rel={"stylesheet"}/>
-<Script src={"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"} strategy={"afterInteractive"}/>
-<RadixThemesBox css={({ ["display"] : "none" })}>
-
-<RadixThemesTextField.Root name={"post_id"} type={"hidden"} value={((((((reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] !== null) && (reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] !== undefined)) ? reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] : "") !== null) && ((((reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] !== null) && (reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] !== undefined)) ? reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] : "") !== undefined)) ? (((reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] !== null) && (reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] !== undefined)) ? reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] : "") : "")}/>
-</RadixThemesBox>
-<RadixThemesFlex align={"center"} className={"rx-Stack"} direction={"column"} gap={"3"}>
-
-<RadixThemesFlex align={"start"} className={"rx-Stack"} css={({ ["width"] : "100%" })} direction={"row"} gap={"3"}>
-
-<RadixThemesTextField.Root css={({ ["width"] : "100%" })} defaultValue={reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["title"]} name={"title"} placeholder={"\u041d\u0430\u0437\u0432\u0430\u043d\u0438\u0435 \u0443\u0440\u043e\u043a\u0430"} required={true} type={"text"}/>
-</RadixThemesFlex>
-<ReactQuill defaultValue={reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["content"]} modules={({ ["toolbar"] : [[({ ["header"] : [1, 2, false] })], ["bold", "italic", "underline", "strike", "blockquote"], [({ ["list"] : "ordered" }), ({ ["list"] : "bullet" }), ({ ["indent"] : "-1" }), ({ ["indent"] : "+1" })], ["link", "image"], ["clean"], ["formula"], ["video"]], ["history"] : ({ ["delay"] : 2000, ["maxStack"] : 500, ["userOnly"] : true }), ["syntax"] : true })} onChange={((_val) => (addEvents([(Event("reflex___state____state.prdprf___auth___state____my_local_auth_state.prdprf___auth___state____session_state.prdprf___lessons___state____blog_post_state.prdprf___lessons___state____blog_edit_form_state.handle_change", ({ ["content"] : _val }), ({  })))], [_val], ({  }))))} theme={"snow"}/>
-<RadixThemesButton type={"submit"}>
-
-{"\u041e\u043f\u0443\u0431\u043b\u0438\u043a\u043e\u0432\u0430\u0442\u044c"}
-</RadixThemesButton>
-</RadixThemesFlex>
-</RadixFormRoot>
-</RadixThemesBox>
-</RadixThemesBox>
-<RadixThemesBox css={({ ["@media screen and (min-width: 0)"] : ({ ["display"] : "block" }), ["@media screen and (min-width: 30em)"] : ({ ["display"] : "none" }), ["@media screen and (min-width: 48em)"] : ({ ["display"] : "none" }), ["@media screen and (min-width: 62em)"] : ({ ["display"] : "none" }) })}>
-
-<RadixThemesBox css={({ ["width"] : "95vw" })}>
-
-<RadixFormRoot className={"Root "} css={({ ["width"] : "100%" })} onSubmit={handleSubmit_a5178c4afb4ea7f61bf364fb2f23dade}>
-
-<Script src={"https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.js"} strategy={"afterInteractive"}/>
-<link css={({ ["crossorigin"] : "anonymous" })} href={"https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.css"} rel={"stylesheet"}/>
-<Script src={"https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/contrib/auto-render.js"} strategy={"afterInteractive"}/>
-<link href={"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css"} rel={"stylesheet"}/>
-<Script src={"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"} strategy={"afterInteractive"}/>
-<RadixThemesBox css={({ ["display"] : "none" })}>
-
-<RadixThemesTextField.Root name={"post_id"} type={"hidden"} value={((((((reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] !== null) && (reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] !== undefined)) ? reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] : "") !== null) && ((((reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] !== null) && (reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] !== undefined)) ? reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] : "") !== undefined)) ? (((reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] !== null) && (reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] !== undefined)) ? reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["id"] : "") : "")}/>
-</RadixThemesBox>
-<RadixThemesFlex align={"center"} className={"rx-Stack"} direction={"column"} gap={"3"}>
-
-<RadixThemesFlex align={"start"} className={"rx-Stack"} css={({ ["width"] : "100%" })} direction={"row"} gap={"3"}>
-
-<RadixThemesTextField.Root css={({ ["width"] : "100%" })} defaultValue={reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["title"]} name={"title"} placeholder={"\u041d\u0430\u0437\u0432\u0430\u043d\u0438\u0435 \u0443\u0440\u043e\u043a\u0430"} required={true} type={"text"}/>
-</RadixThemesFlex>
-<ReactQuill defaultValue={reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state__prdprf___lessons___state____blog_post_state.post?.["content"]} modules={({ ["toolbar"] : [[({ ["header"] : [1, 2, false] })], ["bold", "italic", "underline", "strike", "blockquote"], [({ ["list"] : "ordered" }), ({ ["list"] : "bullet" }), ({ ["indent"] : "-1" }), ({ ["indent"] : "+1" })], ["link", "image"], ["clean"], ["formula"], ["video"]], ["history"] : ({ ["delay"] : 2000, ["maxStack"] : 500, ["userOnly"] : true }), ["syntax"] : true })} onChange={((_val) => (addEvents([(Event("reflex___state____state.prdprf___auth___state____my_local_auth_state.prdprf___auth___state____session_state.prdprf___lessons___state____blog_post_state.prdprf___lessons___state____blog_edit_form_state.handle_change", ({ ["content"] : _val }), ({  })))], [_val], ({  }))))} theme={"snow"}/>
-<RadixThemesButton type={"submit"}>
-
-{"\u041e\u043f\u0443\u0431\u043b\u0438\u043a\u043e\u0432\u0430\u0442\u044c"}
-</RadixThemesButton>
-</RadixThemesFlex>
-</RadixFormRoot>
-</RadixThemesBox>
-</RadixThemesBox>
-</RadixThemesFlex>
-</Fragment>
-) : (
-  <Fragment>
-
-<RadixThemesFlex align={"center"} className={"rx-Stack"} css={({ ["minHeight"] : "85vh" })} direction={"row"} gap={"5"}>
-
-<RadixThemesHeading>
-
-{"\u041c\u044b \u043d\u0435 \u043d\u0430\u0448\u043b\u0438 \u0442\u0430\u043a\u043e\u0433\u043e \u0443\u0440\u043e\u043a\u0430:("}
-</RadixThemesHeading>
-</RadixThemesFlex>
-</Fragment>
-)}
-</Fragment>
-</RadixThemesBox>
-<RadixThemesFlex css={({ ["display"] : "flex", ["alignItems"] : "center", ["justifyContent"] : "center", ["width"] : "100%" })}>
-
-<RadixThemesLink asChild={true} css={({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) })} size={"3"}>
-
-<NextLink href={"https://reflex.dev"} passHref={true}>
-
-<RadixThemesFlex align={"center"} className={"rx-Stack"} css={({ ["textAlign"] : "center", ["padding"] : "1em" })} direction={"row"} gap={"3"}>
-
-{"Built with "}
-<svg css={({ ["viewBox"] : "0 0 56 12", ["fill"] : ((resolvedColorMode === "light") ? "#110F1F" : "white") })} height={"12"} width={"56"} xmlns={"http://www.w3.org/2000/svg"}>
-
-<path d={"M0 11.5999V0.399902H8.96V4.8799H6.72V2.6399H2.24V4.8799H6.72V7.1199H2.24V11.5999H0ZM6.72 11.5999V7.1199H8.96V11.5999H6.72Z"}/>
-<path d={"M11.2 11.5999V0.399902H17.92V2.6399H13.44V4.8799H17.92V7.1199H13.44V9.3599H17.92V11.5999H11.2Z"}/>
-<path d={"M20.16 11.5999V0.399902H26.88V2.6399H22.4V4.8799H26.88V7.1199H22.4V11.5999H20.16Z"}/>
-<path d={"M29.12 11.5999V0.399902H31.36V9.3599H35.84V11.5999H29.12Z"}/>
-<path d={"M38.08 11.5999V0.399902H44.8V2.6399H40.32V4.8799H44.8V7.1199H40.32V9.3599H44.8V11.5999H38.08Z"}/>
-<path d={"M47.04 4.8799V0.399902H49.28V4.8799H47.04ZM53.76 4.8799V0.399902H56V4.8799H53.76ZM49.28 7.1199V4.8799H53.76V7.1199H49.28ZM47.04 11.5999V7.1199H49.28V11.5999H47.04ZM53.76 11.5999V7.1199H56V11.5999H53.76Z"}/>
-</svg>
-</RadixThemesFlex>
-</NextLink>
-</RadixThemesLink>
-</RadixThemesFlex>
-<RadixThemesIconButton css={({ ["padding"] : "6px", ["position"] : "fixed", ["bottom"] : "2rem", ["left"] : "2rem", ["background"] : "transparent", ["color"] : "inherit", ["zIndex"] : "20", ["&:hover"] : ({ ["cursor"] : "pointer" }) })} onClick={toggleColorMode}>
-
-<Fragment>
-
-{isTrue((resolvedColorMode === "light")) ? (
-  <Fragment>
-
-<LucideSunIcon css={({ ["color"] : "var(--current-color)" })}/>
-</Fragment>
-) : (
-  <Fragment>
-
-<LucideMoonIcon css={({ ["color"] : "var(--current-color)" })}/>
-</Fragment>
-)}
-</Fragment>
-</RadixThemesIconButton>
-</Fragment>
-)}
 </Fragment>
 ) : (
   <Fragment>
@@ -894,56 +690,7 @@ export function Fragment_e15a81a3299adcd120d44d7ba1f56c7e () {
   )
 }
 
-export function Errorboundary_5adfda563f6e97643ab7ca6b7a2beaf2 () {
-  
-  const [addEvents, connectErrors] = useContext(EventLoopContext);
 
-
-  const on_error_0f5dbf674521530422d73a7946faf6d4 = useCallback(((_error, _info) => (addEvents([(Event("reflex___state____state.reflex___state____frontend_event_exception_state.handle_frontend_exception", ({ ["stack"] : _error["stack"], ["component_stack"] : _info["componentStack"] }), ({  })))], [_error, _info], ({  })))), [addEvents, Event])
-
-
-
-  
-  return (
-    <ErrorBoundary fallbackRender={((event_args) => (jsx("div", ({ ["css"] : ({ ["height"] : "100%", ["width"] : "100%", ["position"] : "absolute", ["display"] : "flex", ["alignItems"] : "center", ["justifyContent"] : "center" }) }), (jsx("div", ({ ["css"] : ({ ["display"] : "flex", ["flexDirection"] : "column", ["gap"] : "1rem" }) }), (jsx("div", ({ ["css"] : ({ ["display"] : "flex", ["flexDirection"] : "column", ["gap"] : "1rem", ["maxWidth"] : "50ch", ["border"] : "1px solid #888888", ["borderRadius"] : "0.25rem", ["padding"] : "1rem" }) }), (jsx("h2", ({ ["css"] : ({ ["fontSize"] : "1.25rem", ["fontWeight"] : "bold" }) }), (jsx(Fragment, ({  }), "An error occurred while rendering this page.")))), (jsx("p", ({ ["css"] : ({ ["opacity"] : "0.75" }) }), (jsx(Fragment, ({  }), "This is an error with the application itself.")))), (jsx("details", ({  }), (jsx("summary", ({ ["css"] : ({ ["padding"] : "0.5rem" }) }), (jsx(Fragment, ({  }), "Error message")))), (jsx("div", ({ ["css"] : ({ ["width"] : "100%", ["maxHeight"] : "50vh", ["overflow"] : "auto", ["background"] : "#000", ["color"] : "#fff", ["borderRadius"] : "0.25rem" }) }), (jsx("div", ({ ["css"] : ({ ["padding"] : "0.5rem", ["width"] : "fit-content" }) }), (jsx("pre", ({  }), (jsx(Fragment, ({  }), event_args.error.stack)))))))), (jsx("button", ({ ["css"] : ({ ["padding"] : "0.35rem 0.75rem", ["margin"] : "0.5rem", ["background"] : "#fff", ["color"] : "#000", ["border"] : "1px solid #000", ["borderRadius"] : "0.25rem", ["fontWeight"] : "bold" }), ["onClick"] : ((...args) => (addEvents([(Event("_call_function", ({ ["function"] : (() => (navigator["clipboard"]["writeText"](event_args.error.stack))), ["callback"] : null }), ({  })))], args, ({  })))) }), (jsx(Fragment, ({  }), "Copy")))))))), (jsx("hr", ({ ["css"] : ({ ["borderColor"] : "currentColor", ["opacity"] : "0.25" }) }))), (jsx("a", ({ ["href"] : "https://reflex.dev" }), (jsx("div", ({ ["css"] : ({ ["display"] : "flex", ["alignItems"] : "baseline", ["justifyContent"] : "center", ["fontFamily"] : "monospace", ["--default-font-family"] : "monospace", ["gap"] : "0.5rem" }) }), (jsx(Fragment, ({  }), "Built with ")), (jsx("svg", ({ ["css"] : ({ ["viewBox"] : "0 0 56 12", ["fill"] : "currentColor" }), ["height"] : "12", ["width"] : "56", ["xmlns"] : "http://www.w3.org/2000/svg" }), (jsx("path", ({ ["d"] : "M0 11.5999V0.399902H8.96V4.8799H6.72V2.6399H2.24V4.8799H6.72V7.1199H2.24V11.5999H0ZM6.72 11.5999V7.1199H8.96V11.5999H6.72Z" }))), (jsx("path", ({ ["d"] : "M11.2 11.5999V0.399902H17.92V2.6399H13.44V4.8799H17.92V7.1199H13.44V9.3599H17.92V11.5999H11.2Z" }))), (jsx("path", ({ ["d"] : "M20.16 11.5999V0.399902H26.88V2.6399H22.4V4.8799H26.88V7.1199H22.4V11.5999H20.16Z" }))), (jsx("path", ({ ["d"] : "M29.12 11.5999V0.399902H31.36V9.3599H35.84V11.5999H29.12Z" }))), (jsx("path", ({ ["d"] : "M38.08 11.5999V0.399902H44.8V2.6399H40.32V4.8799H44.8V7.1199H40.32V9.3599H44.8V11.5999H38.08Z" }))), (jsx("path", ({ ["d"] : "M47.04 4.8799V0.399902H49.28V4.8799H47.04ZM53.76 4.8799V0.399902H56V4.8799H53.76ZM49.28 7.1199V4.8799H53.76V7.1199H49.28ZM47.04 11.5999V7.1199H49.28V11.5999H47.04ZM53.76 11.5999V7.1199H56V11.5999H53.76Z" }))))))))))))))} onError={on_error_0f5dbf674521530422d73a7946faf6d4}>
-
-<Fragment>
-
-<Div_602c14884fa2de27f522fe8f94374b02/>
-<Toaster_6e6ebf8d7ce589d59b7d382fb7576edf/>
-</Fragment>
-<Fragment>
-
-<Fragment_e15a81a3299adcd120d44d7ba1f56c7e/>
-</Fragment>
-<NextHead>
-
-<title>
-
-{"Prdprf | Edit"}
-</title>
-<meta content={"favicon.ico"} property={"og:image"}/>
-</NextHead>
-</ErrorBoundary>
-  )
-}
-
-export function Div_602c14884fa2de27f522fe8f94374b02 () {
-  
-  const [addEvents, connectErrors] = useContext(EventLoopContext);
-
-
-
-
-
-  
-  return (
-    <div css={({ ["position"] : "fixed", ["width"] : "100vw", ["height"] : "0" })} title={("Connection Error: "+((connectErrors.length > 0) ? connectErrors[connectErrors.length - 1].message : ''))}>
-
-<Fragment_f2f0916d2fcc08b7cdf76cec697f0750/>
-</div>
-  )
-}
 
 export function Toaster_6e6ebf8d7ce589d59b7d382fb7576edf () {
   
@@ -978,55 +725,6 @@ export function Toaster_6e6ebf8d7ce589d59b7d382fb7576edf () {
   )
 }
 
-// const reflex_init = async () => {
-//     if (typeof window !== 'undefined') {
-//         const { Quill } = await import('react-quill-new');
-//         const htmlEditButton = await import('quill-html-edit-button');
-// 
-//         Quill.register({ 'modules/htmlEditButton': htmlEditButton });
-//     };
-// };
-// 
-// reflex_init();
-
-// ReactQuill.register({ 'modules/htmlEditButton': htmlEditButton });
-// ReactQuill.register('modules/resize', QuillResize);
-
-
-export function Fragment_f2f0916d2fcc08b7cdf76cec697f0750 () {
-  
-  const [addEvents, connectErrors] = useContext(EventLoopContext);
-
-
-
-
-
-  
-  return (
-    <Fragment>
-
-{isTrue((connectErrors.length > 0)) ? (
-  <Fragment>
-
-<LucideWifiOffIcon css={({ ["color"] : "crimson", ["zIndex"] : 9999, ["position"] : "fixed", ["bottom"] : "33px", ["right"] : "33px", ["animation"] : (pulse+" 1s infinite") })} size={32}/>
-</Fragment>
-) : (
-  <Fragment/>
-)}
-</Fragment>
-  )
-}
-
-const pulse = keyframes`
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
-`
-
-
 export default function Component() {
     
 
@@ -1034,6 +732,6 @@ export default function Component() {
 
 
   return (
-    <Errorboundary_5adfda563f6e97643ab7ca6b7a2beaf2/>
+    <Errorboundary_f94d228c704611d16aa90fe8c26b779c/>
   )
 }

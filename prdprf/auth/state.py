@@ -1,5 +1,8 @@
 import asyncio
 import datetime
+import json
+from google.auth.transport import requests
+from google.oauth2.id_token import verify_oauth2_token
 
 import reflex as rx
 import reflex_local_auth
@@ -8,6 +11,8 @@ import sqlmodel
 from reflex.event import EventSpec
 from reflex_local_auth.auth_session import LocalAuthSession
 from sqlmodel import select
+
+from .google_auth import CLIENT_ID
 
 from prdprf.models import UserInfo
 from prdprf.navigation.routes import LOGIN_ROUTE, REGISTER_ROUTE
@@ -24,18 +29,18 @@ class MyRegisterState(reflex_local_auth.LocalAuthState):
     new_user_id: int = -1
 
     def _validate_fields(
-        self, username, password, confirm_password
+        self, email, password, confirm_password
     ) -> rx.event.EventSpec | list[rx.event.EventSpec] | None:
-        if not username:
+        if not email:
             self.error_message = "Поле Адрес не может быть пустым"
             return rx.set_focus("username")
         with rx.session() as session:
             existing_user = session.exec(
-                select(UserInfo).where(UserInfo.username == username)
+                select(UserInfo).where(UserInfo.email == email)
             ).one_or_none()
         if existing_user is not None:
             self.error_message = (
-                f"Почта {username} уже зарегистрирована, попробуйте войти"
+                f"Почта {email} уже зарегистрирована, попробуйте войти"
             )
             return [rx.set_value("username", ""), rx.set_focus("username")]
         if not password:
@@ -84,6 +89,7 @@ class MyRegisterState(reflex_local_auth.LocalAuthState):
         await asyncio.sleep(0.5)
         yield [rx.redirect(LOGIN_ROUTE), MyRegisterState.set_success(False)]
 
+
     def handle_registration(self, form_data) -> rx.event.EventSpec | list[rx.event.EventSpec]:
         """
         Тут проверяется регистрация, всё делается через reflex_local_auth модуль.
@@ -102,6 +108,33 @@ class MyRegisterState(reflex_local_auth.LocalAuthState):
         self._register_user(form_data)
 
         return type(self).successful_registration
+
+    def handle_google_reg(self, token_id):
+        try:
+            token_info = verify_oauth2_token(
+                token_id["credential"],
+                requests.Request(),
+                CLIENT_ID,
+            )
+        except Exception:
+            return {}
+
+        self.handle_registration({
+            "Имя": token_info["name"],
+            "Фамилия": "", # у гугла можно поменять scopes и просить фамилию в принципе
+            "Адрес": token_info["email"],
+
+            "Пароль": json.dumps(token_id),
+            "Подтверждение пароля": json.dumps(token_id),
+
+            "grade": 7,
+            "litera": "А",
+        })
+
+        if self.new_user_id != -1:
+            # return rx.redirect(LOGIN_ROUTE)
+            return type(self).successful_registration
+
 
 
 class SelectClassState(rx.State):
@@ -161,7 +194,26 @@ class MyLoginState(reflex_local_auth.LoginState):
         self.error_message = ""
         self.is_hydrated = True
         self.is_authenticated = True
+
         return self.redir()
+
+    def handle_google_login(self, token_id: dict):
+        try:
+            token_info = verify_oauth2_token(
+                token_id["credential"],
+                requests.Request(),
+                CLIENT_ID,
+            )
+        except Exception:
+            return {}
+
+        print(token_info)
+
+        return self.on_submit({
+            "Пароль": json.dumps(token_id),
+            "Почта": token_info["email"],
+        })
+
 
 
 AUTH_TOKEN_LOCAL_STORAGE_KEY = "_auth_token"

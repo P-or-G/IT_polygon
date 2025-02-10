@@ -1,19 +1,5 @@
 import reflex as rx
-
-from typing import List, Dict, TypeAlias, Union, Any
-
-JSON: TypeAlias = Dict[str, Any]
-
-
-class Nothing(rx.components.component.NoSSRComponent):
-    library = "react-quill-new"
-    lib_dependencies: List[str] = [ "lodash", "quill" ]
-    tag = "Quill"
-    is_default = False
-
-    def add_imports(self):
-        return {"react-quill-new": [rx.ImportVar(tag="Quill")]}
-
+from typing import List, Dict
 
 class ReactQuillLib(rx.components.component.NoSSRComponent):
     library = "react-quill-new"
@@ -26,44 +12,29 @@ class ReactQuill(ReactQuillLib):
     default_value: rx.Var[str]
     value: rx.Var[str]
     placeholder: rx.Var[str]
-    modules: rx.Var[JSON]
+    modules: rx.Var[Dict
+        [str,
+
+         Dict[str, int | bool | str]
+         | List[List[str | Dict[str, List[int | bool | str]]]]
+         | bool
+        ]
+    ] # оно работает.
     on_change: rx.EventHandler[lambda val: [val]]
 
-    is_default = True
+    is_default = True # я не знаю что оно делать но это НЕ УБИРАТЬ И НЕ МЕНЯТЬ
 
-    def _get_imports(self):
-        d = super().add_imports()
-        # d["react-quill-new"] = [rx.ImportVar(tag="Quill", is_default=False)]
+    def add_imports(self):
+        return {
+            "": ["react-quill-new/dist/quill.snow.css"],
+        }
 
-        d[""] = [
-            'react-quill-new/dist/quill.snow.css'
-        ]
-
-        d["@botom/quill-resize-module"] = [rx.ImportVar(tag="ResizeModule", is_default=True)]
-        # d["quill-resize-module"] = [rx.ImportVar(tag="QuillResize", is_default=True)]
-        # d["quill-html-edit-button"] = rx.ImportVar(tag="htmlEditButton", is_default=True)
-        d["next/dynamic"] = [rx.ImportVar(tag="dynamic", is_default=True)]
-
-        # print(d)
-
-        return d
-
-    def _get_custom_code(self):
+    def add_custom_code(self) -> str:
         return """
-// const reflex_init = async () => {
-//     if (typeof window !== 'undefined') {
-//         const { Quill } = await import('react-quill-new');
-//         const htmlEditButton = await import('quill-html-edit-button');
-// 
-//         Quill.register({ 'modules/htmlEditButton': htmlEditButton });
-//     };
-// };
-// 
-// reflex_init();
+        """
 
-// ReactQuill.register({ 'modules/htmlEditButton': htmlEditButton });
-// ReactQuill.register('modules/resize', QuillResize);
-"""
+
+Quill = ReactQuill.create
 
 QuillDeps = [
         # KaTeX

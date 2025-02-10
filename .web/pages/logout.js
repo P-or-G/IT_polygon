@@ -6,10 +6,10 @@ import { Fragment, useCallback, useContext, useEffect, useRef, useState } from "
 import { ColorModeContext, EventLoopContext, StateContexts } from "$/utils/context"
 import { Event, getBackendURL, isTrue, refs } from "$/utils/state"
 import { jsx, keyframes } from "@emotion/react"
-import { AlignJustifyIcon as LucideAlignJustifyIcon, BookUserIcon as LucideBookUserIcon, LibraryIcon as LucideLibraryIcon, LogOutIcon as LucideLogOutIcon, MenuIcon as LucideMenuIcon, MoonIcon as LucideMoonIcon, NotebookPenIcon as LucideNotebookPenIcon, PhoneIcon as LucidePhoneIcon, ScrollTextIcon as LucideScrollTextIcon, SunIcon as LucideSunIcon, UserIcon as LucideUserIcon, WifiOffIcon as LucideWifiOffIcon, XIcon as LucideXIcon } from "lucide-react"
+import { AlignJustifyIcon as LucideAlignJustifyIcon, BookOpenCheckIcon as LucideBookOpenCheckIcon, BookUserIcon as LucideBookUserIcon, LibraryIcon as LucideLibraryIcon, LogOutIcon as LucideLogOutIcon, MoonIcon as LucideMoonIcon, SquarePlusIcon as LucideSquarePlusIcon, SunIcon as LucideSunIcon, UserIcon as LucideUserIcon, WifiOffIcon as LucideWifiOffIcon, XIcon as LucideXIcon } from "lucide-react"
 import { toast, Toaster } from "sonner"
 import env from "$/env.json"
-import { Box as RadixThemesBox, Button as RadixThemesButton, DropdownMenu as RadixThemesDropdownMenu, Flex as RadixThemesFlex, Heading as RadixThemesHeading, IconButton as RadixThemesIconButton, Link as RadixThemesLink, Separator as RadixThemesSeparator, Text as RadixThemesText, Theme as RadixThemesTheme } from "@radix-ui/themes"
+import { Box as RadixThemesBox, Button as RadixThemesButton, Flex as RadixThemesFlex, Heading as RadixThemesHeading, IconButton as RadixThemesIconButton, Link as RadixThemesLink, Separator as RadixThemesSeparator, Text as RadixThemesText, Theme as RadixThemesTheme } from "@radix-ui/themes"
 import NextLink from "next/link"
 import { Drawer as VaulDrawer } from "vaul"
 import theme from "$/utils/theme.js"
@@ -17,7 +17,17 @@ import NextHead from "next/head"
 
 
 
-export function Div_602c14884fa2de27f522fe8f94374b02 () {
+const pulse = keyframes`
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+`
+
+
+export function Fragment_f2f0916d2fcc08b7cdf76cec697f0750 () {
   
   const [addEvents, connectErrors] = useContext(EventLoopContext);
 
@@ -27,49 +37,79 @@ export function Div_602c14884fa2de27f522fe8f94374b02 () {
 
   
   return (
-    <div css={({ ["position"] : "fixed", ["width"] : "100vw", ["height"] : "0" })} title={("Connection Error: "+((connectErrors.length > 0) ? connectErrors[connectErrors.length - 1].message : ''))}>
+    <Fragment>
 
-<Fragment_f2f0916d2fcc08b7cdf76cec697f0750/>
-</div>
+{isTrue((connectErrors.length > 0)) ? (
+  <Fragment>
+
+<LucideWifiOffIcon css={({ ["color"] : "crimson", ["zIndex"] : 9999, ["position"] : "fixed", ["bottom"] : "33px", ["right"] : "33px", ["animation"] : (pulse+" 1s infinite") })} size={32}/>
+</Fragment>
+) : (
+  <Fragment/>
+)}
+</Fragment>
   )
 }
 
-export function Toaster_6e6ebf8d7ce589d59b7d382fb7576edf () {
+export function Link_270f4bc2e53e052a3d0b1bee81fdb4b6 () {
   
   const { resolvedColorMode } = useContext(ColorModeContext)
 
-  refs['__toast'] = toast
-  const [addEvents, connectErrors] = useContext(EventLoopContext);
-  const toast_props = ({ ["description"] : ("Check if server is reachable at "+getBackendURL(env.EVENT).href), ["closeButton"] : true, ["duration"] : 120000, ["id"] : "websocket-error" });
-  const [userDismissed, setUserDismissed] = useState(false);
-  (useEffect(
-() => {
-    if ((connectErrors.length >= 2)) {
-        if (!userDismissed) {
-            toast.error(
-                `Cannot connect to server: ${((connectErrors.length > 0) ? connectErrors[connectErrors.length - 1].message : '')}.`,
-                {...toast_props, onDismiss: () => setUserDismissed(true)},
-            )
-        }
-    } else {
-        toast.dismiss("websocket-error");
-        setUserDismissed(false);  // after reconnection reset dismissed state
-    }
-}
-, [connectErrors]))
 
 
 
 
   
   return (
-    <Toaster closeButton={false} expand={true} position={"bottom-right"} richColors={true} theme={resolvedColorMode}/>
+    <RadixThemesLink asChild={true} css={({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) })} size={"3"}>
+
+<NextLink href={"https://reflex.dev"} passHref={true}>
+
+<RadixThemesFlex align={"center"} className={"rx-Stack"} css={({ ["textAlign"] : "center", ["padding"] : "1em" })} direction={"row"} gap={"3"}>
+
+{"Built with "}
+<svg css={({ ["viewBox"] : "0 0 56 12", ["fill"] : ((resolvedColorMode === "light") ? "#110F1F" : "white") })} height={"12"} width={"56"} xmlns={"http://www.w3.org/2000/svg"}>
+
+<path d={"M0 11.5999V0.399902H8.96V4.8799H6.72V2.6399H2.24V4.8799H6.72V7.1199H2.24V11.5999H0ZM6.72 11.5999V7.1199H8.96V11.5999H6.72Z"}/>
+<path d={"M11.2 11.5999V0.399902H17.92V2.6399H13.44V4.8799H17.92V7.1199H13.44V9.3599H17.92V11.5999H11.2Z"}/>
+<path d={"M20.16 11.5999V0.399902H26.88V2.6399H22.4V4.8799H26.88V7.1199H22.4V11.5999H20.16Z"}/>
+<path d={"M29.12 11.5999V0.399902H31.36V9.3599H35.84V11.5999H29.12Z"}/>
+<path d={"M38.08 11.5999V0.399902H44.8V2.6399H40.32V4.8799H44.8V7.1199H40.32V9.3599H44.8V11.5999H38.08Z"}/>
+<path d={"M47.04 4.8799V0.399902H49.28V4.8799H47.04ZM53.76 4.8799V0.399902H56V4.8799H53.76ZM49.28 7.1199V4.8799H53.76V7.1199H49.28ZM47.04 11.5999V7.1199H49.28V11.5999H47.04ZM53.76 11.5999V7.1199H56V11.5999H53.76Z"}/>
+</svg>
+</RadixThemesFlex>
+</NextLink>
+</RadixThemesLink>
   )
 }
 
-export function Errorboundary_aba6f2beac500948417a56943869c2c3 () {
+export function Box_fcc6b2eba6d0feb621e656e761839c0e () {
+  
+  const { toggleColorMode } = useContext(ColorModeContext)
+  const [addEvents, connectErrors] = useContext(EventLoopContext);
+
+
+  const on_click_9922dd3e837b9e087c86a2522c2c93f8 = useCallback(toggleColorMode, [addEvents, Event, toggleColorMode])
+
+
+
+  
+  return (
+    <RadixThemesBox css={({ ["as"] : "button", ["underline"] : "none", ["weight"] : "medium", ["width"] : "100%" })} onClick={on_click_9922dd3e837b9e087c86a2522c2c93f8}>
+
+<RadixThemesFlex align={"center"} className={"rx-Stack"} css={({ ["&:hover"] : ({ ["cursor"] : "pointer", ["background"] : "var(--accent-4)", ["color"] : "var(--accent-11)" }), ["color"] : "var(--accent-11)", ["border-radius"] : "0.5em", ["width"] : "100%", ["paddingInlineStart"] : "0.5rem", ["paddingInlineEnd"] : "0.5rem", ["paddingTop"] : "0.75rem", ["paddingBottom"] : "0.75rem" })} direction={"row"} gap={"3"}>
+
+<Fragment_03e1ffd326047144491e9fbf010e92f0/>
+</RadixThemesFlex>
+</RadixThemesBox>
+  )
+}
+
+export function Errorboundary_c723a0ce6a92582abd3f302ba5487d7e () {
   
   const [addEvents, connectErrors] = useContext(EventLoopContext);
+  const ref_my_content_area_el = useRef(null); refs["ref_my_content_area_el"] = ref_my_content_area_el;
+  const ref_my_child = useRef(null); refs["ref_my_child"] = ref_my_child;
 
 
   const on_error_0f5dbf674521530422d73a7946faf6d4 = useCallback(((_error, _info) => (addEvents([(Event("reflex___state____state.reflex___state____frontend_event_exception_state.handle_frontend_exception", ({ ["stack"] : _error["stack"], ["component_stack"] : _info["componentStack"] }), ({  })))], [_error, _info], ({  })))), [addEvents, Event])
@@ -85,41 +125,7 @@ export function Errorboundary_aba6f2beac500948417a56943869c2c3 () {
 <Div_602c14884fa2de27f522fe8f94374b02/>
 <Toaster_6e6ebf8d7ce589d59b7d382fb7576edf/>
 </Fragment>
-<Fragment_c03f2d3eac9e3d1dcc5a6a7da9434a33/>
-<NextHead>
-
-<title>
-
-{"Logout"}
-</title>
-<meta content={"favicon.ico"} property={"og:image"}/>
-</NextHead>
-</ErrorBoundary>
-  )
-}
-
-export function Fragment_c03f2d3eac9e3d1dcc5a6a7da9434a33 () {
-  
-  const reflex___state____state__prdprf___auth___state____my_local_auth_state = useContext(StateContexts.reflex___state____state__prdprf___auth___state____my_local_auth_state)
-  const [addEvents, connectErrors] = useContext(EventLoopContext);
-  const { toggleColorMode } = useContext(ColorModeContext)
-  const { resolvedColorMode } = useContext(ColorModeContext)
-  const reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state = useContext(StateContexts.reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state)
-  const ref_my_content_area_el = useRef(null); refs["ref_my_content_area_el"] = ref_my_content_area_el;
-  const ref_my_child = useRef(null); refs["ref_my_child"] = ref_my_child;
-  const ref_my_main_nav = useRef(null); refs["ref_my_main_nav"] = ref_my_main_nav;
-  const ref_my_navbar_hstack_desktop = useRef(null); refs["ref_my_navbar_hstack_desktop"] = ref_my_navbar_hstack_desktop;
-
-
-
-
-
-  
-  return (
-    <Fragment>
-
-{isTrue(reflex___state____state__prdprf___auth___state____my_local_auth_state.is_authenticated) ? (
-  <Fragment>
+<Fragment>
 
 <RadixThemesFlex align={"start"} className={"rx-Stack"} direction={"column"} gap={"3"}>
 
@@ -160,63 +166,23 @@ export function Fragment_c03f2d3eac9e3d1dcc5a6a7da9434a33 () {
 <LucideLibraryIcon css={({ ["color"] : "var(--current-color)" })}/>
 <RadixThemesText align={"center"} as={"p"} size={"4"} weight={"medium"}>
 
-{"\u0423\u0440\u043e\u043a\u0438"}
+{"\u0420\u0435\u043a\u043e\u043c\u0435\u043d\u0434\u0430\u0446\u0438\u0438"}
 </RadixThemesText>
 </RadixThemesFlex>
 </NextLink>
 </RadixThemesLink>
+<Fragment_146df9e28a8be8c410e3e981ee0bb6f4/>
+<Fragment_bee5b878815bccf49ae244447afc34c5/>
 <RadixThemesLink asChild={true} css={({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) })} underline={"none"} weight={"medium"}>
 
-<NextLink href={"/lessons"} passHref={true}>
+<NextLink href={"/all_tests"} passHref={true}>
 
 <RadixThemesFlex align={"center"} className={"rx-Stack"} css={({ ["&:hover"] : ({ ["background"] : "var(--accent-4)", ["color"] : "var(--accent-11)" }), ["border-radius"] : "0.5em", ["paddingInlineStart"] : "0.5rem", ["paddingInlineEnd"] : "0.5rem", ["paddingTop"] : "0.75rem", ["paddingBottom"] : "0.75rem", ["alignItems"] : "center" })} direction={"column"} gap={"3"}>
 
-<LucideBookUserIcon css={({ ["color"] : "var(--current-color)" })}/>
+<LucideBookOpenCheckIcon css={({ ["color"] : "var(--current-color)" })}/>
 <RadixThemesText align={"center"} as={"p"} size={"4"} weight={"medium"}>
 
-{"\u0412\u0430\u0448\u0438 \u0443\u0440\u043e\u043a\u0438"}
-</RadixThemesText>
-</RadixThemesFlex>
-</NextLink>
-</RadixThemesLink>
-<RadixThemesLink asChild={true} css={({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) })} underline={"none"} weight={"medium"}>
-
-<NextLink href={"/lessons/add"} passHref={true}>
-
-<RadixThemesFlex align={"center"} className={"rx-Stack"} css={({ ["&:hover"] : ({ ["background"] : "var(--accent-4)", ["color"] : "var(--accent-11)" }), ["border-radius"] : "0.5em", ["paddingInlineStart"] : "0.5rem", ["paddingInlineEnd"] : "0.5rem", ["paddingTop"] : "0.75rem", ["paddingBottom"] : "0.75rem", ["alignItems"] : "center" })} direction={"column"} gap={"3"}>
-
-<LucideNotebookPenIcon css={({ ["color"] : "var(--current-color)" })}/>
-<RadixThemesText align={"center"} as={"p"} size={"4"} weight={"medium"}>
-
-{"\u0421\u043e\u0437\u0434\u0430\u0442\u044c \u0443\u0440\u043e\u043a"}
-</RadixThemesText>
-</RadixThemesFlex>
-</NextLink>
-</RadixThemesLink>
-<RadixThemesLink asChild={true} css={({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) })} underline={"none"} weight={"medium"}>
-
-<NextLink href={"/contact"} passHref={true}>
-
-<RadixThemesFlex align={"center"} className={"rx-Stack"} css={({ ["&:hover"] : ({ ["background"] : "var(--accent-4)", ["color"] : "var(--accent-11)" }), ["border-radius"] : "0.5em", ["paddingInlineStart"] : "0.5rem", ["paddingInlineEnd"] : "0.5rem", ["paddingTop"] : "0.75rem", ["paddingBottom"] : "0.75rem", ["alignItems"] : "center" })} direction={"column"} gap={"3"}>
-
-<LucidePhoneIcon css={({ ["color"] : "var(--current-color)" })}/>
-<RadixThemesText align={"center"} as={"p"} size={"4"} weight={"medium"}>
-
-{"\u041e\u0431\u0440\u0430\u0442\u043d\u0430\u044f \u0441\u0432\u044f\u0437\u044c"}
-</RadixThemesText>
-</RadixThemesFlex>
-</NextLink>
-</RadixThemesLink>
-<RadixThemesLink asChild={true} css={({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) })} underline={"none"} weight={"medium"}>
-
-<NextLink href={"/contact/entries"} passHref={true}>
-
-<RadixThemesFlex align={"center"} className={"rx-Stack"} css={({ ["&:hover"] : ({ ["background"] : "var(--accent-4)", ["color"] : "var(--accent-11)" }), ["border-radius"] : "0.5em", ["paddingInlineStart"] : "0.5rem", ["paddingInlineEnd"] : "0.5rem", ["paddingTop"] : "0.75rem", ["paddingBottom"] : "0.75rem", ["alignItems"] : "center" })} direction={"column"} gap={"3"}>
-
-<LucideScrollTextIcon css={({ ["color"] : "var(--current-color)" })}/>
-<RadixThemesText align={"center"} as={"p"} size={"4"} weight={"medium"}>
-
-{"\u041e\u0431\u0440\u0430\u0449\u0435\u043d\u0438\u044f"}
+{"\u0417\u0430\u0434\u0430\u043d\u0438\u044f"}
 </RadixThemesText>
 </RadixThemesFlex>
 </NextLink>
@@ -224,74 +190,9 @@ export function Fragment_c03f2d3eac9e3d1dcc5a6a7da9434a33 () {
 </RadixThemesFlex>
 <RadixThemesFlex align={"start"} className={"rx-Stack"} direction={"row"} justify={"end"} gap={"4"}>
 
-<RadixThemesBox css={({ ["as"] : "button", ["underline"] : "none", ["weight"] : "medium", ["width"] : "100%" })} onClick={((...args) => (addEvents([(Event("reflex___state____state.prdprf___navigation___state____nav_state.to_logout", ({  }), ({  })))], args, ({  }))))}>
-
-<RadixThemesFlex align={"center"} className={"rx-Stack"} css={({ ["&:hover"] : ({ ["cursor"] : "pointer", ["background"] : "var(--accent-4)", ["color"] : "var(--accent-11)" }), ["color"] : "var(--accent-11)", ["border-radius"] : "0.5em", ["width"] : "100%", ["paddingInlineStart"] : "0.5rem", ["paddingInlineEnd"] : "0.5rem", ["paddingTop"] : "0.75rem", ["paddingBottom"] : "0.75rem" })} direction={"row"} gap={"3"}>
-
-<LucideLogOutIcon css={({ ["color"] : "var(--current-color)" })}/>
-<RadixThemesText as={"p"} size={"4"}>
-
-{""}
-</RadixThemesText>
-</RadixThemesFlex>
-</RadixThemesBox>
-<RadixThemesBox css={({ ["as"] : "button", ["underline"] : "none", ["weight"] : "medium", ["width"] : "100%" })} onClick={toggleColorMode}>
-
-<RadixThemesFlex align={"center"} className={"rx-Stack"} css={({ ["&:hover"] : ({ ["cursor"] : "pointer", ["background"] : "var(--accent-4)", ["color"] : "var(--accent-11)" }), ["color"] : "var(--accent-11)", ["border-radius"] : "0.5em", ["width"] : "100%", ["paddingInlineStart"] : "0.5rem", ["paddingInlineEnd"] : "0.5rem", ["paddingTop"] : "0.75rem", ["paddingBottom"] : "0.75rem" })} direction={"row"} gap={"3"}>
-
-<Fragment>
-
-{isTrue((resolvedColorMode === "light")) ? (
-  <Fragment>
-
-<LucideMoonIcon css={({ ["color"] : "var(--current-color)" })}/>
-</Fragment>
-) : (
-  <Fragment>
-
-<LucideSunIcon css={({ ["color"] : "var(--current-color)" })}/>
-</Fragment>
-)}
-</Fragment>
-</RadixThemesFlex>
-</RadixThemesBox>
-<Fragment>
-
-{isTrue(reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state.authenticated_user_info) ? (
-  <Fragment>
-
-<RadixThemesFlex align={"center"} className={"rx-Stack"} css={({ ["paddingInlineStart"] : "0.5rem", ["paddingInlineEnd"] : "0.5rem", ["width"] : "100%" })} direction={"row"} justify={"start"} gap={"3"}>
-
-<RadixThemesIconButton css={({ ["padding"] : "6px" })} onClick={((...args) => (addEvents([(Event("_redirect", ({ ["path"] : "/profile", ["external"] : false, ["replace"] : false }), ({  })))], args, ({  }))))} radius={"full"} size={"4"}>
-
-<LucideUserIcon css={({ ["color"] : "var(--current-color)" })} size={48}/>
-</RadixThemesIconButton>
-<RadixThemesFlex align={"start"} className={"rx-Stack"} css={({ ["width"] : "100%" })} direction={"column"} justify={"start"} gap={"0"}>
-
-<RadixThemesBox css={({ ["width"] : "85%" })}>
-
-<RadixThemesText as={"p"} size={"3"} weight={"bold"}>
-
-{(((isTrue(reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state.authenticated_username) ? reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state.authenticated_username : "\u0418\u043c\u044f")+" ")+(isTrue(reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state.authenticated_surname) ? reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state.authenticated_surname : "\u0424\u0430\u043c\u0438\u043b\u0438\u044f"))}
-</RadixThemesText>
-<RadixThemesFlex css={({ ["overflow"] : "hidden" })}>
-
-<RadixThemesText as={"p"} size={"2"} weight={"medium"}>
-
-{reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state.authenticated_user_info?.["email"]}
-</RadixThemesText>
-</RadixThemesFlex>
-</RadixThemesBox>
-</RadixThemesFlex>
-</RadixThemesFlex>
-</Fragment>
-) : (
-  <Fragment>
-
-{""}
-</Fragment>
-)}
-</Fragment>
+<Box_e939a04f29cd545bd3e769028de7cc74/>
+<Box_fcc6b2eba6d0feb621e656e761839c0e/>
+<Fragment_5badabd90945fcda2ab7f7ebc2ffc98e/>
 </RadixThemesFlex>
 </RadixThemesFlex>
 </RadixThemesBox>
@@ -330,63 +231,37 @@ export function Fragment_c03f2d3eac9e3d1dcc5a6a7da9434a33 () {
 <LucideLibraryIcon css={({ ["color"] : "var(--current-color)" })}/>
 <RadixThemesText align={"center"} as={"p"} size={"4"} weight={"medium"}>
 
-{"\u0423\u0440\u043e\u043a\u0438"}
+{"\u0420\u0435\u043a\u043e\u043c\u0435\u043d\u0434\u0430\u0446\u0438\u0438"}
 </RadixThemesText>
 </RadixThemesFlex>
 </NextLink>
 </RadixThemesLink>
 <RadixThemesLink asChild={true} css={({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) })} underline={"none"} weight={"medium"}>
 
-<NextLink href={"/lessons"} passHref={true}>
+<NextLink href={"/all_tests"} passHref={true}>
 
 <RadixThemesFlex align={"center"} className={"rx-Stack"} css={({ ["&:hover"] : ({ ["background"] : "var(--accent-4)", ["color"] : "var(--accent-11)" }), ["border-radius"] : "0.5em", ["paddingInlineStart"] : "0.5rem", ["paddingInlineEnd"] : "0.5rem", ["paddingTop"] : "0.75rem", ["paddingBottom"] : "0.75rem", ["alignItems"] : "center" })} direction={"row"} gap={"3"}>
 
-<LucideBookUserIcon css={({ ["color"] : "var(--current-color)" })}/>
+<LucideBookOpenCheckIcon css={({ ["color"] : "var(--current-color)" })}/>
 <RadixThemesText align={"center"} as={"p"} size={"4"} weight={"medium"}>
 
-{"\u0412\u0430\u0448\u0438 \u0443\u0440\u043e\u043a\u0438"}
+{"\u0422\u0435\u0441\u0442\u044b"}
 </RadixThemesText>
 </RadixThemesFlex>
 </NextLink>
 </RadixThemesLink>
+<Fragment_af178a9903c78c389267e06394c9a289/>
+<Fragment_5c560e922d6e9f13cc1a6a90cd573f05/>
 <RadixThemesLink asChild={true} css={({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) })} underline={"none"} weight={"medium"}>
 
-<NextLink href={"/lessons/add"} passHref={true}>
+<NextLink href={"/all_tests"} passHref={true}>
 
 <RadixThemesFlex align={"center"} className={"rx-Stack"} css={({ ["&:hover"] : ({ ["background"] : "var(--accent-4)", ["color"] : "var(--accent-11)" }), ["border-radius"] : "0.5em", ["paddingInlineStart"] : "0.5rem", ["paddingInlineEnd"] : "0.5rem", ["paddingTop"] : "0.75rem", ["paddingBottom"] : "0.75rem", ["alignItems"] : "center" })} direction={"row"} gap={"3"}>
 
-<LucideNotebookPenIcon css={({ ["color"] : "var(--current-color)" })}/>
+<LucideBookOpenCheckIcon css={({ ["color"] : "var(--current-color)" })}/>
 <RadixThemesText align={"center"} as={"p"} size={"4"} weight={"medium"}>
 
-{"\u0421\u043e\u0437\u0434\u0430\u0442\u044c \u0443\u0440\u043e\u043a"}
-</RadixThemesText>
-</RadixThemesFlex>
-</NextLink>
-</RadixThemesLink>
-<RadixThemesLink asChild={true} css={({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) })} underline={"none"} weight={"medium"}>
-
-<NextLink href={"/contact"} passHref={true}>
-
-<RadixThemesFlex align={"center"} className={"rx-Stack"} css={({ ["&:hover"] : ({ ["background"] : "var(--accent-4)", ["color"] : "var(--accent-11)" }), ["border-radius"] : "0.5em", ["paddingInlineStart"] : "0.5rem", ["paddingInlineEnd"] : "0.5rem", ["paddingTop"] : "0.75rem", ["paddingBottom"] : "0.75rem", ["alignItems"] : "center" })} direction={"row"} gap={"3"}>
-
-<LucidePhoneIcon css={({ ["color"] : "var(--current-color)" })}/>
-<RadixThemesText align={"center"} as={"p"} size={"4"} weight={"medium"}>
-
-{"\u041e\u0431\u0440\u0430\u0442\u043d\u0430\u044f \u0441\u0432\u044f\u0437\u044c"}
-</RadixThemesText>
-</RadixThemesFlex>
-</NextLink>
-</RadixThemesLink>
-<RadixThemesLink asChild={true} css={({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) })} underline={"none"} weight={"medium"}>
-
-<NextLink href={"/contact/entries"} passHref={true}>
-
-<RadixThemesFlex align={"center"} className={"rx-Stack"} css={({ ["&:hover"] : ({ ["background"] : "var(--accent-4)", ["color"] : "var(--accent-11)" }), ["border-radius"] : "0.5em", ["paddingInlineStart"] : "0.5rem", ["paddingInlineEnd"] : "0.5rem", ["paddingTop"] : "0.75rem", ["paddingBottom"] : "0.75rem", ["alignItems"] : "center" })} direction={"row"} gap={"3"}>
-
-<LucideScrollTextIcon css={({ ["color"] : "var(--current-color)" })}/>
-<RadixThemesText align={"center"} as={"p"} size={"4"} weight={"medium"}>
-
-{"\u041e\u0431\u0440\u0430\u0449\u0435\u043d\u0438\u044f"}
+{"\u0417\u0430\u0434\u0430\u043d\u0438\u044f"}
 </RadixThemesText>
 </RadixThemesFlex>
 </NextLink>
@@ -397,11 +272,69 @@ export function Fragment_c03f2d3eac9e3d1dcc5a6a7da9434a33 () {
 
 <RadixThemesFlex align={"start"} className={"rx-Stack"} css={({ ["width"] : "100%" })} direction={"column"} gap={"1"}>
 
-<RadixThemesBox css={({ ["as"] : "button", ["underline"] : "none", ["weight"] : "medium", ["width"] : "100%" })} onClick={toggleColorMode}>
+<Box_fcc6b2eba6d0feb621e656e761839c0e/>
+<Box_c2deb1957369bcde221c7604b7368cd8/>
+</RadixThemesFlex>
+<RadixThemesSeparator css={({ ["margin"] : "0" })} size={"4"}/>
+<Fragment_5badabd90945fcda2ab7f7ebc2ffc98e/>
+</RadixThemesFlex>
+</RadixThemesFlex>
+</VaulDrawer.Content>
+</RadixThemesTheme>
+</VaulDrawer.Portal>
+</VaulDrawer.Root>
+</RadixThemesBox>
+</RadixThemesBox>
+<RadixThemesBox css={({ ["padding"] : "1em", ["width"] : "100%" })} id={"my-content-area-el"} ref={ref_my_content_area_el}>
 
-<RadixThemesFlex align={"center"} className={"rx-Stack"} css={({ ["&:hover"] : ({ ["cursor"] : "pointer", ["background"] : "var(--accent-4)", ["color"] : "var(--accent-11)" }), ["color"] : "var(--accent-11)", ["border-radius"] : "0.5em", ["width"] : "100%", ["paddingInlineStart"] : "0.5rem", ["paddingInlineEnd"] : "0.5rem", ["paddingTop"] : "0.75rem", ["paddingBottom"] : "0.75rem" })} direction={"row"} gap={"3"}>
+<RadixThemesFlex align={"center"} className={"rx-Stack"} css={({ ["minHeight"] : "85vh" })} direction={"column"} id={"my-child"} justify={"center"} ref={ref_my_child} gap={"5"}>
 
-<Fragment>
+<RadixThemesHeading size={"7"}>
+
+{"\u0412\u044b \u0443\u0432\u0435\u0440\u0435\u043d\u044b, \u0447\u0442\u043e \u0445\u043e\u0442\u0438\u0442\u0435 \u0432\u044b\u0439\u0442\u0438"}
+</RadixThemesHeading>
+<RadixThemesLink asChild={true} css={({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) })}>
+
+<NextLink href={"/"} passHref={true}>
+
+<RadixThemesButton color={"gray"}>
+
+{"\u041d\u0435-\u0430"}
+</RadixThemesButton>
+</NextLink>
+</RadixThemesLink>
+<Button_cdb2ec4b3a70a17827013e0874c65845/>
+</RadixThemesFlex>
+<RadixThemesFlex css={({ ["display"] : "flex", ["alignItems"] : "center", ["justifyContent"] : "center", ["width"] : "100%" })}>
+
+<Link_270f4bc2e53e052a3d0b1bee81fdb4b6/>
+</RadixThemesFlex>
+</RadixThemesBox>
+</RadixThemesFlex>
+</Fragment>
+<NextHead>
+
+<title>
+
+{"Logout"}
+</title>
+<meta content={"favicon.ico"} property={"og:image"}/>
+</NextHead>
+</ErrorBoundary>
+  )
+}
+
+export function Fragment_03e1ffd326047144491e9fbf010e92f0 () {
+  
+  const { resolvedColorMode } = useContext(ColorModeContext)
+
+
+
+
+
+  
+  return (
+    <Fragment>
 
 {isTrue((resolvedColorMode === "light")) ? (
   <Fragment>
@@ -415,22 +348,83 @@ export function Fragment_c03f2d3eac9e3d1dcc5a6a7da9434a33 () {
 </Fragment>
 )}
 </Fragment>
-</RadixThemesFlex>
-</RadixThemesBox>
-<RadixThemesBox css={({ ["as"] : "button", ["underline"] : "none", ["weight"] : "medium", ["width"] : "100%" })} onClick={((...args) => (addEvents([(Event("reflex___state____state.prdprf___navigation___state____nav_state.to_logout", ({  }), ({  })))], args, ({  }))))}>
+  )
+}
+
+export function Box_e939a04f29cd545bd3e769028de7cc74 () {
+  
+  const [addEvents, connectErrors] = useContext(EventLoopContext);
+
+
+  const on_click_1491851a02240dc221a1f6e17b31cf11 = useCallback(((...args) => (addEvents([(Event("reflex___state____state.prdprf___navigation___state____nav_state.to_logout", ({  }), ({  })))], args, ({  })))), [addEvents, Event])
+
+
+
+  
+  return (
+    <RadixThemesBox css={({ ["as"] : "button", ["underline"] : "none", ["weight"] : "medium", ["width"] : "100%" })} onClick={on_click_1491851a02240dc221a1f6e17b31cf11}>
 
 <RadixThemesFlex align={"center"} className={"rx-Stack"} css={({ ["&:hover"] : ({ ["cursor"] : "pointer", ["background"] : "var(--accent-4)", ["color"] : "var(--accent-11)" }), ["color"] : "var(--accent-11)", ["border-radius"] : "0.5em", ["width"] : "100%", ["paddingInlineStart"] : "0.5rem", ["paddingInlineEnd"] : "0.5rem", ["paddingTop"] : "0.75rem", ["paddingBottom"] : "0.75rem" })} direction={"row"} gap={"3"}>
 
 <LucideLogOutIcon css={({ ["color"] : "var(--current-color)" })}/>
 <RadixThemesText as={"p"} size={"4"}>
 
-{"\u0412\u044b\u0439\u0442\u0438"}
+{""}
 </RadixThemesText>
 </RadixThemesFlex>
 </RadixThemesBox>
+  )
+}
+
+export function Fragment_bee5b878815bccf49ae244447afc34c5 () {
+  
+  const reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state = useContext(StateContexts.reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state)
+
+
+
+
+
+  
+  return (
+    <Fragment>
+
+{isTrue(reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state.authenticated_teacher) ? (
+  <Fragment>
+
+<RadixThemesLink asChild={true} css={({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) })} underline={"none"} weight={"medium"}>
+
+<NextLink href={"/all_tests/add"} passHref={true}>
+
+<RadixThemesFlex align={"center"} className={"rx-Stack"} css={({ ["&:hover"] : ({ ["background"] : "var(--accent-4)", ["color"] : "var(--accent-11)" }), ["border-radius"] : "0.5em", ["paddingInlineStart"] : "0.5rem", ["paddingInlineEnd"] : "0.5rem", ["paddingTop"] : "0.75rem", ["paddingBottom"] : "0.75rem", ["alignItems"] : "center" })} direction={"column"} gap={"3"}>
+
+<LucideSquarePlusIcon css={({ ["color"] : "var(--current-color)" })}/>
+<RadixThemesText align={"center"} as={"p"} size={"4"} weight={"medium"}>
+
+{"\u0421\u043e\u0437\u0434\u0430\u0442\u044c \u0437\u0430\u0434\u0430\u043d\u0438\u0435"}
+</RadixThemesText>
 </RadixThemesFlex>
-<RadixThemesSeparator css={({ ["margin"] : "0" })} size={"4"}/>
-<Fragment>
+</NextLink>
+</RadixThemesLink>
+</Fragment>
+) : (
+  <Fragment/>
+)}
+</Fragment>
+  )
+}
+
+export function Fragment_5badabd90945fcda2ab7f7ebc2ffc98e () {
+  
+  const reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state = useContext(StateContexts.reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state)
+  const [addEvents, connectErrors] = useContext(EventLoopContext);
+
+
+
+
+
+  
+  return (
+    <Fragment>
 
 {isTrue(reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state.authenticated_user_info) ? (
   <Fragment>
@@ -467,279 +461,43 @@ export function Fragment_c03f2d3eac9e3d1dcc5a6a7da9434a33 () {
 </Fragment>
 )}
 </Fragment>
-</RadixThemesFlex>
-</RadixThemesFlex>
-</VaulDrawer.Content>
-</RadixThemesTheme>
-</VaulDrawer.Portal>
-</VaulDrawer.Root>
-</RadixThemesBox>
-</RadixThemesBox>
-<RadixThemesBox css={({ ["padding"] : "1em", ["width"] : "100%" })} id={"my-content-area-el"} ref={ref_my_content_area_el}>
-
-<RadixThemesFlex align={"center"} className={"rx-Stack"} css={({ ["minHeight"] : "85vh" })} direction={"column"} id={"my-child"} justify={"center"} ref={ref_my_child} gap={"5"}>
-
-<RadixThemesHeading size={"7"}>
-
-{"\u0412\u044b \u0443\u0432\u0435\u0440\u0435\u043d\u044b, \u0447\u0442\u043e \u0445\u043e\u0442\u0438\u0442\u0435 \u0432\u044b\u0439\u0442\u0438"}
-</RadixThemesHeading>
-<RadixThemesLink asChild={true} css={({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) })}>
-
-<NextLink href={"/"} passHref={true}>
-
-<RadixThemesButton color={"gray"}>
-
-{"\u041d\u0435-\u0430"}
-</RadixThemesButton>
-</NextLink>
-</RadixThemesLink>
-<RadixThemesButton onClick={((...args) => (addEvents([(Event("reflex___state____state.prdprf___auth___state____my_local_auth_state.prdprf___auth___state____session_state.perform_logout", ({  }), ({  })))], args, ({  }))))}>
-
-{"\u0414\u0430, \u044f \u0445\u043e\u0447\u0443 \u0432\u044b\u0439\u0442\u0438"}
-</RadixThemesButton>
-</RadixThemesFlex>
-<RadixThemesFlex css={({ ["display"] : "flex", ["alignItems"] : "center", ["justifyContent"] : "center", ["width"] : "100%" })}>
-
-<RadixThemesLink asChild={true} css={({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) })} size={"3"}>
-
-<NextLink href={"https://reflex.dev"} passHref={true}>
-
-<RadixThemesFlex align={"center"} className={"rx-Stack"} css={({ ["textAlign"] : "center", ["padding"] : "1em" })} direction={"row"} gap={"3"}>
-
-{"Built with "}
-<svg css={({ ["viewBox"] : "0 0 56 12", ["fill"] : ((resolvedColorMode === "light") ? "#110F1F" : "white") })} height={"12"} width={"56"} xmlns={"http://www.w3.org/2000/svg"}>
-
-<path d={"M0 11.5999V0.399902H8.96V4.8799H6.72V2.6399H2.24V4.8799H6.72V7.1199H2.24V11.5999H0ZM6.72 11.5999V7.1199H8.96V11.5999H6.72Z"}/>
-<path d={"M11.2 11.5999V0.399902H17.92V2.6399H13.44V4.8799H17.92V7.1199H13.44V9.3599H17.92V11.5999H11.2Z"}/>
-<path d={"M20.16 11.5999V0.399902H26.88V2.6399H22.4V4.8799H26.88V7.1199H22.4V11.5999H20.16Z"}/>
-<path d={"M29.12 11.5999V0.399902H31.36V9.3599H35.84V11.5999H29.12Z"}/>
-<path d={"M38.08 11.5999V0.399902H44.8V2.6399H40.32V4.8799H44.8V7.1199H40.32V9.3599H44.8V11.5999H38.08Z"}/>
-<path d={"M47.04 4.8799V0.399902H49.28V4.8799H47.04ZM53.76 4.8799V0.399902H56V4.8799H53.76ZM49.28 7.1199V4.8799H53.76V7.1199H49.28ZM47.04 11.5999V7.1199H49.28V11.5999H47.04ZM53.76 11.5999V7.1199H56V11.5999H53.76Z"}/>
-</svg>
-</RadixThemesFlex>
-</NextLink>
-</RadixThemesLink>
-</RadixThemesFlex>
-</RadixThemesBox>
-</RadixThemesFlex>
-</Fragment>
-) : (
-  <Fragment>
-
-<RadixThemesBox css={({ ["background"] : "var(--accent-3)", ["padding"] : "1em", ["width"] : "100%" })} id={"my-main-nav"} ref={ref_my_main_nav}>
-
-<RadixThemesBox css={({ ["@media screen and (min-width: 0)"] : ({ ["display"] : "none" }), ["@media screen and (min-width: 30em)"] : ({ ["display"] : "none" }), ["@media screen and (min-width: 48em)"] : ({ ["display"] : "none" }), ["@media screen and (min-width: 62em)"] : ({ ["display"] : "block" }) })}>
-
-<RadixThemesFlex align={"start"} className={"rx-Stack"} css={({ ["alignItems"] : "center" })} direction={"row"} id={"my-navbar-hstack-desktop"} justify={"between"} ref={ref_my_navbar_hstack_desktop} gap={"3"}>
-
-<RadixThemesFlex align={"start"} className={"rx-Stack"} css={({ ["alignItems"] : "center" })} direction={"row"} gap={"3"}>
-
-<RadixThemesLink asChild={true} css={({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) })}>
-
-<NextLink href={"/"} passHref={true}>
-
-<img css={({ ["width"] : "2.25em", ["height"] : "auto", ["borderRadius"] : "25%" })} src={"/logo.jpg"}/>
-</NextLink>
-</RadixThemesLink>
-<RadixThemesLink asChild={true} css={({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) })}>
-
-<NextLink href={"/"} passHref={true}>
-
-<RadixThemesHeading size={"7"} weight={"bold"}>
-
-{"It-\u043f\u043e\u043b\u0438\u0433\u043e\u043d"}
-</RadixThemesHeading>
-</NextLink>
-</RadixThemesLink>
-</RadixThemesFlex>
-<RadixThemesFlex align={"start"} className={"rx-Stack"} direction={"row"} gap={"5"}>
-
-<RadixThemesLink asChild={true} css={({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) })}>
-
-<NextLink href={"/"} passHref={true}>
-
-<RadixThemesText as={"p"} size={"4"} weight={"medium"}>
-
-{"\u0413\u043b\u0430\u0432\u043d\u0430\u044f \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0430"}
-</RadixThemesText>
-</NextLink>
-</RadixThemesLink>
-<RadixThemesLink asChild={true} css={({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) })}>
-
-<NextLink href={"/about"} passHref={true}>
-
-<RadixThemesText as={"p"} size={"4"} weight={"medium"}>
-
-{"\u041e \u043d\u0430\u0441"}
-</RadixThemesText>
-</NextLink>
-</RadixThemesLink>
-<RadixThemesLink asChild={true} css={({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) })}>
-
-<NextLink href={"/articles"} passHref={true}>
-
-<RadixThemesText as={"p"} size={"4"} weight={"medium"}>
-
-{"\u0423\u0440\u043e\u043a\u0438"}
-</RadixThemesText>
-</NextLink>
-</RadixThemesLink>
-<RadixThemesLink asChild={true} css={({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) })}>
-
-<NextLink href={"/contact"} passHref={true}>
-
-<RadixThemesText as={"p"} size={"4"} weight={"medium"}>
-
-{"\u041a\u043e\u043d\u0442\u0430\u043a\u0442\u044b"}
-</RadixThemesText>
-</NextLink>
-</RadixThemesLink>
-</RadixThemesFlex>
-<RadixThemesFlex align={"start"} className={"rx-Stack"} direction={"row"} justify={"end"} gap={"4"}>
-
-<RadixThemesLink asChild={true} css={({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) })}>
-
-<NextLink href={"/register"} passHref={true}>
-
-<RadixThemesButton size={"3"} variant={"outline"}>
-
-{"\u0420\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u044f"}
-</RadixThemesButton>
-</NextLink>
-</RadixThemesLink>
-<RadixThemesLink asChild={true} css={({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) })}>
-
-<NextLink href={"/login"} passHref={true}>
-
-<RadixThemesButton size={"3"} variant={"outline"}>
-
-{"\u0412\u0445\u043e\u0434"}
-</RadixThemesButton>
-</NextLink>
-</RadixThemesLink>
-</RadixThemesFlex>
-</RadixThemesFlex>
-</RadixThemesBox>
-<RadixThemesBox css={({ ["@media screen and (min-width: 0)"] : ({ ["display"] : "block" }), ["@media screen and (min-width: 30em)"] : ({ ["display"] : "block" }), ["@media screen and (min-width: 48em)"] : ({ ["display"] : "block" }), ["@media screen and (min-width: 62em)"] : ({ ["display"] : "none" }) })}>
-
-<RadixThemesFlex align={"start"} className={"rx-Stack"} css={({ ["alignItems"] : "center" })} direction={"column"} justify={"between"} gap={"3"}>
-
-<RadixThemesFlex align={"start"} className={"rx-Stack"} css={({ ["alignItems"] : "center" })} direction={"row"} gap={"3"}>
-
-<img css={({ ["width"] : "2em", ["height"] : "auto", ["borderRadius"] : "25%" })} src={"/logo.jpg"}/>
-<RadixThemesHeading size={"6"} weight={"bold"}>
-
-{"It-\u043f\u043e\u043b\u0438\u0433\u043e\u043d"}
-</RadixThemesHeading>
-</RadixThemesFlex>
-<RadixThemesDropdownMenu.Root css={({ ["justify"] : "end" })}>
-
-<RadixThemesDropdownMenu.Trigger>
-
-<LucideMenuIcon css={({ ["color"] : "var(--current-color)" })} size={30}/>
-</RadixThemesDropdownMenu.Trigger>
-<RadixThemesDropdownMenu.Content>
-
-<RadixThemesDropdownMenu.Item onClick={((...args) => (addEvents([(Event("reflex___state____state.prdprf___navigation___state____nav_state.to_home", ({  }), ({  })))], args, ({  }))))}>
-
-{"\u0413\u043b\u0430\u0432\u043d\u0430\u044f \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0430"}
-</RadixThemesDropdownMenu.Item>
-<RadixThemesDropdownMenu.Item onClick={((...args) => (addEvents([(Event("reflex___state____state.prdprf___navigation___state____nav_state.to_about_us", ({  }), ({  })))], args, ({  }))))}>
-
-{"\u041e \u043d\u0430\u0441"}
-</RadixThemesDropdownMenu.Item>
-<RadixThemesDropdownMenu.Item onClick={((...args) => (addEvents([(Event("reflex___state____state.prdprf___navigation___state____nav_state.to_articles", ({  }), ({  })))], args, ({  }))))}>
-
-{"\u0423\u0440\u043e\u043a\u0438"}
-</RadixThemesDropdownMenu.Item>
-<RadixThemesDropdownMenu.Item onClick={((...args) => (addEvents([(Event("reflex___state____state.prdprf___navigation___state____nav_state.to_contact", ({  }), ({  })))], args, ({  }))))}>
-
-{"Contact"}
-</RadixThemesDropdownMenu.Item>
-<RadixThemesDropdownMenu.Separator/>
-<RadixThemesDropdownMenu.Item onClick={((...args) => (addEvents([(Event("reflex___state____state.prdprf___navigation___state____nav_state.to_login", ({  }), ({  })))], args, ({  }))))}>
-
-{"\u0412\u0445\u043e\u0434"}
-</RadixThemesDropdownMenu.Item>
-<RadixThemesDropdownMenu.Item onClick={((...args) => (addEvents([(Event("reflex___state____state.prdprf___navigation___state____nav_state.to_register", ({  }), ({  })))], args, ({  }))))}>
-
-{"\u0420\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u044f"}
-</RadixThemesDropdownMenu.Item>
-</RadixThemesDropdownMenu.Content>
-</RadixThemesDropdownMenu.Root>
-</RadixThemesFlex>
-</RadixThemesBox>
-</RadixThemesBox>
-<RadixThemesBox css={({ ["padding"] : "1em", ["width"] : "100%" })} id={"my-content-area-el"} ref={ref_my_content_area_el}>
-
-<RadixThemesFlex align={"center"} className={"rx-Stack"} css={({ ["minHeight"] : "85vh" })} direction={"column"} id={"my-child"} justify={"center"} ref={ref_my_child} gap={"5"}>
-
-<RadixThemesHeading size={"7"}>
-
-{"\u0412\u044b \u0443\u0432\u0435\u0440\u0435\u043d\u044b, \u0447\u0442\u043e \u0445\u043e\u0442\u0438\u0442\u0435 \u0432\u044b\u0439\u0442\u0438"}
-</RadixThemesHeading>
-<RadixThemesLink asChild={true} css={({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) })}>
-
-<NextLink href={"/"} passHref={true}>
-
-<RadixThemesButton color={"gray"}>
-
-{"\u041d\u0435-\u0430"}
-</RadixThemesButton>
-</NextLink>
-</RadixThemesLink>
-<RadixThemesButton onClick={((...args) => (addEvents([(Event("reflex___state____state.prdprf___auth___state____my_local_auth_state.prdprf___auth___state____session_state.perform_logout", ({  }), ({  })))], args, ({  }))))}>
-
-{"\u0414\u0430, \u044f \u0445\u043e\u0447\u0443 \u0432\u044b\u0439\u0442\u0438"}
-</RadixThemesButton>
-</RadixThemesFlex>
-</RadixThemesBox>
-<RadixThemesFlex css={({ ["display"] : "flex", ["alignItems"] : "center", ["justifyContent"] : "center", ["width"] : "100%" })}>
-
-<RadixThemesLink asChild={true} css={({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) })} size={"3"}>
-
-<NextLink href={"https://reflex.dev"} passHref={true}>
-
-<RadixThemesFlex align={"center"} className={"rx-Stack"} css={({ ["textAlign"] : "center", ["padding"] : "1em" })} direction={"row"} gap={"3"}>
-
-{"Built with "}
-<svg css={({ ["viewBox"] : "0 0 56 12", ["fill"] : ((resolvedColorMode === "light") ? "#110F1F" : "white") })} height={"12"} width={"56"} xmlns={"http://www.w3.org/2000/svg"}>
-
-<path d={"M0 11.5999V0.399902H8.96V4.8799H6.72V2.6399H2.24V4.8799H6.72V7.1199H2.24V11.5999H0ZM6.72 11.5999V7.1199H8.96V11.5999H6.72Z"}/>
-<path d={"M11.2 11.5999V0.399902H17.92V2.6399H13.44V4.8799H17.92V7.1199H13.44V9.3599H17.92V11.5999H11.2Z"}/>
-<path d={"M20.16 11.5999V0.399902H26.88V2.6399H22.4V4.8799H26.88V7.1199H22.4V11.5999H20.16Z"}/>
-<path d={"M29.12 11.5999V0.399902H31.36V9.3599H35.84V11.5999H29.12Z"}/>
-<path d={"M38.08 11.5999V0.399902H44.8V2.6399H40.32V4.8799H44.8V7.1199H40.32V9.3599H44.8V11.5999H38.08Z"}/>
-<path d={"M47.04 4.8799V0.399902H49.28V4.8799H47.04ZM53.76 4.8799V0.399902H56V4.8799H53.76ZM49.28 7.1199V4.8799H53.76V7.1199H49.28ZM47.04 11.5999V7.1199H49.28V11.5999H47.04ZM53.76 11.5999V7.1199H56V11.5999H53.76Z"}/>
-</svg>
-</RadixThemesFlex>
-</NextLink>
-</RadixThemesLink>
-</RadixThemesFlex>
-<RadixThemesIconButton css={({ ["padding"] : "6px", ["position"] : "fixed", ["bottom"] : "2rem", ["left"] : "2rem", ["background"] : "transparent", ["color"] : "inherit", ["zIndex"] : "20", ["&:hover"] : ({ ["cursor"] : "pointer" }) })} onClick={toggleColorMode}>
-
-<Fragment>
-
-{isTrue((resolvedColorMode === "light")) ? (
-  <Fragment>
-
-<LucideSunIcon css={({ ["color"] : "var(--current-color)" })}/>
-</Fragment>
-) : (
-  <Fragment>
-
-<LucideMoonIcon css={({ ["color"] : "var(--current-color)" })}/>
-</Fragment>
-)}
-</Fragment>
-</RadixThemesIconButton>
-</Fragment>
-)}
-</Fragment>
   )
 }
 
-export function Fragment_f2f0916d2fcc08b7cdf76cec697f0750 () {
+export function Toaster_6e6ebf8d7ce589d59b7d382fb7576edf () {
+  
+  const { resolvedColorMode } = useContext(ColorModeContext)
+
+  refs['__toast'] = toast
+  const [addEvents, connectErrors] = useContext(EventLoopContext);
+  const toast_props = ({ ["description"] : ("Check if server is reachable at "+getBackendURL(env.EVENT).href), ["closeButton"] : true, ["duration"] : 120000, ["id"] : "websocket-error" });
+  const [userDismissed, setUserDismissed] = useState(false);
+  (useEffect(
+() => {
+    if ((connectErrors.length >= 2)) {
+        if (!userDismissed) {
+            toast.error(
+                `Cannot connect to server: ${((connectErrors.length > 0) ? connectErrors[connectErrors.length - 1].message : '')}.`,
+                {...toast_props, onDismiss: () => setUserDismissed(true)},
+            )
+        }
+    } else {
+        toast.dismiss("websocket-error");
+        setUserDismissed(false);  // after reconnection reset dismissed state
+    }
+}
+, [connectErrors]))
+
+
+
+
+  
+  return (
+    <Toaster closeButton={false} expand={true} position={"bottom-right"} richColors={true} theme={resolvedColorMode}/>
+  )
+}
+
+export function Div_602c14884fa2de27f522fe8f94374b02 () {
   
   const [addEvents, connectErrors] = useContext(EventLoopContext);
 
@@ -749,12 +507,67 @@ export function Fragment_f2f0916d2fcc08b7cdf76cec697f0750 () {
 
   
   return (
+    <div css={({ ["position"] : "fixed", ["width"] : "100vw", ["height"] : "0" })} title={("Connection Error: "+((connectErrors.length > 0) ? connectErrors[connectErrors.length - 1].message : ''))}>
+
+<Fragment_f2f0916d2fcc08b7cdf76cec697f0750/>
+</div>
+  )
+}
+
+export function Box_c2deb1957369bcde221c7604b7368cd8 () {
+  
+  const [addEvents, connectErrors] = useContext(EventLoopContext);
+
+
+  const on_click_1491851a02240dc221a1f6e17b31cf11 = useCallback(((...args) => (addEvents([(Event("reflex___state____state.prdprf___navigation___state____nav_state.to_logout", ({  }), ({  })))], args, ({  })))), [addEvents, Event])
+
+
+
+  
+  return (
+    <RadixThemesBox css={({ ["as"] : "button", ["underline"] : "none", ["weight"] : "medium", ["width"] : "100%" })} onClick={on_click_1491851a02240dc221a1f6e17b31cf11}>
+
+<RadixThemesFlex align={"center"} className={"rx-Stack"} css={({ ["&:hover"] : ({ ["cursor"] : "pointer", ["background"] : "var(--accent-4)", ["color"] : "var(--accent-11)" }), ["color"] : "var(--accent-11)", ["border-radius"] : "0.5em", ["width"] : "100%", ["paddingInlineStart"] : "0.5rem", ["paddingInlineEnd"] : "0.5rem", ["paddingTop"] : "0.75rem", ["paddingBottom"] : "0.75rem" })} direction={"row"} gap={"3"}>
+
+<LucideLogOutIcon css={({ ["color"] : "var(--current-color)" })}/>
+<RadixThemesText as={"p"} size={"4"}>
+
+{"\u0412\u044b\u0439\u0442\u0438"}
+</RadixThemesText>
+</RadixThemesFlex>
+</RadixThemesBox>
+  )
+}
+
+export function Fragment_af178a9903c78c389267e06394c9a289 () {
+  
+  const reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state = useContext(StateContexts.reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state)
+
+
+
+
+
+  
+  return (
     <Fragment>
 
-{isTrue((connectErrors.length > 0)) ? (
+{isTrue(reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state.authenticated_teacher) ? (
   <Fragment>
 
-<LucideWifiOffIcon css={({ ["color"] : "crimson", ["zIndex"] : 9999, ["position"] : "fixed", ["bottom"] : "33px", ["right"] : "33px", ["animation"] : (pulse+" 1s infinite") })} size={32}/>
+<RadixThemesLink asChild={true} css={({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) })} underline={"none"} weight={"medium"}>
+
+<NextLink href={"/lessons"} passHref={true}>
+
+<RadixThemesFlex align={"center"} className={"rx-Stack"} css={({ ["&:hover"] : ({ ["background"] : "var(--accent-4)", ["color"] : "var(--accent-11)" }), ["border-radius"] : "0.5em", ["paddingInlineStart"] : "0.5rem", ["paddingInlineEnd"] : "0.5rem", ["paddingTop"] : "0.75rem", ["paddingBottom"] : "0.75rem", ["alignItems"] : "center" })} direction={"row"} gap={"3"}>
+
+<LucideBookUserIcon css={({ ["color"] : "var(--current-color)" })}/>
+<RadixThemesText align={"center"} as={"p"} size={"4"} weight={"medium"}>
+
+{"\u0412\u0430\u0448\u0438 \u0443\u0440\u043e\u043a\u0438"}
+</RadixThemesText>
+</RadixThemesFlex>
+</NextLink>
+</RadixThemesLink>
 </Fragment>
 ) : (
   <Fragment/>
@@ -763,15 +576,97 @@ export function Fragment_f2f0916d2fcc08b7cdf76cec697f0750 () {
   )
 }
 
-const pulse = keyframes`
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
-`
+export function Fragment_146df9e28a8be8c410e3e981ee0bb6f4 () {
+  
+  const reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state = useContext(StateContexts.reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state)
 
+
+
+
+
+  
+  return (
+    <Fragment>
+
+{isTrue(reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state.authenticated_teacher) ? (
+  <Fragment>
+
+<RadixThemesLink asChild={true} css={({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) })} underline={"none"} weight={"medium"}>
+
+<NextLink href={"/lessons"} passHref={true}>
+
+<RadixThemesFlex align={"center"} className={"rx-Stack"} css={({ ["&:hover"] : ({ ["background"] : "var(--accent-4)", ["color"] : "var(--accent-11)" }), ["border-radius"] : "0.5em", ["paddingInlineStart"] : "0.5rem", ["paddingInlineEnd"] : "0.5rem", ["paddingTop"] : "0.75rem", ["paddingBottom"] : "0.75rem", ["alignItems"] : "center" })} direction={"column"} gap={"3"}>
+
+<LucideBookUserIcon css={({ ["color"] : "var(--current-color)" })}/>
+<RadixThemesText align={"center"} as={"p"} size={"4"} weight={"medium"}>
+
+{"\u0412\u0430\u0448\u0438 \u0443\u0440\u043e\u043a\u0438"}
+</RadixThemesText>
+</RadixThemesFlex>
+</NextLink>
+</RadixThemesLink>
+</Fragment>
+) : (
+  <Fragment/>
+)}
+</Fragment>
+  )
+}
+
+export function Fragment_5c560e922d6e9f13cc1a6a90cd573f05 () {
+  
+  const reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state = useContext(StateContexts.reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state)
+
+
+
+
+
+  
+  return (
+    <Fragment>
+
+{isTrue(reflex___state____state__prdprf___auth___state____my_local_auth_state__prdprf___auth___state____session_state.authenticated_teacher) ? (
+  <Fragment>
+
+<RadixThemesLink asChild={true} css={({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) })} underline={"none"} weight={"medium"}>
+
+<NextLink href={"/all_tests/add"} passHref={true}>
+
+<RadixThemesFlex align={"center"} className={"rx-Stack"} css={({ ["&:hover"] : ({ ["background"] : "var(--accent-4)", ["color"] : "var(--accent-11)" }), ["border-radius"] : "0.5em", ["paddingInlineStart"] : "0.5rem", ["paddingInlineEnd"] : "0.5rem", ["paddingTop"] : "0.75rem", ["paddingBottom"] : "0.75rem", ["alignItems"] : "center" })} direction={"row"} gap={"3"}>
+
+<LucideSquarePlusIcon css={({ ["color"] : "var(--current-color)" })}/>
+<RadixThemesText align={"center"} as={"p"} size={"4"} weight={"medium"}>
+
+{"\u0421\u043e\u0437\u0434\u0430\u0442\u044c \u0437\u0430\u0434\u0430\u043d\u0438\u0435"}
+</RadixThemesText>
+</RadixThemesFlex>
+</NextLink>
+</RadixThemesLink>
+</Fragment>
+) : (
+  <Fragment/>
+)}
+</Fragment>
+  )
+}
+
+export function Button_cdb2ec4b3a70a17827013e0874c65845 () {
+  
+  const [addEvents, connectErrors] = useContext(EventLoopContext);
+
+
+  const on_click_1f0529887dcfb2ffb0d081e27e3eedd3 = useCallback(((...args) => (addEvents([(Event("reflex___state____state.prdprf___auth___state____my_local_auth_state.prdprf___auth___state____session_state.perform_logout", ({  }), ({  })))], args, ({  })))), [addEvents, Event])
+
+
+
+  
+  return (
+    <RadixThemesButton onClick={on_click_1f0529887dcfb2ffb0d081e27e3eedd3}>
+
+{"\u0414\u0430, \u044f \u0445\u043e\u0447\u0443 \u0432\u044b\u0439\u0442\u0438"}
+</RadixThemesButton>
+  )
+}
 
 export default function Component() {
     
@@ -780,6 +675,6 @@ export default function Component() {
 
 
   return (
-    <Errorboundary_aba6f2beac500948417a56943869c2c3/>
+    <Errorboundary_c723a0ce6a92582abd3f302ba5487d7e/>
   )
 }
