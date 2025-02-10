@@ -72,7 +72,7 @@ def my_register_form() -> rx.Component:
                     name='litera',
                 ),
             ),
-            input_100w("Адрес", type='email'),
+            input_100w("Почта", type='email'),
             input_100w("Пароль", type="password"),
             input_100w("Подтверждение пароля", type="confirm_password"),
             rx.button("Зарегистрироваться", width="100%"),

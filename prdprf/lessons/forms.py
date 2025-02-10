@@ -39,7 +39,6 @@ def blog_post_add_form() -> rx.Component:
                     placeholder="Заголовок",
                     required=True,
                     type='text',
-                    width='100%',
                 ),
                 rx.spacer(),
                 rx.select(
@@ -48,19 +47,16 @@ def blog_post_add_form() -> rx.Component:
                     on_change=SelectTagState.change_value,
                     name='tag',
                 ),
-                align="center",
-                width='100%',
-
             ),
             *QuillDeps,
             ReactQuill.create(
                 theme="snow",
-                #placeholder="Напишите текст...",
                 default_value=BlogAddPostFormState.content,
                 on_change=BlogAddPostFormState.handle_change,
                 modules=modules,
             ),
             rx.button("Опубликовать", type="submit"),
+            align="center",
         ),
         on_submit=BlogAddPostFormState.handle_submit,
         reset_on_submit=True,
@@ -71,8 +67,6 @@ def blog_post_edit_form() -> rx.Component:
     post = BlogEditFormState.post
     title = post.title
     content = post.content
-    publish_active = post.publish_active
-    post_content = BlogEditFormState.post_content
     return rx.form(
         *QuillDeps,
         rx.box(

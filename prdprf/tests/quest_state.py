@@ -9,7 +9,7 @@ class QuestsState(rx.State):
     new_quest_text: str = ""
     new_quest_answer: str = ""
     new_quest_score: int = 1
-    new_quest_subject = ""
+    new_quest_subject = "Математика"
     error_message: str = ""
 
     def select_question(self, question: Question):
@@ -24,6 +24,7 @@ class QuestsState(rx.State):
         """Обработчик изменения названия нового теста"""
         self.new_quest_text = text
 
+    @rx.event
     def handle_subject_change(self, subject):
         """Обработчик изменения предмета нового теста"""
         self.new_quest_subject = subject
@@ -38,16 +39,17 @@ class QuestsState(rx.State):
 
     def add_test(self):
         """Добавление нового теста в базу данных"""
-        with rx.session() as session:  # Создание сессии для работы с базой данных
-            new_quest = Question(question=self.new_quest_text,
-                                 subject=self.new_quest_subject,
-                                 answer=self.new_quest_answer,
-                                 score=self.new_quest_score)  # Создание объекта Quest
-            session.add(new_quest)  # Добавление теста в базу данных
-            session.commit()  # Сохранение изменений
+        if self.new_quest_text != "" and self.new_quest_answer != "" and self.new_quest_score != 0:
+            with rx.session() as session:  # Создание сессии для работы с базой данных
+                new_quest = Question(question=self.new_quest_text,
+                                     subject=self.new_quest_subject,
+                                     answer=self.new_quest_answer,
+                                     score=self.new_quest_score)  # Создание объекта Quest
+                session.add(new_quest)  # Добавление теста в базу данных
+                session.commit()  # Сохранение изменений
 
-        self.new_quest_text = ""
-        self.new_quest_answer = ""
-        self.new_quest_score = 1
-        self.new_quest_subject = ""
-        self.error_message = ""
+            self.new_quest_text = ""
+            self.new_quest_answer = ""
+            self.new_quest_score = 1
+            self.new_quest_subject = "Математика"
+            self.error_message = ""

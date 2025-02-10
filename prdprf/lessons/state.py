@@ -9,7 +9,7 @@ from prdprf import navigation
 from prdprf.auth.state import SessionState
 from prdprf.models import BlogPostModel, UserInfo
 
-BLOG_POSTS_ROUTE = navigation.routes.BLOG_POSTS_ROUTE
+BLOG_POSTS_ROUTE = navigation.routes.YOUR_LESSONS_ROUTE
 if BLOG_POSTS_ROUTE.endswith("/"):
     BLOG_POSTS_ROUTE = BLOG_POSTS_ROUTE[:-1]
 
@@ -134,6 +134,7 @@ class BlogAddPostFormState(BlogPostState):
             data['userinfo_id'] = self.my_userinfo_id
         self.form_data = {**data, 'publish_active': True, 'publish_date': None}
         self.add_post(data)
+        self.content = "<p>Содержание урока</p>"
         return self.to_blog_post()
 
 
@@ -152,6 +153,7 @@ class BlogEditFormState(BlogPostState):
         post_id = form_data.pop('post_id')
         updated_data = {**form_data, 'publish_active': True, 'publish_date': None}
         self.save_post_edits(post_id, updated_data)
+        self.content = "<p>Содержание урока</p>"
         return self.to_blog_post()
 
 

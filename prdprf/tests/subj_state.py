@@ -1,13 +1,8 @@
 import reflex as rx
-from typing import Dict, Any, List, Optional
+from typing import List
 
-import reflex_local_auth
-import sqlalchemy
-from reflex import select
-
-from prdprf.models import Test, Question
-from prdprf.tests.quest_state import QuestsState
-from prdprf.ui.base import base_page
+from prdprf.auth.state import SessionState
+from prdprf.models import Question
 
 
 class SubjectListState(rx.State):
@@ -26,16 +21,26 @@ class SubjectListState(rx.State):
             ).all()
             self.questions = result
 
+    @rx.event
+    def category_change(self, category: str):
+        self.category = category
+        self.load_quests()
+
 
 def question_list_item(question: Question):
     return rx.vstack(
         rx.hstack(
-            rx.text(f'{question.score} баллов'),
+            rx.text(f'Вес: {question.score}'),
             rx.text(question.subject)),
         rx.text(question.question),
-        rx.input(
-            name='answer',
-            type='answer'
+        rx.cond(
+            SessionState.authenticated_teacher,
+            rx.tooltip(
+                rx.button("Посмотреть ответ"),
+                content=question.answer,
+            )
         ),
-        padding='1em'
+        padding='1em',
+        width="1000px",
+
     )

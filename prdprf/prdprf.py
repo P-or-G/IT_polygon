@@ -16,22 +16,21 @@ from .articles.detail import article_detail_page
 from .articles.list import article_public_list_page
 from .articles.state import ArticlePublicState
 
-from . import lessons, contact, navigation, pages
+from . import lessons, navigation, pages
 from .tests.subj_page import question_post_list_page, question_add_page
-from .tests.subj_state import question_list_item, SubjectListState
+from .tests.subj_state import SubjectListState
 
 
 def index() -> rx.Component:
-    return base_page(
-        rx.cond(SessionState.is_authenticated,
-                pages.dashboard_component(),
-                )
-    )
+    return rx.cond(SessionState.is_authenticated,
+                   base_page(pages.dashboard_component(), ),
+                   my_register_page()
+                   )
 
 
 app = rx.App(
     theme=rx.theme(
-        appearance="dark",
+        appearance="light",
         has_background=True,
         panel_background="solid",
         scaling="90%",
@@ -40,10 +39,11 @@ app = rx.App(
     )
 
 )
+
 app.add_page(index,
              on_load=ArticlePublicState.load_posts
              )
-# reflex_local_auth pages
+
 app.add_page(
     my_login_page,
     route=reflex_local_auth.routes.LOGIN_ROUTE,
@@ -60,10 +60,6 @@ app.add_page(
     route=navigation.routes.LOGOUT_ROUTE,
     title="Logout",
 )
-
-# my pages
-app.add_page(pages.about_page,
-             route=navigation.routes.ABOUT_US_ROUTE)
 
 app.add_page(
     pages.profile_page,
@@ -85,14 +81,14 @@ app.add_page(
 
 app.add_page(
     lessons.blog_post_list_page,
-    route=navigation.routes.BLOG_POSTS_ROUTE,
+    route=navigation.routes.YOUR_LESSONS_ROUTE,
     on_load=lessons.BlogPostState.load_posts
 
 )
 
 app.add_page(
     lessons.blog_post_add_page,
-    route=navigation.routes.BLOG_POST_ADD_ROUTE
+    route=navigation.routes.LESSON_ADD_ROUTE
 )
 
 app.add_page(
@@ -107,23 +103,13 @@ app.add_page(
     on_load=lessons.BlogPostState.get_post_detail
 )
 
-app.add_page(contact.contact_page,
-             route=navigation.routes.CONTACT_US_ROUTE)
-
-app.add_page(
-    contact.contact_entries_list_page,
-    route=navigation.routes.CONTACT_ENTRIES_ROUTE,
-    on_load=contact.ContactState.list_entries
-)
-
 app.add_page(
     question_post_list_page,
-    route='/testr1',
+    route=navigation.routes.ALL_TESTS_ROUTE,
     on_load=SubjectListState.load_quests
 )
 
-
 app.add_page(
     question_add_page,
-    route='/testr2'
+    route=navigation.routes.CREATE_TEST_ROUTE
 )

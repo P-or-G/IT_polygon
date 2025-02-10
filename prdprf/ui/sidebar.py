@@ -164,18 +164,6 @@ def mobile_sidebar_item(
     )
 
 
-def navbar_link(text: str, url: str) -> rx.Component:
-    return rx.link(
-        rx.text(text, size="4", weight="medium"), href=url
-    )
-
-
-def center_stack() -> rx.Component:
-    return rx.link(
-        rx.text(text, size="4", weight="medium"), href=url
-    )
-
-
 def sidebar() -> rx.Component:
     return rx.box(
         rx.desktop_only(
@@ -198,18 +186,15 @@ def sidebar() -> rx.Component:
                     ),
                     align_items="center",
                 ),
-                rx.spacer(),
                 rx.hstack(
                     sidebar_item("Рекомендации", "library", navigation.routes.ARTICLE_LIST_ROUTE),
-                    sidebar_item("Обратная связь", "phone", navigation.routes.CONTACT_US_ROUTE),
                     rx.cond(SessionState.authenticated_teacher,
-                            sidebar_item("Ваши уроки", "book-user", navigation.routes.BLOG_POSTS_ROUTE),),
+                            sidebar_item("Ваши уроки", "book-user", navigation.routes.YOUR_LESSONS_ROUTE), ),
                     rx.cond(SessionState.authenticated_teacher,
-                            sidebar_item("Обращения", "scroll-text", navigation.routes.CONTACT_ENTRIES_ROUTE),), \
-                    sidebar_item("Тесты", "phone", navigation.routes.ABOUT_US_ROUTE),
-                    spacing="5",
+                            sidebar_item("Создать задание", "square-plus", navigation.routes.CREATE_TEST_ROUTE), ),
+                    sidebar_item("Задания", "book-open-check", navigation.routes.ALL_TESTS_ROUTE),
+                    spacing="5"
                 ),
-                rx.spacer(),
                 rx.hstack(
                     sidebar_logout_item(text=""),
                     sidebar_dark_mode_toggle_item(),
@@ -237,11 +222,15 @@ def sidebar() -> rx.Component:
                                 width="100%",
                             ),
                             rx.vstack(
-                                mobile_sidebar_item("Уроки", "library", navigation.routes.ARTICLE_LIST_ROUTE),
-                                mobile_sidebar_item("Ваши уроки", "book-user", navigation.routes.BLOG_POSTS_ROUTE),
-                                mobile_sidebar_item("Создать урок", "notebook-pen", navigation.routes.BLOG_POST_ADD_ROUTE),
-                                mobile_sidebar_item("Обратная связь", "phone", navigation.routes.CONTACT_US_ROUTE),
-                                mobile_sidebar_item("Обращения", "scroll-text", navigation.routes.CONTACT_ENTRIES_ROUTE),
+                                mobile_sidebar_item("Рекомендации", "library", navigation.routes.ARTICLE_LIST_ROUTE),
+                                mobile_sidebar_item("Тесты", "book-open-check", navigation.routes.ALL_TESTS_ROUTE),
+                                rx.cond(SessionState.authenticated_teacher,
+                                        mobile_sidebar_item("Ваши уроки", "book-user",
+                                                            navigation.routes.YOUR_LESSONS_ROUTE), ),
+                                rx.cond(SessionState.authenticated_teacher,
+                                        mobile_sidebar_item("Создать задание", "square-plus",
+                                                            navigation.routes.CREATE_TEST_ROUTE), ),
+                                mobile_sidebar_item("Задания", "book-open-check", navigation.routes.ALL_TESTS_ROUTE),
                                 spacing="3",
                             ),
                             rx.spacer(),
