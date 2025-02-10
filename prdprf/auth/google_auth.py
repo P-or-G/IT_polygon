@@ -13,7 +13,7 @@ from .react_oauth_google import (
     GoogleLogin,
 )
 
-CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID", "")
+CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID", "268292277839-jj61fehiv0uc3laf9u2a069vvq4us1sd.apps.googleusercontent.com")
 
 class State(rx.State):
     id_token_json: str = rx.LocalStorage()

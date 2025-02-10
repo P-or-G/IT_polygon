@@ -4,3 +4,6 @@ sqlmodel~=0.0.22
 sqlalchemy~=2.0.37
 alembic~=1.14.0
 python>=3.10
+google
+soupsieve
+beautifulsoup4

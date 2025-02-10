@@ -20,7 +20,7 @@ class VariantState(rx.State):
 
     @rx.event
     def on_submit(self, form):
-        self.load_quests()
+        print(form)
 
 
 def variant_form(question: Question):
