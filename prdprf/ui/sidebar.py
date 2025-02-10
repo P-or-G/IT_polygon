@@ -187,12 +187,13 @@ def sidebar() -> rx.Component:
                     align_items="center",
                 ),
                 rx.hstack(
-                    sidebar_item("Рекомендации", "library", navigation.routes.ARTICLE_LIST_ROUTE),
+                    sidebar_item("Уроки", "library", navigation.routes.ARTICLE_LIST_ROUTE),
                     rx.cond(SessionState.authenticated_teacher,
                             sidebar_item("Ваши уроки", "book-user", navigation.routes.YOUR_LESSONS_ROUTE), ),
                     rx.cond(SessionState.authenticated_teacher,
                             sidebar_item("Создать задание", "square-plus", navigation.routes.CREATE_TEST_ROUTE), ),
                     sidebar_item("Задания", "book-open-check", navigation.routes.ALL_TESTS_ROUTE),
+                    sidebar_item("Статистика", "chart-column", navigation.routes.STATISTICS_ROUTE),
                     spacing="5"
                 ),
                 rx.hstack(
@@ -222,14 +223,11 @@ def sidebar() -> rx.Component:
                                 width="100%",
                             ),
                             rx.vstack(
-                                mobile_sidebar_item("Рекомендации", "library", navigation.routes.ARTICLE_LIST_ROUTE),
+                                mobile_sidebar_item("Уроки", "library", navigation.routes.ARTICLE_LIST_ROUTE),
                                 mobile_sidebar_item("Тесты", "book-open-check", navigation.routes.ALL_TESTS_ROUTE),
                                 rx.cond(SessionState.authenticated_teacher,
                                         mobile_sidebar_item("Ваши уроки", "book-user",
                                                             navigation.routes.YOUR_LESSONS_ROUTE), ),
-                                rx.cond(SessionState.authenticated_teacher,
-                                        mobile_sidebar_item("Создать задание", "square-plus",
-                                                            navigation.routes.CREATE_TEST_ROUTE), ),
                                 mobile_sidebar_item("Задания", "book-open-check", navigation.routes.ALL_TESTS_ROUTE),
                                 spacing="3",
                             ),

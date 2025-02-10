@@ -2,9 +2,8 @@ import reflex as rx
 import reflex_local_auth
 
 from prdprf import navigation
-from prdprf.auth.state import SessionState
+from prdprf.auth.state import SessionState, MyLocalAuthState
 from prdprf.ui.base import base_page
-from prdprf.utils.hotkeys import StatusButtonState
 
 
 def logout_item() -> rx.Component:
@@ -42,9 +41,10 @@ def profile_card() -> rx.Component:
     grade_via_user_obj = rx.cond(SessionState.authenticated_grade, SessionState.authenticated_grade, "Класс")
     litera_via_user_obj = rx.cond(SessionState.authenticated_litera, SessionState.authenticated_litera, "Литера")
     points_via_user_obj = rx.cond(SessionState.authenticated_points, SessionState.authenticated_points, "0")
-    return rx.container(
+    return rx.center(
         rx.vstack(
             rx.heading(f"{username_via_user_obj} {surname_via_user_obj}", size="9"),
+            rx.spacer(),
             rx.box(
                 rx.vstack(
                     rx.hstack(
@@ -52,13 +52,12 @@ def profile_card() -> rx.Component:
                         rx.text(f"Ваш счёт: {points_via_user_obj}", align="right", weight="medium")
                     ),
                     rx.button(
-                        rx.text(f"Ваш статус: {rx.cond(StatusButtonState.value, 'Учитель', 'Ученик')}"),
-                        on_double_click=StatusButtonState.update_key()
+                        rx.text(f"Ваш статус: {rx.cond(MyLocalAuthState.status, 'Учитель', 'Ученик')}"),
+                        on_double_click=SessionState.status_change
                     ),
                 ),
             ),
-            logout_item(),
-            spacing="6",
+            spacing="8",
             border=f"1.5px solid {rx.color('gray', 5)}",
             background=rx.color("gray", 1),
             padding="28px",
@@ -66,6 +65,7 @@ def profile_card() -> rx.Component:
             max_width="400px",
             min_height="475px",
             border_radius="0.5rem",
+            align='center'
         ),
     )
 

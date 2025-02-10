@@ -55,8 +55,8 @@ class MyRegisterState(reflex_local_auth.LocalAuthState):
     def _register_user(self, form_data) -> None:
         with rx.session() as session:
             new_user = UserInfo(
-                email=form_data["Адрес"],
                 password_hash=(None if (form_data["token"]) else UserInfo.hash_password(form_data["Пароль"])),
+                email=form_data["Почта"],
                 enabled=True,
                 username=form_data["Имя"],
                 surname=form_data["Фамилия"],
@@ -97,7 +97,7 @@ class MyRegisterState(reflex_local_auth.LocalAuthState):
         Возвращает ID как будто Autoincrement в SQL (вообще, це единственное отличие от Родительского класса
         """
 
-        email = form_data["Адрес"]
+        email = form_data["Почта"]
 
         try:
             password = form_data["Пароль"]
@@ -113,7 +113,6 @@ class MyRegisterState(reflex_local_auth.LocalAuthState):
             pc = form_data["Подтверждение пароля"]
         except Exception:
             pc = None
-
         validation_errors = self._validate_fields(
             email, password, pc, token
         )
@@ -243,6 +242,7 @@ DEFAULT_AUTH_REFRESH_DELTA = datetime.timedelta(minutes=10)
 
 class MyLocalAuthState(rx.State):
     auth_token: str = rx.LocalStorage(name=AUTH_TOKEN_LOCAL_STORAGE_KEY)
+    status: bool = False
 
     @rx.var(cache=True, interval=DEFAULT_AUTH_REFRESH_DELTA)
     def authenticated_user(self) -> UserInfo:
@@ -259,7 +259,19 @@ class MyLocalAuthState(rx.State):
             if result:
                 user, session = result
                 return user
-        return UserInfo(id=-1)  # type: ignore
+        return UserInfo(id=-1)
+
+    def get_user(self):
+        with rx.session() as session:
+            result = session.exec(
+                select(UserInfo).where(
+                    LocalAuthSession.session_id == self.auth_token,
+                    LocalAuthSession.expiration
+                    >= datetime.datetime.now(datetime.timezone.utc),
+                    UserInfo.id == LocalAuthSession.user_id,
+                ),
+            ).first()
+        return result
 
     @rx.var(cache=True, interval=DEFAULT_AUTH_REFRESH_DELTA)
     def is_authenticated(self) -> bool:
@@ -296,20 +308,33 @@ class MyLocalAuthState(rx.State):
 
     def status_change(self):
         with rx.session() as session:
-            user = select(UserInfo, LocalAuthSession).where(
-                LocalAuthSession.session_id == self.auth_token,
-                LocalAuthSession.expiration
-                >= datetime.datetime.now(datetime.timezone.utc),
-                UserInfo.id == LocalAuthSession.user_id,
-            ),
+            user = session.exec(
+                select(UserInfo).where(
+                    UserInfo.id == LocalAuthSession.user_id,
+                ),
+            ).first()
+            new_user = UserInfo(
+                id=user.id,
+                email=user.email,
+                password_hash=user.password_hash,
+                enabled=True,
+                username=user.username,
+                surname=user.surname,
+                grade=user.grade,
+                litera=user.litera,
+                teacher=(not user.teacher)
+            )
+            self.status = not user.teacher
             session.delete(user)
-            if user.status:
-                user.status = False
-            else:
-                user.status = True
-            session.add(user)
+            session.add(new_user)
             session.commit()
-            session.refresh(user)
+            session.refresh(new_user)
+
+    @rx.event
+    def update_value(self):
+        with rx.session() as session:
+            user = session.exec(select(UserInfo).where(UserInfo.id == LocalAuthSession.user_id)).first()
+            self.status = user.teacher
 
 
 class SessionState(MyLocalAuthState):
@@ -321,7 +346,6 @@ class SessionState(MyLocalAuthState):
     Тут обрабатывается состояние сессии, а ещё отсюда получаем все данные по пользователю из UserInfo
     А ещё обрабатываем состояние пользователя (вошёл или нет), здесь же делаем некоторый logout
     Вся реальная муть с обработкой состояний сессии в reflex_local_auth.LocalAuthState
-    !!!МОЖЕТ БЫТЬ НУЖНО БУДЕТ ДОБАВИТЬ ВОЗВРАЩЕНИЕ ДРУГИХ СТОЛБИКОВ!!!
     """
 
     @rx.var(cache=True)
@@ -394,7 +418,7 @@ class SessionState(MyLocalAuthState):
     @rx.var(cache=True)
     def authenticated_user_info(self) -> UserInfo | None:
         """
-        Мы возвращаем ВСЁ, что есть в UserInfo (дада, весь класс), если не можем, то None
+        Мы возвращаем ВСЁ, что есть в UserInfo (весь класс), если не можем, то None
         """
         if self.authenticated_user.id < 0:
             return None

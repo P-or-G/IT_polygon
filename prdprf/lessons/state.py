@@ -7,7 +7,7 @@ from sqlmodel import select
 
 from prdprf import navigation
 from prdprf.auth.state import SessionState
-from prdprf.models import BlogPostModel, UserInfo
+from prdprf.models import LessonPostModel, UserInfo
 
 BLOG_POSTS_ROUTE = navigation.routes.YOUR_LESSONS_ROUTE
 if BLOG_POSTS_ROUTE.endswith("/"):
@@ -28,9 +28,9 @@ class EditorState(rx.State):
         return self.content
 
 
-class BlogPostState(SessionState):
-    posts: List['BlogPostModel'] = []
-    post: Optional['BlogPostModel'] = None
+class LessonPostState(SessionState):
+    posts: List['LessonPostModel'] = []
+    post: Optional['LessonPostModel'] = None
     post_content: str = ""
     post_publish_active: bool = False
 
@@ -57,15 +57,15 @@ class BlogPostState(SessionState):
             self.post_publish_active = False
             return
         lookups = (
-                (BlogPostModel.userinfo_id == self.my_userinfo_id) &
-                (BlogPostModel.id == self.blog_post_id)
+                (LessonPostModel.userinfo_id == self.my_userinfo_id) &
+                (LessonPostModel.id == self.blog_post_id)
         )
         with rx.session() as session:
             if self.blog_post_id == "":
                 self.post = None
                 return
-            sql_statement = select(BlogPostModel).options(
-                sqlalchemy.orm.joinedload(BlogPostModel.userinfo)
+            sql_statement = select(LessonPostModel).options(
+                sqlalchemy.orm.joinedload(LessonPostModel.userinfo)
             ).where(lookups)
             result = session.exec(sql_statement).one_or_none()
             self.post = result
@@ -78,16 +78,16 @@ class BlogPostState(SessionState):
     def load_posts(self, *args, **kwargs):
         with rx.session() as session:
             result = session.exec(
-                select(BlogPostModel).options(
-                    sqlalchemy.orm.joinedload(BlogPostModel.userinfo)
-                ).where(BlogPostModel.userinfo_id == self.my_userinfo_id)
+                select(LessonPostModel).options(
+                    sqlalchemy.orm.joinedload(LessonPostModel.userinfo)
+                ).where(LessonPostModel.userinfo_id == self.my_userinfo_id)
             ).all()
             self.posts = result
         # return
 
     def add_post(self, form_data: dict):
         with rx.session() as session:
-            post = BlogPostModel(**form_data)
+            post = LessonPostModel(**form_data)
             session.add(post)
             session.commit()
             session.refresh(post)
@@ -96,8 +96,8 @@ class BlogPostState(SessionState):
     def save_post_edits(self, post_id: int, updated_data: dict):
         with rx.session() as session:
             post = session.exec(
-                select(BlogPostModel).where(
-                    BlogPostModel.id == post_id
+                select(LessonPostModel).where(
+                    LessonPostModel.id == post_id
                 )
             ).one_or_none()
             if post is None:
@@ -117,7 +117,7 @@ class BlogPostState(SessionState):
         return rx.redirect(f"{self.blog_post_url}")
 
 
-class BlogAddPostFormState(BlogPostState):
+class LessonAddPostFormState(LessonPostState):
     form_data: dict = {}
     content: str = "<p>Содержание урока</p>"
 
@@ -138,7 +138,7 @@ class BlogAddPostFormState(BlogPostState):
         return self.to_blog_post()
 
 
-class BlogEditFormState(BlogPostState):
+class LessonEditFormState(LessonPostState):
     form_data: dict = {}
     content: str = "<p>Содержание урока</p>"
 

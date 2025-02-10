@@ -10,20 +10,23 @@ from .auth.pages import (
     my_register_page,
     my_logout_page
 )
-from .auth.state import SessionState
+from .auth.protected import profile_page
+from .auth.state import SessionState, MyLocalAuthState
 
 from .articles.detail import article_detail_page
 from .articles.list import article_public_list_page
 from .articles.state import ArticlePublicState
 
-from . import lessons, navigation, pages
+from . import lessons, navigation, dashboard
+from .dashboard import page
+from .stats.page import loading_data_table_example
 from .tests.subj_page import question_post_list_page, question_add_page
 from .tests.subj_state import SubjectListState
 
 
 def index() -> rx.Component:
     return rx.cond(SessionState.is_authenticated,
-                   base_page(pages.dashboard_component(), ),
+                   base_page(page.dashboard_component()),
                    my_register_page()
                    )
 
@@ -62,9 +65,9 @@ app.add_page(
 )
 
 app.add_page(
-    pages.profile_page,
+    profile_page,
     route=navigation.routes.PROFILE_ROUTE,
-    on_load=SessionState.on_load
+    on_load=MyLocalAuthState.update_value
 )
 
 app.add_page(
@@ -82,7 +85,7 @@ app.add_page(
 app.add_page(
     lessons.blog_post_list_page,
     route=navigation.routes.YOUR_LESSONS_ROUTE,
-    on_load=lessons.BlogPostState.load_posts
+    on_load=lessons.LessonPostState.load_posts
 
 )
 
@@ -94,13 +97,13 @@ app.add_page(
 app.add_page(
     lessons.blog_post_detail_page,
     route="/lessons/[blog_id]",
-    on_load=lessons.BlogPostState.get_post_detail
+    on_load=lessons.LessonPostState.get_post_detail
 )
 
 app.add_page(
     lessons.blog_post_edit_page,
     route="/lessons/[blog_id]/edit",
-    on_load=lessons.BlogPostState.get_post_detail
+    on_load=lessons.LessonPostState.get_post_detail
 )
 
 app.add_page(
@@ -112,4 +115,9 @@ app.add_page(
 app.add_page(
     question_add_page,
     route=navigation.routes.CREATE_TEST_ROUTE
+)
+
+app.add_page(
+    base_page(loading_data_table_example()),
+    route=navigation.routes.STATISTICS_ROUTE
 )
