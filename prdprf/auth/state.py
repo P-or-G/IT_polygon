@@ -15,7 +15,7 @@ from sqlmodel import select
 from .google_auth import CLIENT_ID
 
 from prdprf.models import UserInfo
-from prdprf.navigation.routes import LOGIN_ROUTE, REGISTER_ROUTE
+from prdprf.navigation.routes import LOGIN_ROUTE, REGISTER_ROUTE, REGISTER_OAUTH_ROUTE
 
 
 def redir():
@@ -23,10 +23,28 @@ def redir():
 
 
 class MyRegisterState(reflex_local_auth.LocalAuthState):
-
     success: bool = False
     error_message: str = ""
     new_user_id: int = -1
+    data: dict = {}
+
+    def handle_google(self, token_id: dict):
+        token_info = verify_oauth2_token(
+            token_id["credential"],
+            requests.Request(),
+            CLIENT_ID,
+        )
+
+        self.data = {
+                "Имя": token_info["name"],
+                "Почта": token_info["email"],
+
+                "Пароль": json.dumps(token_id),
+                "Подтверждение пароля": json.dumps(token_id),
+        }
+
+        return rx.redirect(REGISTER_OAUTH_ROUTE)
+
 
     def _validate_fields(
         self, email, password, confirm_password
@@ -56,7 +74,7 @@ class MyRegisterState(reflex_local_auth.LocalAuthState):
     def _register_user(self, form_data) -> None:
         with rx.session() as session:
             new_user = UserInfo(
-                email=form_data["Адрес"],
+                email=form_data["Почта"],
                 password_hash=UserInfo.hash_password(form_data["Пароль"]),
                 enabled=True,
                 username=form_data["Имя"],
@@ -97,7 +115,9 @@ class MyRegisterState(reflex_local_auth.LocalAuthState):
         Возвращает ID как будто Autoincrement в SQL (вообще, це единственное отличие от Родительского класса
         """
 
-        email = form_data["Адрес"]
+        form_data |= self.data
+
+        email = form_data["Почта"]
         password = form_data["Пароль"]
         validation_errors = self._validate_fields(
             email, password, form_data["Подтверждение пароля"]
@@ -122,7 +142,7 @@ class MyRegisterState(reflex_local_auth.LocalAuthState):
         self.handle_registration({
             "Имя": token_info["name"],
             "Фамилия": "", # у гугла можно поменять scopes и просить фамилию в принципе
-            "Адрес": token_info["email"],
+            "Почта": token_info["email"],
 
             "Пароль": json.dumps(token_id),
             "Подтверждение пароля": json.dumps(token_id),
@@ -404,3 +424,4 @@ class SessionState(MyLocalAuthState):
         """
         self.do_logout()
         return rx.redirect("/")
+

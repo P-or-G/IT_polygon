@@ -5,7 +5,7 @@ from reflex_local_auth.pages.registration import RegistrationState, register_for
 from prdprf import navigation
 from prdprf.ui.base import base_page
 
-from prdprf.auth.forms import my_register_form, my_login_form
+from prdprf.auth.forms import my_register_form, my_login_form, additional_form
 from prdprf.auth.state import SessionState, MyLoginState
 
 
@@ -31,6 +31,16 @@ def my_register_page() -> rx.Component:
             ),
             min_height="85vh",
         )
+
+
+def additional_register_page() -> rx.Component:
+    return rx.center(
+            rx.cond(
+                    MyLoginState.is_hydrated,
+                    rx.card(additional_form()),
+                ),
+                min_height="85vh",
+            ),
 
 
 def my_logout_page() -> rx.Component:

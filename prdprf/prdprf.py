@@ -8,7 +8,8 @@ from prdprf.ui.base import base_page
 from .auth.pages import (
     my_login_page,
     my_register_page,
-    my_logout_page
+    my_logout_page,
+    additional_register_page,
 )
 from .auth.state import SessionState
 
@@ -112,4 +113,9 @@ app.add_page(
 app.add_page(
     question_add_page,
     route=navigation.routes.CREATE_TEST_ROUTE
+)
+
+app.add_page(
+    additional_register_page,
+    route=navigation.routes.REGISTER_OAUTH_ROUTE,
 )

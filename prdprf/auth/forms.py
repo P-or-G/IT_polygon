@@ -3,6 +3,11 @@ import reflex_local_auth
 from reflex_local_auth.pages.components import input_100w, MIN_WIDTH
 from .google_auth import login, require_google_login, CLIENT_ID, State
 from .react_oauth_google import GoogleOAuthProvider, GoogleLogin
+import json
+from google.auth.transport import requests
+from google.oauth2.id_token import verify_oauth2_token
+
+
 
 from prdprf.auth.state import MyRegisterState, SelectLiteraState, SelectClassState, redir, MyLoginState
 
@@ -92,7 +97,7 @@ def my_register_form() -> rx.Component:
                 width="100%",
             ),
             rx.center(
-                GoogleLogin.create(on_success=MyRegisterState.handle_google_reg),
+                GoogleLogin.create(on_success=MyRegisterState.handle_google),
                 width="100%",
             ),
             min_width=MIN_WIDTH,
@@ -101,3 +106,32 @@ def my_register_form() -> rx.Component:
         ),
         client_id=CLIENT_ID,
     )
+
+
+def additional_form():
+    return rx.form(
+            rx.vstack(
+            rx.heading("Создать аккаунт", size="7"),
+            input_100w("Фамилия", type='surname'),
+            rx.hstack(
+                rx.text("Класс обучения"),
+                rx.select(
+                    ["7", "8", "9", "10", "11",],
+                    value=SelectClassState.value,
+                    on_change=SelectClassState.change_value,
+                    name='grade'
+                ),
+                rx.text("Буква"),
+                rx.select(
+                    ["А", "Б", "В", "Г", "Д", "Е", "М",],
+                    value=SelectLiteraState.value,
+                    on_change=SelectLiteraState.change_value,
+                    name='litera',
+                ),
+            ),
+
+            rx.button("Зарегистрироваться", width="100%"),
+        ),
+        on_submit=MyRegisterState.handle_registration,
+    )
+
