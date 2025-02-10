@@ -1,6 +1,29 @@
 import reflex as rx
+from .quill import Quill, ReactQuill, QuillDeps
 
-from prdprf.lessons.state import BlogAddPostFormState, BlogEditFormState, EditorState
+from prdprf.lessons.state import LessonAddPostFormState, LessonEditFormState, SelectTagState
+
+modules = {
+        'toolbar': [
+            [{ 'header': [1, 2, False] }],
+            ['bold', 'italic', 'underline','strike', 'blockquote'],
+            [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
+            ['link', 'image'],
+            ['formula'],
+            ['clean'],
+            ['video'],
+        ],
+
+        'history': {
+            'delay': 2000,
+            'maxStack': 500,
+            'userOnly': True,
+        },
+
+        'syntax': True, # TODO
+}
+
+formats = []
 
 
 def blog_post_add_form() -> rx.Component:
@@ -12,56 +35,36 @@ def blog_post_add_form() -> rx.Component:
                     placeholder="Заголовок",
                     required=True,
                     type='text',
-                    width='100%',
                 ),
-                width='100%'
+                rx.spacer(),
+                rx.select(
+                    ["Математика", "Информатика", "Физика", "Робототехника", "Программирование"],
+                    value=SelectTagState.value,
+                    on_change=SelectTagState.change_value,
+                    name='subject',
+                ),
             ),
-            rx.editor(
-                width="1000px",
-                lang="ru",
-                set_contents=BlogAddPostFormState.content,
-                set_options=rx.EditorOptions(
-                    katex={
-                        "src": "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js",
-                        "css": "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"
-                    },
-                    button_list=[
-                        ["font", "fontSize", "formatBlock"],
-                        ["fontColor", "hiliteColor"],
-                        [
-                            "bold",
-                            "underline",
-                            "italic",
-                            "strike",
-                            "subscript",
-                            "superscript",
-                        ],
-                        ["removeFormat"],
-                        "/",
-                        ["outdent", "indent"],
-                        ['align', 'horizontalRule', 'list', 'lineHeight'],
-                        ['table', 'link', 'image', 'video'],
-                        ['fullScreen', 'showBlocks', 'codeView'],
-                        ['preview', 'print'],
-                        ["math"],
-                    ]
-                ),
-                on_change=BlogAddPostFormState.handle_change,
+            *QuillDeps,
+            ReactQuill.create(
+                theme="snow",
+                default_value=LessonAddPostFormState.content,
+                on_change=LessonAddPostFormState.handle_change,
+                modules=modules,
             ),
             rx.button("Опубликовать", type="submit"),
+            align="center",
         ),
-        on_submit=BlogAddPostFormState.handle_submit,
+        on_submit=LessonAddPostFormState.handle_submit,
         reset_on_submit=True,
     )
 
 
 def blog_post_edit_form() -> rx.Component:
-    post = BlogEditFormState.post
+    post = LessonEditFormState.post
     title = post.title
     content = post.content
-    publish_active = post.publish_active
-    post_content = BlogEditFormState.post_content
     return rx.form(
+        *QuillDeps,
         rx.box(
             rx.input(
                 type='hidden',
@@ -82,40 +85,14 @@ def blog_post_edit_form() -> rx.Component:
                 ),
                 width='100%'
             ),
-            rx.editor(
-                width="1000px",
-                lang="ru",
-                set_contents=content,
-                set_options=rx.EditorOptions(
-                    katex={
-                        "src": "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js",
-                        "css": "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"
-                    },
-                    button_list=[
-                        ["font", "fontSize", "formatBlock"],
-                        ["fontColor", "hiliteColor"],
-                        [
-                            "bold",
-                            "underline",
-                            "italic",
-                            "strike",
-                            "subscript",
-                            "superscript",
-                        ],
-                        ["removeFormat"],
-                        "/",
-                        ["outdent", "indent"],
-                        ['align', 'horizontalRule', 'list', 'lineHeight'],
-                        ['table', 'link', 'image', 'video'],
-                        ['fullScreen', 'showBlocks', 'codeView'],
-                        ['preview', 'print'],
-                        ["math"],
-                    ]
-                ),
-                on_change=BlogEditFormState.handle_change,
+            ReactQuill.create(
+                theme="snow",
+                default_value=content,
+                on_change=LessonEditFormState.handle_change,
+                modules=modules,
             ),
             rx.button("Опубликовать", type="submit"),
             align="center",
         ),
-        on_submit=BlogEditFormState.handle_submit,
+        on_submit=LessonEditFormState.handle_submit,
     )

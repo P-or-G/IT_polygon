@@ -4,14 +4,14 @@ from prdprf.ui.base import base_page
 
 from prdprf.lessons import forms
 
-from prdprf.lessons.state import BlogEditFormState
+from prdprf.lessons.state import LessonEditFormState
 from prdprf.lessons.notfound import blog_post_not_found
 
 
 @reflex_local_auth.require_login
 def blog_post_edit_page() -> rx.Component:
     my_form = forms.blog_post_edit_form()
-    post = BlogEditFormState.post
+    post = LessonEditFormState.post
     my_child = rx.cond(post,
                        rx.vstack(
                            rx.heading("Редактирование ", post.title, size="9"),

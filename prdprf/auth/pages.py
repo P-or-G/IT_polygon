@@ -1,31 +1,26 @@
 import reflex as rx
 
-from reflex_local_auth.pages.login import LoginState, login_form
 from reflex_local_auth.pages.registration import RegistrationState, register_form
 
 from prdprf import navigation
 from prdprf.ui.base import base_page
 
-from prdprf.auth.forms import my_register_form
-from prdprf.auth.state import SessionState
+from prdprf.auth.forms import my_register_form, my_login_form
+from prdprf.auth.state import SessionState, MyLoginState
 
 
-def my_login_page() -> rx.Component:
-    return base_page(
-        rx.center(
+def my_login_page():
+    return rx.center(
             rx.cond(
-                LoginState.is_hydrated,  # type: ignore
-                rx.card(login_form()),
+                MyLoginState.is_hydrated,
+                rx.card(my_login_form()),
             ),
             min_height="85vh",
         ),
 
-    )
-
 
 def my_register_page() -> rx.Component:
-    return base_page(
-        rx.center(
+    return rx.center(
             rx.cond(
                 RegistrationState.success,
                 rx.vstack(
@@ -37,11 +32,8 @@ def my_register_page() -> rx.Component:
             min_height="85vh",
         )
 
-    )
-
 
 def my_logout_page() -> rx.Component:
-    # Welcome Page (Index)
     my_child = rx.vstack(
         rx.heading("Вы уверены, что хотите выйти", size="7"),
         rx.link(

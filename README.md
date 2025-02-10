@@ -4,6 +4,7 @@
 - `pip install reflex`
 - `pip install alembic`
 - `pip install reflex-local-auth`
+- `pip install reflex_global_hotkey`
 
 ## В терминале/командной строке вводите
 - `reflex init`

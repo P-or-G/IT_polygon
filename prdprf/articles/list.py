@@ -2,11 +2,11 @@ import reflex as rx
 
 from prdprf import navigation
 from prdprf.ui import base
-from prdprf.models import BlogPostModel
+from prdprf.models import LessonPostModel
 from prdprf.articles import state
 
 
-def article_card_link(post: BlogPostModel):
+def article_card_link(post: LessonPostModel):
     post_id = post.id
     if post_id is None:
         return rx.fragment("Not found")

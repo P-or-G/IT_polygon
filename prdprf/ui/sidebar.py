@@ -7,7 +7,8 @@ from prdprf import navigation
 
 def sidebar_user_item() -> rx.Component:
     user_info_obj = SessionState.authenticated_user_info
-    username_via_user_obj = rx.cond(SessionState.authenticated_username, SessionState.authenticated_username, "Аккаунт")
+    username_via_user_obj = rx.cond(SessionState.authenticated_username, SessionState.authenticated_username, "Имя")
+    surname_via_user_obj = rx.cond(SessionState.authenticated_surname, SessionState.authenticated_surname, "Фамилия")
     return rx.cond(
         user_info_obj,
         rx.hstack(
@@ -15,11 +16,12 @@ def sidebar_user_item() -> rx.Component:
                 rx.icon("user"),
                 size="4",
                 radius="full",
+                on_click=lambda: rx.redirect(navigation.routes.PROFILE_ROUTE),
             ),
             rx.vstack(
                 rx.box(
                     rx.text(
-                        username_via_user_obj,
+                        username_via_user_obj + " " + surname_via_user_obj,
                         size="3",
                         weight="bold",
                     ),
@@ -48,11 +50,11 @@ def sidebar_user_item() -> rx.Component:
     )
 
 
-def sidebar_logout_item() -> rx.Component:
+def sidebar_logout_item(text="Выйти") -> rx.Component:
     return rx.box(
         rx.hstack(
             rx.icon("log-out"),
-            rx.text("Выйти", size="4"),
+            rx.text(text, size="4"),
             width="100%",
             padding_x="0.5rem",
             padding_y="0.75rem",
@@ -109,12 +111,12 @@ def sidebar_dark_mode_toggle_item() -> rx.Component:
 
 
 def sidebar_item(
-        text: str, icon: str, href: str
+        text: str, icon: str, href: str,
 ) -> rx.Component:
     return rx.link(
         rx.vstack(
             rx.icon(icon),
-            rx.text(text, size="4", align='center', weight='medium'),
+            rx.text(text, size="4", align="center", weight='medium'),
             padding_x="0.5rem",
             padding_y="0.75rem",
             align="center",
@@ -135,20 +137,30 @@ def sidebar_item(
     )
 
 
-def navbar_link(text: str, url: str) -> rx.Component:
+def mobile_sidebar_item(
+        text: str, icon: str, href: str,
+) -> rx.Component:
     return rx.link(
-        rx.text(text, size="4", weight="medium"), href=url
-    )
-
-
-def sidebar_items() -> rx.Component:
-    return rx.hstack(
-        sidebar_item("Уроки", "library", navigation.routes.ARTICLE_LIST_ROUTE),
-        sidebar_item("Ваши уроки", "book-user", navigation.routes.BLOG_POSTS_ROUTE),
-        sidebar_item("Создать урок", "notebook-pen", navigation.routes.BLOG_POST_ADD_ROUTE),
-        sidebar_item("Обратная связь", "phone", navigation.routes.CONTACT_US_ROUTE),
-        sidebar_item("Обращения", "scroll-text", navigation.routes.CONTACT_ENTRIES_ROUTE),
-        spacing="5",
+        rx.hstack(
+            rx.icon(icon),
+            rx.text(text, size="4", align="center", weight='medium'),
+            padding_x="0.5rem",
+            padding_y="0.75rem",
+            align="center",
+            align_items="center",
+            style=rx.Style(
+                {
+                    "_hover": {
+                        "bg": rx.color("accent", 4),
+                        "color": rx.color("accent", 11),
+                    },
+                    "border-radius": "0.5em",
+                },
+            )
+        ),
+        href=href,
+        underline="none",
+        weight="medium",
     )
 
 
@@ -176,13 +188,16 @@ def sidebar() -> rx.Component:
                 ),
                 rx.hstack(
                     sidebar_item("Уроки", "library", navigation.routes.ARTICLE_LIST_ROUTE),
-                    sidebar_item("Ваши уроки", "book-user", navigation.routes.BLOG_POSTS_ROUTE),
-                    sidebar_item("Создать урок", "notebook-pen", navigation.routes.BLOG_POST_ADD_ROUTE),
-                    sidebar_item("Обратная связь", "phone", navigation.routes.CONTACT_US_ROUTE),
-                    sidebar_item("Обращения", "scroll-text", navigation.routes.CONTACT_ENTRIES_ROUTE),
-                    spacing="5",
+                    rx.cond(SessionState.authenticated_teacher,
+                            sidebar_item("Ваши уроки", "book-user", navigation.routes.YOUR_LESSONS_ROUTE), ),
+                    rx.cond(SessionState.authenticated_teacher,
+                            sidebar_item("Создать задание", "square-plus", navigation.routes.CREATE_TEST_ROUTE), ),
+                    sidebar_item("Задания", "book-open-check", navigation.routes.ALL_TESTS_ROUTE),
+                    sidebar_item("Статистика", "chart-column", navigation.routes.STATISTICS_ROUTE),
+                    spacing="5"
                 ),
                 rx.hstack(
+                    sidebar_logout_item(text=""),
                     sidebar_dark_mode_toggle_item(),
                     sidebar_user_item(),
                     spacing="4",
@@ -207,7 +222,15 @@ def sidebar() -> rx.Component:
                                 ),
                                 width="100%",
                             ),
-                            sidebar_items(),
+                            rx.vstack(
+                                mobile_sidebar_item("Уроки", "library", navigation.routes.ARTICLE_LIST_ROUTE),
+                                mobile_sidebar_item("Тесты", "book-open-check", navigation.routes.ALL_TESTS_ROUTE),
+                                rx.cond(SessionState.authenticated_teacher,
+                                        mobile_sidebar_item("Ваши уроки", "book-user",
+                                                            navigation.routes.YOUR_LESSONS_ROUTE), ),
+                                mobile_sidebar_item("Задания", "book-open-check", navigation.routes.ALL_TESTS_ROUTE),
+                                spacing="3",
+                            ),
                             rx.spacer(),
                             rx.vstack(
                                 rx.vstack(
