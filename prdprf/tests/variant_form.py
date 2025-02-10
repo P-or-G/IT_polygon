@@ -28,10 +28,12 @@ def variant_form(question: Question):
 @reflex_local_auth.require_login
 def variant_list_page() -> rx.Component:
     return base_page(
-        rx.vstack(
-            rx.foreach(VariantState.tasks, variant_form),
-            spacing="5",
-            align="center",
-            min_height="85vh",
+        rx.center(
+            rx.vstack(
+                rx.foreach(VariantState.tasks, variant_form),
+                spacing="5",
+                align="center",
+                min_height="85vh",
+            )
         )
     )
