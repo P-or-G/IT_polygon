@@ -14,7 +14,6 @@ from .react_oauth_google import (
 )
 
 CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID", "")
-# CLIENT_ID = "XXXXXXXXXXXX-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.apps.googleusercontent.com"
 
 class State(rx.State):
     id_token_json: str = rx.LocalStorage()

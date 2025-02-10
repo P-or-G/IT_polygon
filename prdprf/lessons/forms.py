@@ -12,7 +12,6 @@ modules = {
             ['formula'],
             ['clean'],
             ['video'],
-            ['code-block'],
         ],
 
         'history': {
@@ -22,9 +21,6 @@ modules = {
         },
 
         'syntax': True, # TODO
-
-        # TODO
-        # 'clipboard': {},
 }
 
 formats = []
