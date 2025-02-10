@@ -193,6 +193,7 @@ def sidebar() -> rx.Component:
                     rx.cond(SessionState.authenticated_teacher,
                             sidebar_item("Создать задание", "square-plus", navigation.routes.CREATE_TEST_ROUTE), ),
                     sidebar_item("Задания", "book-open-check", navigation.routes.ALL_TESTS_ROUTE),
+                    sidebar_item("Статистика", "chart-column", navigation.routes.STATISTICS_ROUTE),
                     spacing="5"
                 ),
                 rx.hstack(
