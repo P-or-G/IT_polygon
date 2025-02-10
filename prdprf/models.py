@@ -3,11 +3,8 @@ from datetime import datetime
 
 import bcrypt
 import reflex as rx
-import reflex_local_auth
-from reflex_local_auth.user import LocalUser
 
 import sqlalchemy
-from sqlalchemy import Column
 from sqlmodel import Field, Relationship
 
 from prdprf import utils
@@ -57,7 +54,7 @@ class LessonPostModel(rx.Model, table=True):
     userinfo: Optional['UserInfo'] = Relationship(back_populates="posts")
     title: str
     content: str
-    tags: dict = Field(default={}, sa_column=sqlalchemy.Column("tags", sqlalchemy.JSON))
+    subject: str
     created_at: datetime = Field(
         default_factory=utils.timing.get_utc_now,
         sa_type=sqlalchemy.DateTime(timezone=True),

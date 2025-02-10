@@ -61,16 +61,10 @@ class ArticlePublicState(SessionState):
         yield
 
     def load_posts(self, *args, **kwargs):
-        lookup_args = (
-                (LessonPostModel.publish_active == True) &
-                (LessonPostModel.publish_date < datetime.now())
-        )
+
         with rx.session() as session:
             result = session.exec(
-                select(LessonPostModel).options(
-                    sqlalchemy.orm.joinedload(LessonPostModel.userinfo)
-                ).where(lookup_args).limit(self.limit)
-            ).all()
+                select(LessonPostModel).options(sqlalchemy.orm.joinedload(LessonPostModel.userinfo))).all()
             self.posts = result
     
     def to_post(self):

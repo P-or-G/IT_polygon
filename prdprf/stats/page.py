@@ -1,61 +1,50 @@
 import reflex as rx
-from reflex import select
 
 from prdprf.models import UserInfo
+from prdprf.stats.state import UsersTableState
 
 
-class UsersTableState(rx.State):
-    users: list[UserInfo] = []
+def show_users(user: UserInfo):
+    return rx.table.row(
+        rx.table.cell(user.username),
+        rx.table.cell(user.surname),
+        rx.table.cell(user.grade),
+        rx.table.cell(user.litera),
+        rx.table.cell(user.points),
+    )
 
-    @rx.event
-    def load_entries(self):
-        with rx.session() as session:
-            self.users = session.exec(select(UserInfo)).all()
 
-
-def create_table():
-    return rx.flex(
-        rx.heading("Статистика"),
-        rx.text("Invite and manage your team members"),
-        rx.flex(
-            rx.input(placeholder="Email Address"),
-            rx.button("Invite"),
-            justify="center",
-            spacing="2",
-        ),
+def loading_data_table_example():
+    return rx.vstack(
+        # rx.select(
+        #     ['Имя', 'Фамилия', 'Счёт'],
+        #     placeholder="Sort By: Name",
+        #     on_change=lambda value: UsersTableState.sort_values(
+        #         value
+        #     ),
+        # ),
+        # rx.input(
+        #     placeholder="Search here...",
+        #     on_change=lambda value: UsersTableState.filter_values(
+        #         value
+        #     ),
+        # ),
         rx.table.root(
-            rx.table.body(
+            rx.table.header(
                 rx.table.row(
-                    rx.table.cell(rx.avatar(fallback="DS")),
-                    rx.table.row_header_cell(
-                        rx.link("Danilo Sousa")
-                    ),
-                    rx.table.cell("danilo@example.com"),
-                    rx.table.cell("Developer"),
-                    align="center",
-                ),
-                rx.table.row(
-                    rx.table.cell(rx.avatar(fallback="ZA")),
-                    rx.table.row_header_cell(
-                        rx.link("Zahra Ambessa")
-                    ),
-                    rx.table.cell("zahra@example.com"),
-                    rx.table.cell("Admin"),
-                    align="center",
-                ),
-                rx.table.row(
-                    rx.table.cell(rx.avatar(fallback="JE")),
-                    rx.table.row_header_cell(
-                        rx.link("Jasper Eriksson")
-                    ),
-                    rx.table.cell("jasper@example.com"),
-                    rx.table.cell("Developer"),
-                    align="center",
+                    rx.table.column_header_cell("Имя"),
+                    rx.table.column_header_cell("Фамилия"),
+                    rx.table.column_header_cell("Класс"),
+                    rx.table.column_header_cell("Литера"),
+                    rx.table.column_header_cell("Рейтинг"),
                 ),
             ),
+            rx.table.body(
+                rx.foreach(
+                    UsersTableState.users, show_users
+                )
+            ),
+            on_mount=UsersTableState.load_entries,
             width="100%",
-        ),
-        width="100%",
-        direction="column",
-        spacing="2",
+        )
     )

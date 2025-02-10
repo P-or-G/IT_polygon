@@ -45,7 +45,7 @@ def blog_post_add_form() -> rx.Component:
                     ["Математика", "Информатика", "Физика", "Робототехника", "Программирование"],
                     value=SelectTagState.value,
                     on_change=SelectTagState.change_value,
-                    name='tag',
+                    name='subject',
                 ),
             ),
             *QuillDeps,
