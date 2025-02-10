@@ -7,7 +7,7 @@ from sqlmodel import select
 
 from prdprf import navigation
 from prdprf.auth.state import SessionState
-from prdprf.models import BlogPostModel, UserInfo
+from prdprf.models import LessonPostModel, UserInfo
 
 ARTICLE_LIST_ROUTE = navigation.routes.ARTICLE_LIST_ROUTE
 if ARTICLE_LIST_ROUTE.endswith("/"):
@@ -15,8 +15,8 @@ if ARTICLE_LIST_ROUTE.endswith("/"):
 
 
 class ArticlePublicState(SessionState):
-    posts: List['BlogPostModel'] = []
-    post: Optional['BlogPostModel'] = None
+    posts: List['LessonPostModel'] = []
+    post: Optional['LessonPostModel'] = None
     post_content: str = ""
     post_publish_active: bool = True
     limit: int = 20
@@ -33,9 +33,9 @@ class ArticlePublicState(SessionState):
 
     def get_post_detail(self):
         lookups = (
-            (BlogPostModel.publish_active == True) &
-            (BlogPostModel.publish_date < datetime.now()) &
-            (BlogPostModel.id == self.post_id)
+                (LessonPostModel.publish_active == True) &
+                (LessonPostModel.publish_date < datetime.now()) &
+                (LessonPostModel.id == self.post_id)
         )
         with rx.session() as session:
             if self.post_id == "":
@@ -43,8 +43,8 @@ class ArticlePublicState(SessionState):
                 self.post_content = ""
                 self.post_publish_active = False
                 return
-            sql_statement = select(BlogPostModel).options(
-                sqlalchemy.orm.joinedload(BlogPostModel.userinfo).joinedload(UserInfo.user)
+            sql_statement = select(LessonPostModel).options(
+                sqlalchemy.orm.joinedload(LessonPostModel.userinfo).joinedload(UserInfo.user)
             ).where(lookups)
             result = session.exec(sql_statement).one_or_none()
             self.post = result
@@ -62,13 +62,13 @@ class ArticlePublicState(SessionState):
 
     def load_posts(self, *args, **kwargs):
         lookup_args = (
-            (BlogPostModel.publish_active == True) &
-            (BlogPostModel.publish_date < datetime.now())
+                (LessonPostModel.publish_active == True) &
+                (LessonPostModel.publish_date < datetime.now())
         )
         with rx.session() as session:
             result = session.exec(
-                select(BlogPostModel).options(
-                    sqlalchemy.orm.joinedload(BlogPostModel.userinfo)
+                select(LessonPostModel).options(
+                    sqlalchemy.orm.joinedload(LessonPostModel.userinfo)
                 ).where(lookup_args).limit(self.limit)
             ).all()
             self.posts = result

@@ -1,7 +1,7 @@
 import reflex as rx
 from .quill import Quill, ReactQuill, QuillDeps
 
-from prdprf.lessons.state import BlogAddPostFormState, BlogEditFormState, SelectTagState
+from prdprf.lessons.state import LessonAddPostFormState, LessonEditFormState, SelectTagState
 
 modules = {
         'toolbar': [
@@ -51,20 +51,20 @@ def blog_post_add_form() -> rx.Component:
             *QuillDeps,
             ReactQuill.create(
                 theme="snow",
-                default_value=BlogAddPostFormState.content,
-                on_change=BlogAddPostFormState.handle_change,
+                default_value=LessonAddPostFormState.content,
+                on_change=LessonAddPostFormState.handle_change,
                 modules=modules,
             ),
             rx.button("Опубликовать", type="submit"),
             align="center",
         ),
-        on_submit=BlogAddPostFormState.handle_submit,
+        on_submit=LessonAddPostFormState.handle_submit,
         reset_on_submit=True,
     )
 
 
 def blog_post_edit_form() -> rx.Component:
-    post = BlogEditFormState.post
+    post = LessonEditFormState.post
     title = post.title
     content = post.content
     return rx.form(
@@ -92,11 +92,11 @@ def blog_post_edit_form() -> rx.Component:
             ReactQuill.create(
                 theme="snow",
                 default_value=content,
-                on_change=BlogEditFormState.handle_change,
+                on_change=LessonEditFormState.handle_change,
                 modules=modules,
             ),
             rx.button("Опубликовать", type="submit"),
             align="center",
         ),
-        on_submit=BlogEditFormState.handle_submit,
+        on_submit=LessonEditFormState.handle_submit,
     )

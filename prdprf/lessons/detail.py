@@ -1,5 +1,6 @@
 import reflex as rx
 
+from prdprf.comments.form import index
 from prdprf.ui.base import base_page
 
 from prdprf.lessons import state
@@ -27,26 +28,27 @@ tr:nth-child(even) {
 
 def blog_post_detail_page() -> rx.Component:
     can_edit = True
-    edit_link = rx.link("Редактировать", href=f"{state.BlogPostState.blog_post_edit_url}")
+    edit_link = rx.link("Редактировать", href=f"{state.LessonPostState.blog_post_edit_url}")
     edit_link_el = rx.cond(
         can_edit,
         edit_link,
         rx.fragment("")
     )
-    my_child = rx.cond(state.BlogPostState.post,
+    my_child = rx.cond(state.LessonPostState.post,
                        rx.vstack(
                            *QuillDeps,
                            rx.hstack(
-                               rx.heading(state.BlogPostState.post.title, size="8"),
+                               rx.heading(state.LessonPostState.post.title, size="8"),
                                edit_link_el,
                                align='end'
                            ),
                            rx.box(
                                rx.html(
-                                   html_style_base + state.BlogPostState.post.content,
+                                   html_style_base + state.LessonPostState.post.content,
                                ),
                                width="1000px",
                            ),
+                           index(),
                            spacing="5",
                            align="center",
                            min_height="85vh",

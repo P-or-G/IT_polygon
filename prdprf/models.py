@@ -13,7 +13,6 @@ from sqlmodel import Field, Relationship
 from prdprf import utils
 
 
-
 class UserInfo(rx.Model, table=True):
     user_id: int = Field(foreign_key='localuser.id', nullable=True)
     email: str = Field(unique=True, nullable=False, index=True)
@@ -30,10 +29,7 @@ class UserInfo(rx.Model, table=True):
     teacher: bool = False
 
     com_lessons: dict = Field(default={}, sa_column=sqlalchemy.Column("com_lessons", sqlalchemy.JSON))
-    posts: List['BlogPostModel'] = Relationship(
-        back_populates='userinfo'
-    )
-    contact_entries: List['ContactEntryModel'] = Relationship(
+    posts: List['LessonPostModel'] = Relationship(
         back_populates='userinfo'
     )
 
@@ -56,7 +52,7 @@ class UserInfo(rx.Model, table=True):
         return d
 
 
-class BlogPostModel(rx.Model, table=True):
+class LessonPostModel(rx.Model, table=True):
     userinfo_id: int = Field(default=None, foreign_key="userinfo.id")
     userinfo: Optional['UserInfo'] = Relationship(back_populates="posts")
     title: str
@@ -88,24 +84,6 @@ class BlogPostModel(rx.Model, table=True):
     )
 
 
-class ContactEntryModel(rx.Model, table=True):
-    user_id: int | None = None
-    userinfo_id: int = Field(default=None, foreign_key="userinfo.id")
-    userinfo: Optional['UserInfo'] = Relationship(back_populates="contact_entries")
-    first_name: str
-    last_name: str | None = None
-    email: str | None = None  # = Field(nullable=True)
-    message: str
-    created_at: datetime = Field(
-        default_factory=utils.timing.get_utc_now,
-        sa_type=sqlalchemy.DateTime(timezone=True),
-        sa_column_kwargs={
-            'server_default': sqlalchemy.func.now()
-        },
-        nullable=False
-    )
-
-
 class LessonsModel(rx.Model, table=True):
     creator_id: int = Field(default=None, foreign_key="userinfo.id")
     ...
@@ -114,8 +92,8 @@ class LessonsModel(rx.Model, table=True):
 
 
 class Test(rx.Model, table=True):
-    title: str | None = None # Название теста
-    subject: str | None = None # Предмет теста
+    title: str | None = None  # Название теста
+    subject: str | None = None  # Предмет теста
     topic: str = ""  # Тема теста
     test_text: str = ""
 
@@ -127,3 +105,20 @@ class Question(rx.Model, table=True):
     score: int
 
 
+class Comment(rx.Model, table=True):
+    user_id: int = Field(default=None, foreign_key="userinfo.id")
+    username: str = Field(default=None, foreign_key="userinfo.username")
+    surname: str = Field(default=None, foreign_key="userinfo.surname")
+    userstatus: str = Field(default=None, foreign_key="userinfo.teacher")
+    text: str
+    post_id: int = Field(default=None, foreign_key="lessonpostmodel.id")
+
+
+class Reply(rx.Model, table=True):
+    user_id: int = Field(default=None, foreign_key="userinfo.id")
+    username: str = Field(default=None, foreign_key="userinfo.username")
+    surname: str = Field(default=None, foreign_key="userinfo.surname")
+    userstatus: str = Field(default=None, foreign_key="userinfo.teacher")
+    text: str  # Текст ответа
+    comment_id: int = Field(default=None, foreign_key="comment.id")  # ID комментария, на который отвечают
+    is_hidden: bool = Field(default=True)
