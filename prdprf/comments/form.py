@@ -37,7 +37,7 @@ class CommentState(rx.State):
             new_comment = Comment(
                 username=user.username,
                 surname=user.surname,
-                userstatus=user.teacher,
+                userstatus="Учитель" if user.teacher else f"Ученик {user.grade}{user.litera} класса",
                 text=self.comment_content,
                 post_id=POST_ID,  # Используем глобальную переменную
             )
@@ -49,7 +49,7 @@ class CommentState(rx.State):
 
     def delete_comment(self, comment_id: int):
         """Удалить комментарий."""
-        with Session(engine) as session:
+        with rx.session() as session:
             comment = session.get(Comment, comment_id)
             if comment:
                 session.delete(comment)
@@ -57,22 +57,15 @@ class CommentState(rx.State):
         self.load_comments()  # Обновить список комментариев
 
 
-class ReplyState(rx.State):
-    reply_username: str = SessionState.authenticated_username
-    reply_surname: str = SessionState.authenticated_surname
-    userstatus: str = rx.cond(SessionState.authenticated_teacher, "Учитель", "Ученик")
 
+class ReplyState(rx.State):
     reply_text: str = ""  # Текст ответа
     reply_comment_id: int | None = None  # ID комментария, на который отвечают
     replies: list[Reply] = []
 
     def show_replies(self, comment_id: int, show_all=False):
-        with Session(engine) as session:
-            replies = session.exec(
-                Reply.select().where(
-                    (Reply.comment_id == comment_id)
-                )
-            ).all()
+        with rx.session() as session:
+            replies = session.exec(select(Reply).where((Reply.comment_id == comment_id))).all()
             for reply in replies:
                 if show_all:
                     reply.is_hidden = False
@@ -86,26 +79,27 @@ class ReplyState(rx.State):
         self.reply_comment_id = comment_id
 
     def add_reply(self, comment_id):
+        with rx.session() as session:
+            user = session.exec(select(UserInfo).where(UserInfo.id == LocalAuthSession.user_id)).first()
         self.reply_comment_id = comment_id
         """Добавить ответ на комментарий."""
         if self.reply_text.strip() and self.reply_comment_id is not None:
             new_reply = Reply(
-                username=self.reply_username,
-                userstatus=self.userstatus,
+                username=user.username,
+                userstatus="Учитель" if user.teacher else f"Ученик {user.grade}{user.litera} класса",
                 text=self.reply_text,
                 comment_id=self.reply_comment_id,
             )
-            with Session(engine) as session:
+            with rx.session() as session:
                 session.add(new_reply)
                 session.commit()
+            self.load_replies()
             self.show_replies(comment_id, show_all=True)
             self.reply_text = ""  # Очистить текст ответа
             self.reply_comment_id = None  # Сбросить ID комментария
-            self.load_replies()
-            # Обновить список комментариев
 
     def load_replies(self):
-        with Session(engine) as session:
+        with rx.session() as session:
             self.replies = session.query(Reply).all()
 
 
