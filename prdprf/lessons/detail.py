@@ -1,5 +1,6 @@
 import reflex as rx
 
+from prdprf.auth.state import SessionState
 from prdprf.comments.form import index
 from prdprf.ui.base import base_page
 
@@ -39,14 +40,14 @@ def blog_post_detail_page() -> rx.Component:
                            *QuillDeps,
                            rx.hstack(
                                rx.heading(state.LessonPostState.post.title, size="8"),
-                               edit_link_el,
+                               rx.cond(state.LessonPostState.post.userinfo.id == SessionState.authenticated_user_info.id, edit_link_el, None),
                                align='end'
                            ),
+                           rx.text("Тема ", state.LessonPostState.post.subject),
                            rx.box(
                                rx.html(
                                    html_style_base + state.LessonPostState.post.content,
                                ),
-                               width="1000px",
                            ),
                            index(),
                            spacing="5",
