@@ -20,6 +20,8 @@ from .dashboard import page
 from .stats.page import loading_data_table_example
 from .tests.subj_page import question_post_list_page, question_add_page
 from .tests.subj_state import SubjectListState
+from .tests.variant_form import variant_list_page
+from .tests.variant_state import VariantState
 
 
 def index() -> rx.Component:
@@ -117,4 +119,10 @@ app.add_page(
 app.add_page(
     base_page(loading_data_table_example()),
     route=navigation.routes.STATISTICS_ROUTE
+)
+
+app.add_page(
+    variant_list_page(),
+    route=navigation.routes.VARIANT_ROUTE,
+    on_load=VariantState.load_tasks
 )

@@ -7,3 +7,4 @@ python>=3.10
 google
 soupsieve
 beautifulsoup4
+google-api-core
