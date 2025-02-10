@@ -1,3 +1,12 @@
+
+.web/
+*.db
+assets/external/
+*.py[cod]
+**/__pycache__/
+venv/
+.venv/
+.idea/
 **/__pycache__/
 *.py[cod]
 .web/
@@ -5,3 +14,4 @@
 assets/external/
 uv.lock
 poetry.lock
+

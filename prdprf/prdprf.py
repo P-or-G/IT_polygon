@@ -1,5 +1,3 @@
-"""Welcome to Reflex! This file outlines the steps to create a basic app."""
-
 import reflex as rx
 import reflex_local_auth
 
@@ -86,7 +84,6 @@ app.add_page(
     lessons.blog_post_list_page,
     route=navigation.routes.YOUR_LESSONS_ROUTE,
     on_load=lessons.LessonPostState.load_posts
-
 )
 
 app.add_page(
