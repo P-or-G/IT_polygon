@@ -35,25 +35,28 @@ def blog_post_detail_page() -> rx.Component:
         edit_link,
         rx.fragment("")
     )
-    my_child = rx.cond(state.LessonPostState.post,
-                       rx.vstack(
-                           *QuillDeps,
-                           rx.hstack(
-                               rx.heading(state.LessonPostState.post.title, size="8"),
-                               rx.cond(state.LessonPostState.post.userinfo.id == SessionState.authenticated_user_info.id, edit_link_el, None),
-                               align='end'
-                           ),
-                           rx.text("Тема ", state.LessonPostState.post.subject),
-                           rx.box(
-                               rx.html(
-                                   html_style_base + state.LessonPostState.post.content,
-                               ),
-                           ),
-                           index(),
-                           spacing="5",
-                           align="center",
-                           min_height="85vh",
-                       ),
-                       blog_post_not_found()
-                       )
+    my_child = rx.container(
+        rx.cond(state.LessonPostState.post,
+                rx.vstack(
+                    *QuillDeps,
+                    rx.hstack(
+                        rx.heading(state.LessonPostState.post.title, size="8"),
+                        rx.cond(state.LessonPostState.post.userinfo.id == SessionState.authenticated_user_info.id,
+                                edit_link_el, None),
+                        align='end'
+                    ),
+                    rx.text("Тема ", state.LessonPostState.post.subject),
+                    rx.box(
+                        rx.html(
+                            state.LessonPostState.post.content,
+                        ),
+                    ),
+                    index(),
+                    spacing="5",
+                    align="center",
+                    min_height="85vh",
+                ),
+                blog_post_not_found()
+                )
+    )
     return base_page(my_child)

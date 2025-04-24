@@ -13,7 +13,7 @@ def blog_post_detail_link(child: rx.Component, post: LessonPostModel):
     post_id = post.id
     if post_id is None:
         return rx.fragment(child)
-    root_path = navigation.routes.YOUR_LESSONS_ROUTE
+    root_path = navigation.routes.LESSONS_ROUTE
     post_detail_url = f"{root_path}/{post_id}"
     return rx.link(
         child,
@@ -26,7 +26,7 @@ def blog_post_list_item(post: LessonPostModel):
     return rx.box(
         blog_post_detail_link(
             rx.heading(post.title),
-            
+
             post
         ),
         padding='1em'

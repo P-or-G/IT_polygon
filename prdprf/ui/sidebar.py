@@ -63,7 +63,6 @@ def sidebar_logout_item(text="Выйти") -> rx.Component:
                 {
                     "_hover": {
                         "cursor": "pointer",  # css
-                        "bg": rx.color("accent", 4),
                         "color": rx.color("accent", 11),
                     },
                     "color": rx.color("accent", 11),
@@ -189,11 +188,12 @@ def sidebar() -> rx.Component:
                 rx.hstack(
                     sidebar_item("Уроки", "library", navigation.routes.ARTICLE_LIST_ROUTE),
                     rx.cond(SessionState.authenticated_teacher,
-                            sidebar_item("Ваши уроки", "book-user", navigation.routes.YOUR_LESSONS_ROUTE), ),
+                            sidebar_item("Ваши уроки", "book-user", navigation.routes.LESSONS_ROUTE), ),
                     rx.cond(SessionState.authenticated_teacher,
                             sidebar_item("Создать задание", "square-plus", navigation.routes.CREATE_TEST_ROUTE), ),
                     sidebar_item("Задания", "book-open-check", navigation.routes.ALL_TESTS_ROUTE),
                     sidebar_item("Статистика", "chart-column", navigation.routes.STATISTICS_ROUTE),
+                    sidebar_item("Перевод", "languages", navigation.routes.TRANSLATOR_ROUTE),
                     spacing="5"
                 ),
                 rx.hstack(
@@ -227,7 +227,7 @@ def sidebar() -> rx.Component:
                                 mobile_sidebar_item("Тесты", "book-open-check", navigation.routes.ALL_TESTS_ROUTE),
                                 rx.cond(SessionState.authenticated_teacher,
                                         mobile_sidebar_item("Ваши уроки", "book-user",
-                                                            navigation.routes.YOUR_LESSONS_ROUTE), ),
+                                                            navigation.routes.LESSONS_ROUTE), ),
                                 mobile_sidebar_item("Задания", "book-open-check", navigation.routes.ALL_TESTS_ROUTE),
                                 spacing="3",
                             ),
@@ -252,7 +252,7 @@ def sidebar() -> rx.Component:
                         height="100%",
                         width="20em",
                         padding="1.5em",
-                        bg=rx.color("accent", 2),
+                        bg=rx.color("gray", 2),
                     ),
                     width="100%",
                 ),
@@ -260,7 +260,7 @@ def sidebar() -> rx.Component:
             ),
             padding="1em",
         ),
-        bg=rx.color("accent"),
+        bg=rx.color("black"),
         padding="1em",
         width="100%",
     )
