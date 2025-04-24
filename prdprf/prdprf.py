@@ -18,7 +18,10 @@ from .articles.state import ArticlePublicState
 from . import lessons, navigation, dashboard
 from .dashboard import page
 from .stats.page import loading_data_table_example
-from .tasks_new.page import question_generator_form
+from .tests.subj_page import question_post_list_page, question_add_page
+from .tests.subj_state import SubjectListState
+from .tests.variant_form import variant_list_page
+from .tests.variant_state import VariantState
 from .translator.main import translator_page
 
 
@@ -104,16 +107,28 @@ app.add_page(
 )
 
 app.add_page(
+    question_post_list_page,
+    route=navigation.routes.ALL_TESTS_ROUTE,
+    on_load=SubjectListState.load_quests
+)
+
+app.add_page(
+    question_add_page,
+    route=navigation.routes.CREATE_TEST_ROUTE
+)
+
+app.add_page(
     base_page(loading_data_table_example()),
     route=navigation.routes.STATISTICS_ROUTE
 )
 
 app.add_page(
-    translator_page,
-    route=navigation.routes.TRANSLATOR_ROUTE
+    variant_list_page,
+    route=navigation.routes.VARIANT_ROUTE,
+    on_load=VariantState.load_tasks
 )
 
 app.add_page(
-    question_generator_form,
-    route=navigation.routes.TEST_ROUTE,  # /variant
+    translator_page,
+    route=navigation.routes.TRANSLATOR_ROUTE
 )
