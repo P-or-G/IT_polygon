@@ -52,7 +52,8 @@ class RussianPythonTranslator(rx.State):
         'нелокальное': 'nonlocal',
         'пропустить': 'pass',
         'выдать': 'yield',
-        'лямбда': 'lambda'
+        'лямбда': 'lambda',
+        'карта': 'map'
     }
 
     russian_code: str = """печать("Привет мир!")"""
