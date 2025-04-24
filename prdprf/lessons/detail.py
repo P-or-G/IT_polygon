@@ -48,7 +48,7 @@ def blog_post_detail_page() -> rx.Component:
                     rx.text("Тема ", state.LessonPostState.post.subject),
                     rx.box(
                         rx.html(
-                            html_style_base + state.LessonPostState.post.content,
+                            state.LessonPostState.post.content,
                         ),
                     ),
                     index(),
