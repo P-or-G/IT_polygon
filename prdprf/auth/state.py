@@ -121,7 +121,7 @@ class MyRegisterState(reflex_local_auth.LocalAuthState):
 
         self.handle_registration({
             "Имя": token_info["name"],
-            "Фамилия": "", # у гугла можно поменять scopes и просить фамилию в принципе
+            "Фамилия": "",
             "Почта": token_info["email"],
 
             "Пароль": json.dumps(token_id),

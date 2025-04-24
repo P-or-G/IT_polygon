@@ -9,7 +9,7 @@ from prdprf import navigation
 from prdprf.auth.state import SessionState
 from prdprf.models import LessonPostModel, UserInfo
 
-BLOG_POSTS_ROUTE = navigation.routes.YOUR_LESSONS_ROUTE
+BLOG_POSTS_ROUTE = navigation.routes.LESSONS_ROUTE
 if BLOG_POSTS_ROUTE.endswith("/"):
     BLOG_POSTS_ROUTE = BLOG_POSTS_ROUTE[:-1]
 
@@ -32,7 +32,10 @@ class LessonPostState(SessionState):
     posts: List['LessonPostModel'] = []
     post: Optional['LessonPostModel'] = None
     post_content: str = ""
-    post_publish_active: bool = False
+    post_publish_active: bool = True
+
+    def class_name(self):
+        return str(rx.color_mode_cond("blck", "wht")).split()[-3]
 
     @rx.var
     def blog_post_id(self):

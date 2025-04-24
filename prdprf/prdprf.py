@@ -22,6 +22,7 @@ from .tests.subj_page import question_post_list_page, question_add_page
 from .tests.subj_state import SubjectListState
 from .tests.variant_form import variant_list_page
 from .tests.variant_state import VariantState
+from .translator.main import translator_page
 
 
 def index() -> rx.Component:
@@ -33,14 +34,14 @@ def index() -> rx.Component:
 
 app = rx.App(
     theme=rx.theme(
-        appearance="light",
+        appearance="inherit",
         has_background=True,
         panel_background="solid",
         scaling="90%",
-        radius="medium",
-        accent_color="sky"
-    )
-
+        radius="large",
+        accent_color="purple",
+        gray_color="gray"
+    ),
 )
 
 app.add_page(index,
@@ -84,7 +85,7 @@ app.add_page(
 
 app.add_page(
     lessons.blog_post_list_page,
-    route=navigation.routes.YOUR_LESSONS_ROUTE,
+    route=navigation.routes.LESSONS_ROUTE,
     on_load=lessons.LessonPostState.load_posts
 )
 
@@ -122,7 +123,12 @@ app.add_page(
 )
 
 app.add_page(
-    variant_list_page(),
+    variant_list_page,
     route=navigation.routes.VARIANT_ROUTE,
     on_load=VariantState.load_tasks
+)
+
+app.add_page(
+    translator_page,
+    route=navigation.routes.TRANSLATOR_ROUTE
 )

@@ -10,7 +10,7 @@ def article_card_link(post: LessonPostModel):
     post_id = post.id
     if post_id is None:
         return rx.fragment("Not found")
-    root_path = navigation.routes.ARTICLE_LIST_ROUTE
+    root_path = navigation.routes.LESSONS_ROUTE
     post_detail_url = f"{root_path}/{post_id}"
     return rx.card(
         rx.link(

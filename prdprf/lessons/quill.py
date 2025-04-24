@@ -1,9 +1,11 @@
 import reflex as rx
 from typing import List, Dict
 
+
 class ReactQuillLib(rx.components.component.NoSSRComponent):
     library = "react-quill-new"
     lib_dependencies: List[str] = [ "lodash", "quill" ]
+
 
 class ReactQuill(ReactQuillLib):
     tag = "ReactQuill"
