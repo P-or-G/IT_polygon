@@ -5,7 +5,7 @@ from prdprf.lessons.state import LessonAddPostFormState, LessonEditFormState, Se
 
 modules = {
         'toolbar': [
-            [{ 'header': [1, 2, False] }],
+            [{'header': [1, 2, False] }],
             ['bold', 'italic', 'underline','strike', 'blockquote'],
             [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
             ['link', 'image'],

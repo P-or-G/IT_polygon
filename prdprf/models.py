@@ -81,41 +81,34 @@ class LessonPostModel(rx.Model, table=True):
     )
 
 
-class LessonsModel(rx.Model, table=True):
-    creator_id: int = Field(default=None, foreign_key="userinfo.id")
-    ...
-    questions: dict = Field(default={}, sa_column=sqlalchemy.Column("questions", sqlalchemy.JSON))
-    ...
-
-
-class Test(rx.Model, table=True):
-    title: str | None = None  # Название теста
-    subject: str | None = None  # Предмет теста
-    topic: str = ""  # Тема теста
-    test_text: str = ""
+class TestQuestionLink(rx.Model, table=True):
+    test_id: int = Field(foreign_key="testmodel.id", primary_key=True)
+    question_id: int = Field(foreign_key="question.id", primary_key=True)
+    order: int = 0  # Порядок вопроса в тесте (опционально)
 
 
 class Question(rx.Model, table=True):
     subject: str
-    question: str
+    question_text: str
     answer: str
-    score: int
+    score: int = 1
+
+    # Связь с тестами
+    tests: List["TestModel"] = Relationship(
+        back_populates="questions",
+        link_model=TestQuestionLink
+    )
 
 
-class Comment(rx.Model, table=True):
-    user_id: int = Field(default=None, foreign_key="userinfo.id")
-    username: str = Field(default=None, foreign_key="userinfo.username")
-    surname: str = Field(default=None, foreign_key="userinfo.surname")
-    userstatus: str = Field(default=None, foreign_key="userinfo.teacher")
-    text: str
-    post_id: int = Field(default=None, foreign_key="lessonpostmodel.id")
+class TestModel(rx.Model, table=True):
+    title: str = ""
+    subject: str = ""
+    description: str = ""
+    time_limit: int = 0  # В секундах
+    creator_id: int = Field(foreign_key="userinfo.id")
 
-
-class Reply(rx.Model, table=True):
-    user_id: int = Field(default=None, foreign_key="userinfo.id")
-    username: str = Field(default=None, foreign_key="userinfo.username")
-    surname: str = Field(default=None, foreign_key="userinfo.surname")
-    userstatus: str = Field(default=None, foreign_key="userinfo.teacher")
-    text: str  # Текст ответа
-    comment_id: int = Field(default=None, foreign_key="comment.id")  # ID комментария, на который отвечают
-    is_hidden: bool = Field(default=True)
+    # Связь с вопросами через промежуточную таблицу
+    questions: List["Question"] = Relationship(
+        back_populates="tests",
+        link_model=TestQuestionLink  # Указываем связующую таблицу
+    )
